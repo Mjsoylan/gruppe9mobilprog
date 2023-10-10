@@ -1,65 +1,77 @@
 package com.example.librarypluss_gruppe09
 
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.models.ConstantsNavigation
-import com.example.librarypluss_gruppe09.ui.theme.Pink40
-import kotlinx.coroutines.selects.select
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigationBar() {
+fun BottomNavigation() {
     val navController = rememberNavController()
-    val navBtweenItems by navController.currentBackStackEntryAsState()
-    val current = navBtweenItems?.destination
 
     Scaffold(
+        bottomBar = { BottomNavFromHome(navController = navController) },
+//        topBar = {
+//            TopAppBar(
+//                title = { Text(text = current?.route.toString()) },
+//                colors = TopAppBarDefaults.mediumTopAppBarColors(
+//                    containerColor = MaterialTheme.colorScheme.primaryContainer
+//                )
+//            )
+//        },
+    ) { innerPadding ->
+        HomeNav(navController = navController, padding = innerPadding)
+    }
+}
 
-        topBar = {
-            TopAppBar(
-                title = { Text(text = current?.route.toString()) },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                )
-            )
-        },
-        bottomBar = {
-            BottomAppBar(containerColor = Pink40,
-                content = {
-                    ConstantsNavigation.BottomNavItems.forEach { screen ->
-                        IconButton(onClick = { navController.navigate(screen.route)}) {
-                            Icon(
+@Composable
+fun BottomNavFromHome(navController: NavHostController) {
+    NavigationBar {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination?.route
 
-                                screen.icon,
-                                contentDescription = screen.label,
-                                //last
-                                modifier = Modifier.padding().fillMaxSize()
-                            )
-                            Text(screen.label)
+        ConstantsNavigation.BottomNavItems.forEach { screen ->
+            val title = screen.label
+
+            NavigationBarItem(selected = currentDestination == screen.route,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
                     }
                 },
-                )
-        }) { innerPadding ->
-            HomeNav(navController = navController, padding = innerPadding)
+                icon = {
+                    Icon(
+                        screen.icon,
+                        contentDescription = title
+                    )
+                },
+                label = { Text(text = screen.label) })
         }
+
     }
+}
 
 
 
