@@ -10,6 +10,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,19 +24,21 @@ import androidx.compose.ui.tooling.preview.Preview
 fun LoginScreen(goto: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var password = ""
+    var password by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        OutlinedTextField(value = "Username", onValueChange = {})
+        OutlinedTextField(value = username, onValueChange = {username=it},label = { Text("username") })
         OutlinedTextField(
             value = password,
             onValueChange = { password = it},
             visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            label = { Text("password") }
         )
         Button(onClick = { goto() }) {
             Text(text = "link to Home")
