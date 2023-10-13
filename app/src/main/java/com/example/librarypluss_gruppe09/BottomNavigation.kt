@@ -15,7 +15,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.models.ConstantsNavigation
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation() {
@@ -23,14 +22,6 @@ fun BottomNavigation() {
 
     Scaffold(
         bottomBar = { BottomNavFromHome(navController = navController) },
-//        topBar = {
-//            TopAppBar(
-//                title = { Text(text = current?.route.toString()) },
-//                colors = TopAppBarDefaults.mediumTopAppBarColors(
-//                    containerColor = MaterialTheme.colorScheme.primaryContainer
-//                )
-//            )
-//        },
     ) { innerPadding ->
         HomeNav(navController = navController, padding = innerPadding)
     }

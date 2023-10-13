@@ -24,7 +24,7 @@ fun HomeNav(
             FeedScreen()
         }
         composable("profile") {
-            ProfileScreen()
+            Profile()
         }
         composable("add") {
             AddScreen()

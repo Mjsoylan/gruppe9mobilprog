@@ -68,28 +68,28 @@ fun FeedScreen() {
     }
 }
 
-@Preview
-@Composable
-fun ProfileScreen() {
-    // Column Composable,
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        // parameters set to place the items in center
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        // Icon Composable
-        Icon(
-            imageVector = Icons.Default.AccountBox,
-            contentDescription = "profile",
-            tint = Color(0xFF0F9D58)
-        )
-        // Text to Display the current Screen
-        Text(text = "Profile", color = Color.Black)
-    }
-}
+//@Preview
+//@Composable
+//fun ProfileScreen() {
+//    // Column Composable,
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color.White),
+//        // parameters set to place the items in center
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center
+//    ) {
+//        // Icon Composable
+//        Icon(
+//            imageVector = Icons.Default.AccountBox,
+//            contentDescription = "profile",
+//            tint = Color(0xFF0F9D58)
+//        )
+//        // Text to Display the current Screen
+//        Text(text = "Profile", color = Color.Black)
+//    }
+//}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
