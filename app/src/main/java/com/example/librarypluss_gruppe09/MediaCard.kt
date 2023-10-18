@@ -27,13 +27,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.librarypluss_gruppe09.models.Media
 
 //todo move to models
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MediaCard() {
+fun MediaCard(media : Media) {
     var tittle by remember { mutableStateOf("tittle") }
     var booktype by remember { mutableStateOf("booktype") }
     var pagenum by remember { mutableStateOf("x3") }
@@ -64,7 +65,7 @@ fun MediaCard() {
                     )
                 }
                 Box {
-                    Text(text = "tittle", textAlign = TextAlign.Center)
+                    Text(text = media.tittle, textAlign = TextAlign.Center)
                 }
                 Box {
                     Text(text = "booktype", textAlign = TextAlign.Center)
