@@ -3,31 +3,27 @@ package com.example.librarypluss_gruppe09.screen.library
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.firebaseservice.CollectionService
+import com.example.librarypluss_gruppe09.firebaseservice.ServiceModule
+import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageImpl
 import com.example.librarypluss_gruppe09.models.Media
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-object DataSource {
-    val medialist = listOf(
-        Media(tittle = "somemovie"),
-        Media(tittle = "Pokemon Emerald")
-    )
-}
-
 
 @HiltViewModel
-class LibraryViewModel @Inject constructor(private val collectionService: CollectionService) :
+class LibraryViewModel @Inject
+constructor(private val storage: StorageImpl) :
     ViewModel() {
-    val media = collectionService.mediacollection
+    val media = storage.mediacollection
 
     //    val medialist = ArrayList<Media>()
     init {
         viewModelScope.launch {
             if (media.first().isEmpty()) {
                 DataSource.medialist.forEach { media ->
-                    collectionService.saveMedia(media)
+                    storage.saveMedia(media)
 
                 }
             }
@@ -36,7 +32,7 @@ class LibraryViewModel @Inject constructor(private val collectionService: Collec
 
     fun createMovie(movieTitle: String) {
         viewModelScope.launch {
-            collectionService.saveMedia(Media(tittle = movieTitle))
+            storage.saveMedia(Media(tittle = movieTitle))
         }
     }
 

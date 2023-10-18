@@ -16,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.models.ConstantsNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation() {
     val navController = rememberNavController()
