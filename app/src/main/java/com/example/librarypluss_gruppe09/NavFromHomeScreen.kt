@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -23,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -142,6 +146,8 @@ fun AddScreen(modifier : Modifier = Modifier) {
 @Preview
 @Composable
 fun Addbookscreen(){
+    var search by remember { mutableStateOf("") }
+    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Author"))))) }
     var tittle by remember { mutableStateOf("") }
     var booktype by remember { mutableStateOf("") }
     var pagenum by remember { mutableStateOf("") }
@@ -164,6 +170,33 @@ fun Addbookscreen(){
         )
         // Text to Display the current Screen
         Text(text = "Add books", color = Color.Black)
+        OutlinedTextField(
+            value = search,
+            onValueChange = { search = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text("search") }
+        )
+
+        Button(
+            onClick = {
+                // Trigger the API call here
+                searchBooks(search) // 'search.value' gets the current text from the 'search' state
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Search")
+        }
+
+        LazyColumn(
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            items(booksList) { book ->
+                println("Rendering book: ${book.volumeInfo.title}")
+                //BookItem(book)
+            }
+        }
+
+
         OutlinedTextField(
             value = user,
             onValueChange = { user = it },
@@ -220,6 +253,9 @@ fun Addbookscreen(){
         }) { Text(text = "add") }
     }
 }
+
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
