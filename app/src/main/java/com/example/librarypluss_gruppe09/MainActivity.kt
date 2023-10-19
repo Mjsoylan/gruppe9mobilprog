@@ -17,11 +17,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.ui.theme.LibraryPluss_Gruppe09Theme
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : ComponentActivity() {
+    val db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
