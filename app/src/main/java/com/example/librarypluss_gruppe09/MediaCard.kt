@@ -15,66 +15,69 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.librarypluss_gruppe09.models.Media
+import com.example.librarypluss_gruppe09.ui.theme.BlueMoviePrimary
+import com.example.librarypluss_gruppe09.ui.theme.Purple80
+import com.example.librarypluss_gruppe09.ui.theme.PurpleGrey80
+import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
+import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 //todo move to models
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MediaCard(media : Media) {
-    var tittle by remember { mutableStateOf("tittle") }
-    var booktype by remember { mutableStateOf("booktype") }
-    var pagenum by remember { mutableStateOf("x3") }
-    var creater by remember { mutableStateOf("x4") }
-    var user by remember { mutableStateOf("x5") }
+fun MediaCard(media: Media) {
+
+    var coler = Purple80
+    if (media.tag == "movie") {
+        coler = BlueMoviePrimary
+    } else if (media.tag == "book") {
+        coler = YellowBookPrimary
+    } else if (media.tag == "game") {
+        coler = RedGamePrimary
+    }
 
     Card(
-        onClick = { },
-        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        )
+            onClick = { },
+            modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
+            colors = CardDefaults.cardColors(
+                    containerColor = coler,
+            )
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                    modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
             ) {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(
-                        imageVector = Icons.Default.PlayArrow,
-                        contentDescription = "library",
-                        tint = Color(0xFF0F9D58),
-                        modifier = Modifier.fillMaxSize()
+                            imageVector = Icons.Default.PlayArrow,
+                            contentDescription = "library",
+                            tint = PurpleGrey80,
+                            modifier = Modifier.fillMaxSize()
                     )
                 }
                 Box {
                     Text(text = media.tittle, textAlign = TextAlign.Center)
                 }
                 Box {
-                    Text(text = "booktype", textAlign = TextAlign.Center)
+                    Text(text = media.type, textAlign = TextAlign.Center)
                 }
                 Box {
-                    Text(text = "pagenum", textAlign = TextAlign.Center)
+                    Text(text = media.creator, textAlign = TextAlign.Center)
                 }
                 Box {
-                    Text(text = "creater", textAlign = TextAlign.Center)
+                    Text(text = media.tag, textAlign = TextAlign.Center)
                 }
                 //                    Box() {
 //                        Text(text = medie.title, textAlign = TextAlign.Center,)

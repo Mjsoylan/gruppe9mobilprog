@@ -14,6 +14,8 @@ import javax.inject.Inject
 class LibraryViewModel @Inject
 constructor(private val storage: StorageImpl) :
     ViewModel() {
+
+    //todo change tis to get meda from a user
     val media = storage.mediacollection
 
 //    init {
@@ -27,11 +29,11 @@ constructor(private val storage: StorageImpl) :
 //        }
 //    }
 
-    fun createMovie(movieTitle: String) {
-        viewModelScope.launch {
-            storage.saveMedia(Media(tittle = movieTitle))
-        }
-    }
+//    fun createMovie(movieTitle: String) {
+//        viewModelScope.launch {
+//            storage.saveMedia(Media(tittle = movieTitle))
+//        }
+//    }
 
 }
 

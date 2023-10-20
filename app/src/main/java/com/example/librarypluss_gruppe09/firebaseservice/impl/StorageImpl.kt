@@ -23,7 +23,8 @@ constructor(private val firestore: FirebaseFirestore) : CollectionService {
         firestore.collection(MEDIA_COLLECTION).add(media).await().id
 
     companion object {
-        private const val MEDIA_COLLECTION = "media"
+        private const val MEDIA_COLLECTION = "user/gRGLI4BDi9QvCVjT5OaI/addedMedia"
+//        private const val MEDIA_COLLECTION = "media"
     }
 }
 
