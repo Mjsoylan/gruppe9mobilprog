@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface CollectionService {
     val mediacollection: Flow<List<Media>>
     suspend fun getMedia(mediaId: String): Media?
-    suspend fun saveMedia(media: Media): String
+//    suspend fun saveMedia(media: Media): String
 }

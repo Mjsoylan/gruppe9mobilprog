@@ -30,12 +30,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.librarypluss_gruppe09.MediaCard
+import com.example.librarypluss_gruppe09.ui.theme.Pink80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = hiltViewModel()) {
     val medialist = viewModel.media.collectAsStateWithLifecycle(emptyList())
-
 
     val filtervalu = viewModel.filter.value
 
@@ -75,7 +75,7 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
         Box(
             modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(8.dp)
                     .wrapContentSize(Alignment.TopCenter),
                 ) {
             IconButton(onClick = { isExpanded = true }) {

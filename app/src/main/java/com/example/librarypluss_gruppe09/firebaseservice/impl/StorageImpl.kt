@@ -19,8 +19,8 @@ constructor(private val firestore: FirebaseFirestore) : CollectionService {
     override suspend fun getMedia(mediaId: String): Media? =
         firestore.collection(MEDIA_COLLECTION).document(mediaId).get().await().toObject()
 
-    override suspend fun saveMedia(media: Media): String =
-        firestore.collection(MEDIA_COLLECTION).add(media).await().id
+//    override suspend fun saveMedia(media: Media): String =
+//        firestore.collection(MEDIA_COLLECTION).add(media).await().id
 
     //todo querry based on the user id as a key to get det addetmedia to media collection
     companion object {

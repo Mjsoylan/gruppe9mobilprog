@@ -3,28 +3,24 @@ package com.example.librarypluss_gruppe09
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.ui.theme.BlueMoviePrimary
 import com.example.librarypluss_gruppe09.ui.theme.Purple80
-import com.example.librarypluss_gruppe09.ui.theme.PurpleGrey80
 import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
 import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
@@ -45,41 +41,54 @@ fun MediaCard(media: Media) {
     }
 
     Card(
-            onClick = { },
-            modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
-            colors = CardDefaults.cardColors(
-                    containerColor = coler,
-            )
+        onClick = { },
+        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = coler,
+        )
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
-            Column(
-                    modifier = Modifier
-                            .fillMaxWidth()
-                            .height(180.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+            AsyncImage(
+                model = media.imageUrl,
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .height(90.dp)
+                    .padding(2.dp, 0.dp, 2.dp, 2.dp),
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "library",
-                            tint = PurpleGrey80,
-                            modifier = Modifier.fillMaxSize()
-                    )
-                }
-                Box {
-                    Text(text = media.tittle, textAlign = TextAlign.Center)
-                }
-                Box {
-                    Text(text = media.type, textAlign = TextAlign.Center)
-                }
-                Box {
-                    Text(text = media.creator, textAlign = TextAlign.Center)
-                }
-                Box {
-                    Text(text = media.tag, textAlign = TextAlign.Center)
-                }
-                //                    Box() {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+//                    IconButton(onClick = { /*TODO*/ }) {
+//                        Icon(
+//                            imageVector = Icons.Default.PlayArrow,
+//                            contentDescription = "library",
+//                            tint = PurpleGrey80,
+//                            modifier = Modifier.fillMaxSize()
+//                        )
+//                    }
+                    Box {
+                        Text(text = media.tittle, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = media.type, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = media.creator, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = media.tag, textAlign = TextAlign.Center)
+                    }
+                    //                    Box() {
 //                        Text(text = medie.title, textAlign = TextAlign.Center,)
 //                    }
 //                    Box() {
@@ -91,6 +100,8 @@ fun MediaCard(media: Media) {
 //                    Box() {
 //                        Text(text = medie.creater, textAlign = TextAlign.Center,)
 //                    }
+
+                }
             }
         }
     }
