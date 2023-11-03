@@ -35,6 +35,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -148,6 +149,9 @@ fun Addbookscreen(){
     var creater by remember { mutableStateOf("") }
     var user by remember { mutableStateOf("") }
     var review by remember { mutableStateOf("") }
+
+
+
     // Column Composable,
     Column(
         modifier = Modifier
@@ -219,7 +223,10 @@ fun Addbookscreen(){
                 .add(books)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    db.collection("books/${documentReference.id}/review").add(reviewer)
+
+                        db.collection("books/${documentReference.id}/review").add(reviewer)
+
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
@@ -315,7 +322,9 @@ fun Addmoviescreen(){
                 .add(movies)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    db.collection("books/${documentReference.id}/review").add(reviewer)
+
+                        db.collection("books/${documentReference.id}/review").add(reviewer)
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
@@ -391,22 +400,24 @@ fun Addgamescreen(){
                 "text" to review
             )
 
-            user=""
-            tittle=""
-            gametype=""
-            creater=""
-            review=""
 
 
             db.collection("games")
                 .add(games)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    db.collection("games/${documentReference.id}/review").add(reviewer)
+                        db.collection("games/${documentReference.id}/review").add(reviewer)
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                 }
+
+            user=""
+            tittle=""
+            gametype=""
+            creater=""
+            review=""
         }) { Text(text = "add") }
     }
 }
