@@ -32,10 +32,10 @@ fun Profile(){
         Button(onClick = { }) {
             Text(text = "Settings")
         }
-        Button(onClick = {  }) {
+        Button(onClick = { }) {
             Text(text = "Statestikk")
         }
-        Button(onClick = {  }) {
+        Button(onClick = { }) {
             Text(text = "Goals")
         }
 
