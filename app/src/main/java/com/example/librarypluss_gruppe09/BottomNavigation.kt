@@ -1,7 +1,6 @@
 package com.example.librarypluss_gruppe09
 
 
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -15,22 +14,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.models.ConstantsNavigation
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation() {
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = { BottomNavFromHome(navController = navController) },
-//        topBar = {
-//            TopAppBar(
-//                title = { Text(text = current?.route.toString()) },
-//                colors = TopAppBarDefaults.mediumTopAppBarColors(
-//                    containerColor = MaterialTheme.colorScheme.primaryContainer
-//                )
-//            )
-//        },
     ) { innerPadding ->
         HomeNav(navController = navController, padding = innerPadding)
     }
