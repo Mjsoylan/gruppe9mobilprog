@@ -68,14 +68,6 @@ fun MediaCard(media: Media) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
-//                    IconButton(onClick = { /*TODO*/ }) {
-//                        Icon(
-//                            imageVector = Icons.Default.PlayArrow,
-//                            contentDescription = "library",
-//                            tint = PurpleGrey80,
-//                            modifier = Modifier.fillMaxSize()
-//                        )
-//                    }
                     Box {
                         Text(text = media.tittle, textAlign = TextAlign.Center)
                     }
@@ -88,19 +80,6 @@ fun MediaCard(media: Media) {
                     Box {
                         Text(text = media.tag, textAlign = TextAlign.Center)
                     }
-                    //                    Box() {
-//                        Text(text = medie.title, textAlign = TextAlign.Center,)
-//                    }
-//                    Box() {
-//                        Text(text = medie.booktype, textAlign = TextAlign.Center,)
-//                    }
-//                    Box() {
-//                        Text(text =medie.pagenum, textAlign = TextAlign.Center,)
-//                    }
-//                    Box() {
-//                        Text(text = medie.creater, textAlign = TextAlign.Center,)
-//                    }
-
                 }
             }
         }
