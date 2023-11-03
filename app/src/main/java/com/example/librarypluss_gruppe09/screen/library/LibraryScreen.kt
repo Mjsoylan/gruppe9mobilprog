@@ -18,8 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.librarypluss_gruppe09.MediaCard
-import com.example.librarypluss_gruppe09.ui.theme.Pink80
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,18 +42,17 @@ fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = h
             FilterLibrary()
 
             LazyVerticalGrid(
-                    columns = GridCells.FixedSize(180.dp),
-                    content = {
-                        items(medialist.value, key = { it.mediaId }) { medie ->
-                            if(medie.tag == filtervalu){
-                                MediaCard(medie)
-                            }
-                            else if (filtervalu == "random") {
-                                MediaCard(medie)
-                            }
-
+                columns = GridCells.FixedSize(180.dp),
+                content = {
+                    items(medialist.value, key = { it.mediaId }) { medie ->
+                        if (medie.tag == filtervalu) {
+                            MediaCard(medie)
+                        } else if (filtervalu == "random") {
+                            MediaCard(medie)
                         }
-                    }, modifier = modifier.padding(16.dp)
+
+                    }
+                }, modifier = modifier.padding(16.dp)
             )
         }
     }
@@ -72,65 +68,65 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
     var selectedFirstInOrder by remember {
         mutableStateOf("All")
     }
-        Box(
-            modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .wrapContentSize(Alignment.TopCenter),
-                ) {
-            IconButton(onClick = { isExpanded = true }) {
-                Text(selectedFirstInOrder, fontSize = 15.sp)
-            }
-            DropdownMenu(
-                    expanded = isExpanded,
-                    onDismissRequest = {
-                        isExpanded = false
-                    },
-                    modifier = Modifier.fillMaxWidth()
-            ) {
-                DropdownMenuItem(
-                        text = {
-                            Text(text = "Book", textAlign = TextAlign.Center)
-                        },
-                        onClick = {
-                            selectedFirstInOrder = "Book"
-                            isExpanded = false
-                            libraryViewModel.setFilterBook()
-                        }
-                )
-                DropdownMenuItem(
-                        text = {
-                            Text(text = "Movie", textAlign = TextAlign.Center)
-                        },
-                        onClick = {
-                            selectedFirstInOrder = "Movie"
-                            isExpanded = false
-                            libraryViewModel.setFilterMovie()
-                        }
-                )
-                DropdownMenuItem(
-                        text = {
-                            Text(text = "Game", textAlign = TextAlign.Center)
-                        },
-                        onClick = {
-                            selectedFirstInOrder = "Game"
-                            isExpanded = false
-                            libraryViewModel.setFilterGame()
-
-                        },
-                )
-                DropdownMenuItem(
-                        text = {
-                            Text(text = "All", textAlign = TextAlign.Center)
-                        },
-                        onClick = {
-                            selectedFirstInOrder = "All"
-                            isExpanded = false
-                            libraryViewModel.setFilterall()
-
-                        },
-                )
-            }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .wrapContentSize(Alignment.TopCenter),
+    ) {
+        IconButton(onClick = { isExpanded = true }) {
+            Text(selectedFirstInOrder, fontSize = 15.sp)
         }
+        DropdownMenu(
+            expanded = isExpanded,
+            onDismissRequest = {
+                isExpanded = false
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            DropdownMenuItem(
+                text = {
+                    Text(text = "Book", textAlign = TextAlign.Center)
+                },
+                onClick = {
+                    selectedFirstInOrder = "Book"
+                    isExpanded = false
+                    libraryViewModel.setFilterBook()
+                }
+            )
+            DropdownMenuItem(
+                text = {
+                    Text(text = "Movie", textAlign = TextAlign.Center)
+                },
+                onClick = {
+                    selectedFirstInOrder = "Movie"
+                    isExpanded = false
+                    libraryViewModel.setFilterMovie()
+                }
+            )
+            DropdownMenuItem(
+                text = {
+                    Text(text = "Game", textAlign = TextAlign.Center)
+                },
+                onClick = {
+                    selectedFirstInOrder = "Game"
+                    isExpanded = false
+                    libraryViewModel.setFilterGame()
+
+                },
+            )
+            DropdownMenuItem(
+                text = {
+                    Text(text = "All", textAlign = TextAlign.Center)
+                },
+                onClick = {
+                    selectedFirstInOrder = "All"
+                    isExpanded = false
+                    libraryViewModel.setFilterall()
+
+                },
+            )
+        }
+    }
 }
 
