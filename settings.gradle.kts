@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "LibraryPluss_Gruppe09"
 include(":app")
- 

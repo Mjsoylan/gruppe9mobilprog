@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -132,6 +133,10 @@ fun Addbookscreen(){
     var pagenum by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
     var user by remember { mutableStateOf("") }
+    var review by remember { mutableStateOf("") }
+
+
+
     // Column Composable,
     Column(
         modifier = Modifier
@@ -206,29 +211,46 @@ fun Addbookscreen(){
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             label = { Text("creater") }
         )
+        OutlinedTextField(
+                value = review,
+        onValueChange = { review = it },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+        label = { Text("review (optional)") }
+        )
 
-        Button(onClick = { val books = hashMapOf(
+        Button(onClick = {
+            val books = hashMapOf(
             "user" to user,
             "tittle" to tittle,
             "booktype" to  booktype,
             "pagenum" to pagenum,
             "creater" to  creater
         )
-            user=""
-            tittle=""
-            booktype=""
-            creater=""
-            pagenum=""
-
+            val reviewer = hashMapOf(
+                "user" to user,
+                "text" to review
+            )
 
             db.collection("books")
                 .add(books)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                        db.collection("books/${documentReference.id}/review").add(reviewer)
+
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                 }
+
+            user=""
+            tittle=""
+            booktype=""
+            creater=""
+            pagenum=""
+            review=""
+
         }) { Text(text = "add") }
     }
 }
@@ -258,6 +280,7 @@ fun Addmoviescreen(){
     var movietype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
     var user by remember { mutableStateOf("") }
+    var review by remember { mutableStateOf("") }
     // Column Composable,
     Column(
         modifier = Modifier
@@ -299,6 +322,12 @@ fun Addmoviescreen(){
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             label = { Text("creater") }
         )
+        OutlinedTextField(
+            value = review,
+            onValueChange = { review = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text("review (optional)") }
+        )
 
         Button(onClick = { val movies = hashMapOf(
             "user" to user,
@@ -306,6 +335,11 @@ fun Addmoviescreen(){
             "movietype" to  movietype,
             "creater" to  creater
         )
+            val reviewer = hashMapOf(
+                "user" to user,
+                "text" to review
+            )
+
             user=""
             tittle=""
             movietype=""
@@ -316,6 +350,9 @@ fun Addmoviescreen(){
                 .add(movies)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                        db.collection("books/${documentReference.id}/review").add(reviewer)
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
@@ -331,6 +368,7 @@ fun Addgamescreen(){
     var gametype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
     var user by remember { mutableStateOf("") }
+    var review by remember { mutableStateOf("") }
     // Column Composable,
     Column(
         modifier = Modifier
@@ -372,6 +410,12 @@ fun Addgamescreen(){
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             label = { Text("creater") }
         )
+        OutlinedTextField(
+            value = review,
+            onValueChange = { review = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text("review (optional)") }
+        )
 
         Button(onClick = { val games = hashMapOf(
             "user" to user,
@@ -379,20 +423,29 @@ fun Addgamescreen(){
             "gametype" to  gametype,
             "creater" to  creater
         )
-            user=""
-            tittle=""
-            gametype=""
-            creater=""
+            val reviewer = hashMapOf(
+                "user" to user,
+                "text" to review
+            )
+
 
 
             db.collection("games")
                 .add(games)
                 .addOnSuccessListener { documentReference ->
                     Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                        db.collection("games/${documentReference.id}/review").add(reviewer)
+
                 }
                 .addOnFailureListener { e ->
                     Log.w(TAG, "Error adding document", e)
                 }
+
+            user=""
+            tittle=""
+            gametype=""
+            creater=""
+            review=""
         }) { Text(text = "add") }
     }
 }
