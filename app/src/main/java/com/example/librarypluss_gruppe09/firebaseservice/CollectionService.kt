@@ -14,5 +14,7 @@ interface CollectionService {
 
     suspend fun deleteGoal(mediaId: String): Task<Void>
 
+    suspend fun createGoal(mediaId: String) : String
+
     suspend fun addMediaToLibrary(mediaId: Media): String
 }

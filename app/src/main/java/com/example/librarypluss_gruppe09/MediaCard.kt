@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09
 
+import android.view.View
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,8 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.librarypluss_gruppe09.models.Media
+import com.example.librarypluss_gruppe09.screen.goals.GoalsViewModel
+import com.example.librarypluss_gruppe09.screen.library.LibraryViewModel
 import com.example.librarypluss_gruppe09.ui.theme.BlueMoviePrimary
 import com.example.librarypluss_gruppe09.ui.theme.Purple80
 import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
@@ -29,7 +33,7 @@ import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MediaCard(media: Media) {
+fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
 
     var coler = Purple80
     if (media.tag == "movie") {
@@ -41,7 +45,9 @@ fun MediaCard(media: Media) {
     }
 
     Card(
-        onClick = { },
+        onClick = {
+            //todo add a on of button for when to dele a card
+            viewModel.deleteCard(media.mediaId)},
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = coler,

@@ -7,7 +7,6 @@ import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageImpl
 import com.example.librarypluss_gruppe09.models.Media
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.util.Objects
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,13 +20,13 @@ constructor(private val storage: StorageImpl) :
     val addMediaToLibBool = mutableStateOf(false)
 
     fun settAddToLibrary(){
-        addMediaToLibBool.value = false
         addMediaToLibBool.value = true
     }
 
-    fun deleteCard(medid: String){
+    fun addCardToLibrary(medid: Media){
         viewModelScope.launch {
-            storage.deleteGoal(medid)
+//            storage.addMediaToLibrary(medid)
+            storage.addMediaToLibrary(medid)
         }
     }
 

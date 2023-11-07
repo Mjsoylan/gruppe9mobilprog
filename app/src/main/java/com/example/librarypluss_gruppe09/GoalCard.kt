@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -30,12 +29,13 @@ import com.example.librarypluss_gruppe09.screen.goals.GoalsViewModel
 @Composable
 fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
     Card(
-        onClick = { viewModel.deleteCard(media.mediaId)},
+        onClick = { viewModel.addCardToLibrary(media)
+                  },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
         ) {
         Box {
-            AddCheckBox(media.mediaId)
+            AddCheckBox(media)
         }
 
             Box(modifier = Modifier.wrapContentSize()) {
@@ -81,7 +81,7 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun AddCheckBox(mediaId : String, viewModelGoal: GoalsViewModel = viewModel()) {
+fun AddCheckBox(mediaId : Media, viewModelGoal: GoalsViewModel = viewModel()) {
     val addCheck = remember {
         mutableStateOf(false)
     }
@@ -89,6 +89,6 @@ fun AddCheckBox(mediaId : String, viewModelGoal: GoalsViewModel = viewModel()) {
     Checkbox(checked = addCheck.value, onCheckedChange = {
         addCheck.value = it
         if(addCheck.value && viewModelGoal.addMediaToLibBool.value)
-            viewModelGoal.deleteCard(mediaId)
+            viewModelGoal.addCardToLibrary(mediaId)
     })
 }

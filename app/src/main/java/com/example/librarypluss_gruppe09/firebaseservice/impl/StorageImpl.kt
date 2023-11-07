@@ -33,9 +33,13 @@ constructor(private val firestore: FirebaseFirestore) : CollectionService {
          firestore.collection(MEDIA_COLLECTION).add(media).await().id
 
     override suspend fun deleteGoal(mediaId: String): Task<Void> =
-        firestore.collection(GOALS_COLLECTION).document(mediaId).delete()
+        firestore.collection(MEDIA_COLLECTION).document(mediaId).delete()
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+    //todo implement in edd media screen class
+    override suspend fun createGoal(mediaId: String): String =
+        firestore.collection(GOALS_COLLECTION).add(mediaId).await().id
 
 
 

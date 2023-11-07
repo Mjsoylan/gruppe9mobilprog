@@ -44,6 +44,12 @@ constructor(private val storage: StorageImpl) :
         filter.value = "random"
     }
 
+    fun deleteCard(medid: String){
+        viewModelScope.launch {
+            storage.deleteGoal(medid)
+        }
+    }
+
 //    init {
 //        viewModelScope.launch {
 //            if (media.first().isEmpty()) {
