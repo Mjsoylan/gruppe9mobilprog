@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageLibrary
+import com.example.librarypluss_gruppe09.models.Media
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,10 +42,10 @@ constructor(private val storage: StorageLibrary) :
         filter.value = "random"
     }
 
-    fun deleteCard(medid: String) {
+    fun deleteCard(medid: Media) {
         viewModelScope.launch {
             //todo implement delete media
-//            storage.deleteGoal(medid)
+            storage.deleteMedia(medid)
         }
     }
 

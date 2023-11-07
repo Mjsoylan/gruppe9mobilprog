@@ -10,9 +10,9 @@ interface GoalsService {
 
     suspend fun getGoal(mediaId: String): Media?
 
-    suspend fun deleteGoal(mediaId: String): Task<Void>
+    suspend fun deleteGoal(mediaId: Media): Task<Void>
 
     suspend fun createGoal(mediaId: String) : String
 
-    suspend fun addMediaToLibrary(mediaId: Media): String
+    suspend fun sendMediaToLibrary(mediaId: Media): String
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -74,7 +75,7 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
             .padding(8.dp)
             .wrapContentSize(Alignment.TopCenter),
     ) {
-        IconButton(onClick = { isExpanded = true }) {
+        Button(onClick = { isExpanded = true }) {
             Text(selectedFirstInOrder, fontSize = 15.sp)
         }
         DropdownMenu(

@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,66 +30,70 @@ import com.example.librarypluss_gruppe09.screen.goals.GoalsViewModel
 @Composable
 fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
     Card(
-        onClick = { viewModel.addCardToLibrary(media)
-                  },
+        onClick = {},
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
-        ) {
+    ) {
         Box {
-            AddCheckBox(media)
-        }
-
-            Box(modifier = Modifier.wrapContentSize()) {
-                AsyncImage(
-                    model = media.imageUrl,
-                    contentDescription = "",
-                    contentScale = ContentScale.FillBounds,
-                    modifier = Modifier
-                        .height(90.dp)
-                        .padding(2.dp, 0.dp, 2.dp, 2.dp),
-                )
-                Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(180.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Bottom
-                    ) {
-
-                        Box {
-                            Text(text = media.tittle, textAlign = TextAlign.Center)
-                        }
-                        Box {
-                            Text(text = media.type, textAlign = TextAlign.Center)
-                        }
-                        Box {
-                            Text(text = media.creator, textAlign = TextAlign.Center)
-                        }
-                        Box {
-                            Text(text = media.tag, textAlign = TextAlign.Center)
-                        }
-
-                    }
-                }
+            if (viewModel.boolEditingList.value) {
+                AddCheckBox(media)
             }
         }
 
+        Box(modifier = Modifier.wrapContentSize()) {
+            AsyncImage(
+                model = media.imageUrl,
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier
+                    .height(90.dp)
+                    .padding(2.dp, 0.dp, 2.dp, 2.dp),
+            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+
+                    Box {
+                        Text(text = media.tittle, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = media.type, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = media.creator, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = media.tag, textAlign = TextAlign.Center)
+                    }
+
+                }
+            }
+        }
+    }
 }
 
+
+//    todo ########## Marius ##########
+//Media data class defined as a parameter and send to addCoardToLibrary, when a Checkbox is clicked
 @Composable
-fun AddCheckBox(mediaId : Media, viewModelGoal: GoalsViewModel = viewModel()) {
+fun AddCheckBox(mediaId: Media, viewModelGoal: GoalsViewModel = viewModel()) {
     val addCheck = remember {
         mutableStateOf(false)
     }
 
     Checkbox(checked = addCheck.value, onCheckedChange = {
         addCheck.value = it
-        if(addCheck.value && viewModelGoal.addMediaToLibBool.value)
-            viewModelGoal.addCardToLibrary(mediaId)
+//        if(addCheck.value && viewModelGoal.addMediaToLibBool.value)
+        viewModelGoal.addCardToLibrary(mediaId)
+
     })
 }

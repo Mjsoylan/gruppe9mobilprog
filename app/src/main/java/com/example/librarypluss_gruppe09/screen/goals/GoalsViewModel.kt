@@ -13,21 +13,36 @@ import javax.inject.Inject
 
 class GoalsViewModel @Inject
 constructor(private val storage: StorageGoals) :
-    ViewModel(){
+    ViewModel() {
+
 
     val goals = storage.goalscollection
 
-    val addMediaToLibBool = mutableStateOf(false)
+    val boolEditingList = mutableStateOf(false)
 
-    fun settAddToLibrary(){
-        addMediaToLibBool.value = true
+    //    val addMediaToLibBool = mutableStateOf(false)
+    val editList = mutableStateOf("Edit Goals")
+
+    fun editinglist() {
+        boolEditingList.value = true
+        editList.value = "End Edit"
     }
 
-    fun addCardToLibrary(medid: Media){
+    fun notEditingList() {
+        boolEditingList.value = false
+        editList.value = "Edit Goals"
+    }
+
+    //Media data class is used as a parameter so the methode knows to add the rigth data
+    fun addCardToLibrary(medid: Media) {
         viewModelScope.launch {
-//            storage.addMediaToLibrary(medid)
-            storage.addMediaToLibrary(medid)
+            if (boolEditingList.value) {
+                storage.sendMediaToLibrary(medid)
+                storage.deleteGoal(medid)
+            }
         }
     }
+
+    //todo edit goal
 
 }
