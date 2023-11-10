@@ -10,13 +10,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-
 class GoalsViewModel @Inject
 constructor(private val storage: StorageGoals) :
     ViewModel() {
 
-
     val goals = storage.goalscollection
+
+    val settgoals = storage.settgoalscollection
 
     val boolEditingList = mutableStateOf(false)
 
