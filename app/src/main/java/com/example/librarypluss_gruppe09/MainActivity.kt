@@ -40,22 +40,3 @@ class MainActivity : ComponentActivity() {
 }
 
 
-fun searchBooks(query: String) {
-    val booksRepository = BooksRepository()
-
-    val call = booksRepository.searchBooks(query)
-    call.enqueue(object : Callback<BookResponse> {
-        override fun onResponse(call: Call<BookResponse>, response: Response<BookResponse>) {
-            if (response.isSuccessful && response.body() != null) {
-                val booksList = response.body()!!.items
-                Log.d("BOOKS_LOG", "Books List: $booksList")
-            } else {
-                Log.d("API_RESPONSE", "Error: ${response.errorBody()?.string()}")
-            }
-        }
-
-        override fun onFailure(call: Call<BookResponse>, t: Throwable) {
-            Log.e("API_FAILURE", "Error: ${t.localizedMessage}")
-        }
-    })
-}
