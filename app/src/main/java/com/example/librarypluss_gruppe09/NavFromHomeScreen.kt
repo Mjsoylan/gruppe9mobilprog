@@ -41,6 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.librarypluss_gruppe09.firebaseservice.AccountService
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -132,7 +134,7 @@ fun Addbookscreen(){
     var booktype by remember { mutableStateOf("") }
     var pagenum by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
-    var user by remember { mutableStateOf("") }
+    val user = FirebaseAuth.getInstance().currentUser?.uid
     var review by remember { mutableStateOf("") }
 
 
@@ -180,13 +182,6 @@ fun Addbookscreen(){
             }
         }
 
-
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("user") }
-        )
         OutlinedTextField(
             value = tittle,
             onValueChange = { tittle= it  },
@@ -231,20 +226,30 @@ fun Addbookscreen(){
                 "text" to review
             )
 
-            db.collection("books")
-                .add(books)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            if (review != "") {
+                db.collection("books")
+                    .add(books)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
 
                         db.collection("books/${documentReference.id}/review").add(reviewer)
 
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
+            else{
+                db.collection("books")
+                    .add(books)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
 
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-
-            user=""
             tittle=""
             booktype=""
             creater=""
@@ -279,8 +284,9 @@ fun Addmoviescreen(){
     var tittle by remember { mutableStateOf("") }
     var movietype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
-    var user by remember { mutableStateOf("") }
+    val user = FirebaseAuth.getInstance().currentUser?.uid
     var review by remember { mutableStateOf("") }
+
     // Column Composable,
     Column(
         modifier = Modifier
@@ -298,12 +304,6 @@ fun Addmoviescreen(){
         )
         // Text to Display the current Screen
         Text(text = "Add movie", color = Color.Black)
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("user") }
-        )
         OutlinedTextField(
             value = tittle,
             onValueChange = { tittle= it  },
@@ -340,23 +340,34 @@ fun Addmoviescreen(){
                 "text" to review
             )
 
-            user=""
+
+            if (review != "") {
+                db.collection("movies")
+                    .add(movies)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                        db.collection("movies/${documentReference.id}/review").add(reviewer)
+
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
+            else{
+                db.collection("movies")
+                    .add(movies)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
             tittle=""
             movietype=""
             creater=""
-
-
-            db.collection("movies")
-                .add(movies)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                        db.collection("books/${documentReference.id}/review").add(reviewer)
-
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
+            review=""
         }) { Text(text = "add") }
     }
 }
@@ -367,7 +378,7 @@ fun Addgamescreen(){
     var tittle by remember { mutableStateOf("") }
     var gametype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
-    var user by remember { mutableStateOf("") }
+    val user = FirebaseAuth.getInstance().currentUser?.uid
     var review by remember { mutableStateOf("") }
     // Column Composable,
     Column(
@@ -386,12 +397,6 @@ fun Addgamescreen(){
         )
         // Text to Display the current Screen
         Text(text = "add games", color = Color.Black)
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("user") }
-        )
         OutlinedTextField(
             value = tittle,
             onValueChange = { tittle= it  },
@@ -418,7 +423,6 @@ fun Addgamescreen(){
         )
 
         Button(onClick = { val games = hashMapOf(
-            "user" to user,
             "tittle" to tittle,
             "gametype" to  gametype,
             "creater" to  creater
@@ -430,18 +434,30 @@ fun Addgamescreen(){
 
 
 
-            db.collection("games")
-                .add(games)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            if (review != "") {
+                db.collection("games")
+                    .add(games)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
                         db.collection("games/${documentReference.id}/review").add(reviewer)
 
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
+            else{
+                db.collection("games")
+                    .add(games)
+                    .addOnSuccessListener { documentReference ->
+                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error adding document", e)
+                    }
+            }
 
-            user=""
             tittle=""
             gametype=""
             creater=""
