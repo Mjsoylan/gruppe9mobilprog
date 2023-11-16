@@ -21,6 +21,8 @@ constructor(private val storage: StorageGoals) :
     val boolEditingList = mutableStateOf(false)
 
     //    val addMediaToLibBool = mutableStateOf(false)
+
+
     val editList = mutableStateOf("Edit Goals")
 
     fun editinglist() {

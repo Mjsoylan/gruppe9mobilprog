@@ -23,11 +23,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.librarypluss_gruppe09.GoalCard
-import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalsScreen(
     modifier: Modifier = Modifier,
@@ -38,7 +35,7 @@ fun GoalsScreen(
     val goalViweModel = viewModel.goals.collectAsStateWithLifecycle(emptyList())
     val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
 
-//    val filtervalu = viewModel.filter.value
+//    val filtervalu = viewModel.boolEditingList.value
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -86,8 +83,10 @@ fun GoalsScreen(
 @Composable
 fun SettGoalCard(goal: SettDescriptionGoal, onGoalClick: (String) -> Unit) {
     Card(
-        onClick = { onGoalClick(goal.goalId)
-                  Log.i("dsa", goal.description) },
+        onClick = {
+            onGoalClick(goal.goalId)
+            Log.i("dsa", goal.description)
+        },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
     ) {

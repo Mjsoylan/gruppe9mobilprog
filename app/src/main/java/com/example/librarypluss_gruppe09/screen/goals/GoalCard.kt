@@ -1,4 +1,4 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.screen.goals
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

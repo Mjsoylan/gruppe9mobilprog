@@ -1,4 +1,4 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.screen.library
 
 import android.view.View
 import androidx.compose.foundation.layout.Arrangement
