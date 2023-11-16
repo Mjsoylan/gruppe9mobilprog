@@ -1,6 +1,5 @@
 package com.example.librarypluss_gruppe09
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,7 @@ import com.example.librarypluss_gruppe09.screen.goals.GoalsViewModel
 @Composable
 fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
     Card(
-        onClick = {},
+        onClick = { },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
     ) {

@@ -11,15 +11,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.librarypluss_gruppe09.screen.editcard.EditCardScreen
 import com.example.librarypluss_gruppe09.screen.goals.GoalsScreen
 import com.example.librarypluss_gruppe09.screen.library.LibraryScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeSelection(modifier: Modifier = Modifier) {
+fun HomeSelection(modifier: Modifier = Modifier, ) {
     val navController = rememberNavController()
     Scaffold(topBar = {
         TopAppBar(
@@ -31,7 +34,7 @@ fun HomeSelection(modifier: Modifier = Modifier) {
                         contentDescription = "Library"
                     )
                 }
-                IconButton(onClick = { navController.navigate("goals") }) {
+                IconButton(onClick = { navController.navigate(GOALS_LIST) }) {
                     Icon(
                         Icons.Filled.Done,
                         contentDescription = "Goals"
@@ -48,12 +51,28 @@ fun HomeSelection(modifier: Modifier = Modifier) {
             composable("library") {
                 LibraryScreen()
             }
-            composable("goals") {
-                GoalsScreen()
+            composable("goalslist") {
+                GoalsScreen(onGoalClick = { goalid ->
+                    val route = "${GOAL_EDIT}?$GOAL_ID=$goalid"
+                    navController.navigate(route)
+                })
+            }
+//            composable(route = "${"goalEdit"}$GOAL_ID_ARG",
+//                arguments = listOf(navArgument(GOAL_ID) {
+//                    nullable = false
+//                })
+//            ) {
+//                EditCardScreen()
+//            }
+            composable(route = "${"goalEdit"}$GOAL_ID_ARG",
+                arguments = listOf(navArgument(GOAL_ID) {
+                    nullable = false
+                })
+            ) {
+                EditCardScreen()
             }
         }
     }
-
 }
 
 

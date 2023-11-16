@@ -1,6 +1,5 @@
 package com.example.librarypluss_gruppe09.screen.goals
 
-import android.graphics.BitmapRegionDecoder
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,11 +24,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.librarypluss_gruppe09.GoalCard
+import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GoalsScreen(modifier: Modifier = Modifier, viewModel: GoalsViewModel = hiltViewModel()) {
+fun GoalsScreen(
+    modifier: Modifier = Modifier,
+    onGoalClick: (String) -> Unit,
+    viewModel: GoalsViewModel = hiltViewModel()
+) {
+//todo
     val goalViweModel = viewModel.goals.collectAsStateWithLifecycle(emptyList())
     val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
 
@@ -69,7 +74,7 @@ fun GoalsScreen(modifier: Modifier = Modifier, viewModel: GoalsViewModel = hiltV
                     }
                     items(settgoalsViweModel.value, key = { it.goalId }) { goal ->
                         //figur out how to filter a collection and get some documents containgin specific fild
-                        SettGoalCard(goal)
+                        SettGoalCard(goal = goal, onGoalClick = onGoalClick)
                     }
                 }, modifier = modifier.padding(16.dp)
             )
@@ -79,9 +84,10 @@ fun GoalsScreen(modifier: Modifier = Modifier, viewModel: GoalsViewModel = hiltV
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettGoalCard(goal: SettDescriptionGoal) {
+fun SettGoalCard(goal: SettDescriptionGoal, onGoalClick: (String) -> Unit) {
     Card(
-        onClick = {},
+        onClick = { onGoalClick(goal.goalId)
+                  Log.i("dsa", goal.description) },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
     ) {

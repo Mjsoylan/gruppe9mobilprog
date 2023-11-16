@@ -47,7 +47,7 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
     Card(
         onClick = {
             //todo add a on of button for when to dele a card
-            viewModel.deleteCard(media)},
+            },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = coler,

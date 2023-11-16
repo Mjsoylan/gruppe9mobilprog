@@ -11,7 +11,7 @@ interface GoalsService {
 
     val settgoalscollection: Flow<List<SettDescriptionGoal>>
 
-    suspend fun getGoal(mediaId: String): Media?
+    suspend fun getGoal(mediaId: String): SettDescriptionGoal?
 
     suspend fun deleteGoal(mediaId: Media): Task<Void>
 

@@ -17,15 +17,17 @@ class StorageGoals
 @Inject
 constructor(private val firestore: FirebaseFirestore) : GoalsService {
 
-    override val goalscollection: Flow<List<Media>>
-        get() = firestore.collection(GOALS_COLLECTION).dataObjects()
-
     override val settgoalscollection: Flow<List<SettDescriptionGoal>>
         get() = firestore.collection(SETT_GOALS_DESCRIPTIO).dataObjects()
 
+
+    override val goalscollection: Flow<List<Media>>
+        get() = firestore.collection(GOALS_COLLECTION).dataObjects()
+
+
     //todo add a flow witch !Described goals added from floating button
-    override suspend fun getGoal(mediaId: String): Media? =
-        firestore.collection(GOALS_COLLECTION).document(mediaId).get().await().toObject()
+    override suspend fun getGoal(mediaId: String): SettDescriptionGoal? =
+        firestore.collection(SETT_GOALS_DESCRIPTIO).document(mediaId).get().await().toObject()
 
     //    todo ########## Marius ##########
     override suspend fun sendMediaToLibrary(mediaId: Media): String =
