@@ -4,6 +4,6 @@ import retrofit2.Call
 class BooksRepository {
 
     fun searchBooks(query: String): Call<BookResponse> {
-        return RetrofitClient.instance.searchBooks(query)
+        return RetrofitClientBooks.instance.searchBooks(query)
     }
 }

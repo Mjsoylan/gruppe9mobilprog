@@ -152,12 +152,12 @@ fun Addbookscreen(){
                     booksList = fetchedBooks
                     Log.d("BOOKS_LOG", "Books List: $booksList")
                 } else {
-                    Log.d("API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                    Log.d("BOOKS_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<BookResponse>, t: Throwable) {
-                Log.e("API_FAILURE", "Error: ${t.localizedMessage}")
+                Log.e("BOOKS_API_FAILURE", "Error: ${t.localizedMessage}")
             }
         })
     }
@@ -325,12 +325,12 @@ fun Addmoviescreen(){
                     moviesList = fetchedMovies
                     Log.d("MOVIES_LOG", "Movies List: $moviesList")
                 } else {
-                    Log.d("API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                    Log.d("MOVIES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e("API_FAILURE", "Error: ${t.localizedMessage}")
+                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")
             }
         })
     }
@@ -484,12 +484,12 @@ fun Addgamescreen(){
                     gamesList = fetchedGames
                     Log.d("GAMES_LOG", "Games List: $gamesList")
                 } else {
-                    Log.d("API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                    Log.d("GAMES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<GameResponse>, t: Throwable) {
-                Log.e("API_FAILURE", "Error: ${t.localizedMessage}")
+                Log.e("GAMES_API_FAILURE", "Error: ${t.localizedMessage}")
             }
         })
     }
