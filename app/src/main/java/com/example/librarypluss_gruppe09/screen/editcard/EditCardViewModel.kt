@@ -1,6 +1,7 @@
 package com.example.librarypluss_gruppe09.screen.editcard
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +20,9 @@ class EditCardViewModel @Inject constructor(
 
     val editcard = mutableStateOf(SettDescriptionGoal())
 
+    val editFild =mutableStateOf("")
+
+
 //    init {
 //        val goalid = savedStateHandle.get<String>(GOAL_ID)
 //        if(goalid  != null){
@@ -35,6 +39,13 @@ class EditCardViewModel @Inject constructor(
                 editcard.value = storage.getGoal(goalId) ?: SettDescriptionGoal()
             }
         }
+
     }
 
+    fun updateFild(goalfild : SettDescriptionGoal, updateFild : String){
+        viewModelScope.launch {
+            storage.updategoal(goalfild, updateFild)
+
+        }
+    }
 }

@@ -43,6 +43,13 @@ constructor(private val firestore: FirebaseFirestore) : GoalsService {
         firestore.collection(GOALS_COLLECTION).add(mediaId).await().id
 
 
+    override suspend fun updategoal(goalId: SettDescriptionGoal, updateFild: String): Task<Void> =
+        firestore.collection(SETT_GOALS_DESCRIPTIO).document(goalId.goalId).update(
+            "description", updateFild
+        ).addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+
+
     //todo querry based on the user id as a key to get det addetmedia to media collection
     companion object {
         private const val MEDIA_COLLECTION = "user/gRGLI4BDi9QvCVjT5OaI/addedMedia"

@@ -38,7 +38,9 @@ fun GoalsScreen(
 //    val filtervalu = viewModel.boolEditingList.value
 
     Box(modifier = modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+        ) {
 
             Button(
                 onClick = {
@@ -57,9 +59,11 @@ fun GoalsScreen(
                 Text(text = viewModel.editList.value)
 
             }
+
             LazyVerticalGrid(
-                columns = GridCells.FixedSize(180.dp),
+                columns = GridCells.Adaptive(180.dp),
                 content = {
+
                     items(goalViweModel.value, key = { it.mediaId }) { medie ->
 //                        if(medie.tag == filtervalu){
 //                            MediaCard(medie)
@@ -69,15 +73,74 @@ fun GoalsScreen(
 //                        }
                         GoalCard(medie)
                     }
-                    items(settgoalsViweModel.value, key = { it.goalId }) { goal ->
-                        //figur out how to filter a collection and get some documents containgin specific fild
-                        SettGoalCard(goal = goal, onGoalClick = onGoalClick)
+
+                    item {
+                        Button(
+                            onClick = {
+                                if (viewModel.boolEditingList.value) {
+                                    viewModel.notEditingList()
+                                } else {
+                                    viewModel.editinglist()
+                                }
+
+                            }, modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(32.dp)
+                                .wrapContentSize(Alignment.TopCenter)
+                        ) {
+
+                            Text(text = viewModel.editList.value)
+
+                        }
                     }
-                }, modifier = modifier.padding(16.dp)
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .weight(1F)
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                text = "some",
+
+                                )
+                        }
+                    }
+
+
+
+                    items(goalViweModel.value, key = { it.mediaId }) { medie ->
+//                        if(medie.tag == filtervalu){
+//                            MediaCard(medie)
+//                        }
+//                        else if (filtervalu == "random") {
+//                            MediaCard(medie)
+//                        }
+                        GoalCard(medie)
+                    }
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                    .wrapContentSize(Alignment.TopCenter)
             )
+
+
+//                LazyVerticalGrid(
+//                    columns = GridCells.FixedSize(180.dp),
+//                    content = {
+//                        items(settgoalsViweModel.value, key = { it.goalId }) { goal ->
+//                            //figur out how to filter a collection and get some documents containgin specific fild
+//                            SettGoalCard(goal = goal, onGoalClick = onGoalClick)
+//                        }
+//                    }, modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(8.dp)
+//                        .wrapContentSize(Alignment.TopCenter)
+//                )
+
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

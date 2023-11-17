@@ -2,9 +2,10 @@ package com.example.librarypluss_gruppe09.screen.editcard
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,15 +25,22 @@ fun EditCardScreen(
 
 //    val navController = rememberNavController()
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-            modifier = modifier.fillMaxSize()) {
-            Text(text = edit.description)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier.fillMaxSize()
+    ) {
 
 
-//            Button(onClick = { navController.navigate(route = GOALS_LIST) }) {
-//                Text(text = "back")
-//            }
+        OutlinedTextField(
+            value = viewModel.editFild.value,
+            onValueChange = { viewModel.editFild.value = it },
+            label = { Text("email") })
+
+
+        Button(onClick = { viewModel.updateFild(edit, viewModel.editFild.value) }) {
+            Text(text = "update goal")
+        }
 
     }
 
