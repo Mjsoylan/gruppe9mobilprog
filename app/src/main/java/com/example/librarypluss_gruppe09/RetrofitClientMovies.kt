@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClientMovies {
-    private const val BASE_URL = "https://api.igdb.com/v4/search/"
+    private const val BASE_URL = "https://api.themoviedb.org/3/movie/"
 
     val instance: MoviesApiService by lazy {
         val retrofit = Retrofit.Builder()
