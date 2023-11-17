@@ -304,12 +304,36 @@ fun BookItem(book: Book) {
 @Preview
 @Composable
 fun Addmoviescreen(){
+    var search by remember { mutableStateOf("") }
+    var moviesList by remember { mutableStateOf(listOf(Movie(MovieInfo("1", "Sample Movie", listOf("Author"))))) }
+    /*
     var tittle by remember { mutableStateOf("") }
     var movietype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
     var user by remember { mutableStateOf("") }
     var review by remember { mutableStateOf("") }
+     */
 
+    fun searchMovies(query: String) {
+        val moviesRepository = MoviesRepository()
+
+        val call = moviesRepository.searchMovies(query)
+        call.enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val fetchedMovies = response.body()!!.items
+                    moviesList = fetchedMovies
+                    Log.d("MOVIES_LOG", "Movies List: $moviesList")
+                } else {
+                    Log.d("API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.e("API_FAILURE", "Error: ${t.localizedMessage}")
+            }
+        })
+    }
 
 
 
@@ -329,6 +353,33 @@ fun Addmoviescreen(){
             contentDescription = "add",
             tint = Color(0xFF0F9D58)
         )
+        Text(text = "Add movies", color = Color.Black)
+        OutlinedTextField(
+            value = search,
+            onValueChange = { search = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text("search") }
+        )
+
+        Button(
+            onClick = {
+                // Trigger the API call here
+                searchMovies(search) // 'search.value' gets the current text from the 'search' state
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Search")
+        }
+
+        LazyColumn(
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            items(moviesList) { movie ->
+                println("Rendering movie: ${movie.volumeInfo.title}")
+                MovieItem(movie)
+            }
+        }
+        /*
         // Text to Display the current Screen
         Text(text = "Add movie", color = Color.Black)
         OutlinedTextField(
@@ -391,17 +442,34 @@ fun Addmoviescreen(){
                     Log.w(TAG, "Error adding document", e)
                 }
         }) { Text(text = "add") }
+
+         */
+    }
+}
+
+@Composable
+fun MovieItem(movie: Movie) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = movie.volumeInfo.title)
+        Button(onClick = { /* Do something in the future */ }) {
+            Text(text = "+")
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Addgamescreen(){
-    var tittle by remember { mutableStateOf("") }
-    var gametype by remember { mutableStateOf("") }
-    var creater by remember { mutableStateOf("") }
-    var user by remember { mutableStateOf("") }
-    var review by remember { mutableStateOf("") }
+    //var tittle by remember { mutableStateOf("") }
+    //var gametype by remember { mutableStateOf("") }
+    //var creater by remember { mutableStateOf("") }
+    //var user by remember { mutableStateOf("") }
+    //var review by remember { mutableStateOf("") }
     var search by remember { mutableStateOf("") }
     var gamesList by remember { mutableStateOf(listOf(Game(GameInfo(1, "Sample Game", listOf("Developer"))))) }
 
