@@ -1,6 +1,5 @@
 package com.example.librarypluss_gruppe09
 
-import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,23 +37,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okio.IOException
+//import com.google.firebase.firestore.ktx.firestore
+//import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-val db = Firebase.firestore
+//val db = Firebase.firestore
 @Preview
 @Composable
 fun HomeScreen() {
@@ -132,9 +124,7 @@ fun AddScreen(modifier : Modifier = Modifier) {
     }
 }
 
-
-
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun Addbookscreen(){
@@ -161,7 +151,6 @@ fun Addbookscreen(){
             }
         })
     }
-
 
     // Column Composable,
     Column(
@@ -205,10 +194,8 @@ fun Addbookscreen(){
                 BookItem(book)
             }
         }
-
-
 /*
-
+        //Upload to FireBase
         OutlinedTextField(
             value = user,
             onValueChange = { user = it },
@@ -300,7 +287,7 @@ fun BookItem(book: Book) {
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun Addmoviescreen(){
@@ -327,9 +314,6 @@ fun Addmoviescreen(){
             }
         })
     }
-
-
-
 
     // Column Composable,
     Column(
@@ -373,7 +357,7 @@ fun Addmoviescreen(){
             }
         }
         /*
-        // Text to Display the current Screen
+        //Upload to Firebase
         Text(text = "Add movie", color = Color.Black)
         OutlinedTextField(
             value = user,
@@ -455,28 +439,35 @@ fun MovieItem(movie: Movie) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+//@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Addgamescreen(){
     var search by remember { mutableStateOf("") }
-    var gamesList by remember { mutableStateOf(listOf(Game(GameInfo(1, "Sample Game", listOf("Developer"))))) }
+    var gamesList by remember { mutableStateOf(listOf(Game(1, "Sample Game"))) }
 
-    fun searchGames(query: String) {
-        val gamesRepository = GamesRepository()
+    fun searchGames(searchQuery: String) {
+        val gameApi = retrofitGames.create(GamesApiService::class.java)
+        val query = "fields id, name; search \"$searchQuery\";"
+        val call = gameApi.searchGames("35nfm0jkloxrrfi54afigm9qklpuhq",
+            "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query)
 
-        val call = gamesRepository.searchGames(query)
-        call.enqueue(object : Callback<GameResponse> {
-            override fun onResponse(call: Call<GameResponse>, response: Response<GameResponse>) {
+        call.enqueue(object : Callback<List<GameResponse>> {
+            override fun onResponse(call: Call<List<GameResponse>>, response: Response<List<GameResponse>>) {
                 if (response.isSuccessful && response.body() != null) {
-                    val fetchedGames = response.body()!!.items
-                    gamesList = fetchedGames
-                    Log.d("GAMES_LOG", "Games List: $gamesList")
-                } else {
+                    val gamesResponseList = response.body()
+                    val gamesConvertedList: List<Game> = gamesResponseList?.map { gameResponse ->
+                        // Assuming GameResponse has the same 'id' and 'name' properties as Game
+                        Game(id = gameResponse.id, name = gameResponse.name ?: "Unknown")
+                    } ?: listOf()
+                    gamesList = gamesConvertedList
+                    Log.d("GAMES_LOG", "Response successful: $gamesList")
+                    }
+                else {
                     Log.d("GAMES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
-            override fun onFailure(call: Call<GameResponse>, t: Throwable) {
+            override fun onFailure(call: Call<List<GameResponse>>, t: Throwable) {
                 Log.e("GAMES_API_FAILURE", "Error: ${t.localizedMessage}")
             }
         })
@@ -520,13 +511,14 @@ fun Addgamescreen(){
             modifier = Modifier.padding(top = 16.dp)
         ) {
             items(gamesList) { game ->
-                println("Rendering book: ${game.gameInfo.title}")
+                println("Rendering book: ${game.name}")
                 GameItem(game)
             }
         }
 
 
 /*
+    //Upload to Firebase
     // Column Composable,
     Column(
         modifier = Modifier
@@ -618,7 +610,7 @@ fun GameItem(game: Game) {
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = game.gameInfo.title)
+        Text(text = game.name)
         Button(onClick = { /* Do something in the future */ }) {
             Text(text = "+")
         }
