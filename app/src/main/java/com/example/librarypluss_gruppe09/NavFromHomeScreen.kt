@@ -306,13 +306,6 @@ fun BookItem(book: Book) {
 fun Addmoviescreen(){
     var search by remember { mutableStateOf("") }
     var moviesList by remember { mutableStateOf(listOf(Movie(MovieInfo("1", "Sample Movie", listOf("Author"))))) }
-    /*
-    var tittle by remember { mutableStateOf("") }
-    var movietype by remember { mutableStateOf("") }
-    var creater by remember { mutableStateOf("") }
-    var user by remember { mutableStateOf("") }
-    var review by remember { mutableStateOf("") }
-     */
 
     fun searchMovies(query: String) {
         val moviesRepository = MoviesRepository()
@@ -465,11 +458,6 @@ fun MovieItem(movie: Movie) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Addgamescreen(){
-    //var tittle by remember { mutableStateOf("") }
-    //var gametype by remember { mutableStateOf("") }
-    //var creater by remember { mutableStateOf("") }
-    //var user by remember { mutableStateOf("") }
-    //var review by remember { mutableStateOf("") }
     var search by remember { mutableStateOf("") }
     var gamesList by remember { mutableStateOf(listOf(Game(GameInfo(1, "Sample Game", listOf("Developer"))))) }
 
