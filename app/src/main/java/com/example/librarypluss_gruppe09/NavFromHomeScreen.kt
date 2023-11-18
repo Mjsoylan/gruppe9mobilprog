@@ -292,29 +292,27 @@ fun BookItem(book: Book) {
 @Composable
 fun Addmoviescreen(){
     var search by remember { mutableStateOf("") }
-    var moviesList by remember { mutableStateOf(listOf(Movie(MovieInfo("1", "Sample Movie", listOf("Author"))))) }
+    var moviesList by remember { mutableStateOf(listOf(Movie(1, "Sample Movie"))) }
 
-    fun searchMovies(query: String) {
-        val moviesRepository = MoviesRepository()
+    fun searchMovies(searchQuery: String) {
+        val movieApi = retrofitMovies.create(MoviesApiService::class.java)
 
-        val call = moviesRepository.searchMovies(query)
-        call.enqueue(object : Callback<MovieResponse> {
+        movieApi.searchMovies("Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkY2E5Y2FmNmIyNGYwMjJhMDdkN2VjNDg5Yzc5YzQ5MiIsInN1YiI6IjY1NTc5NGZkN2YwNTQwMThkNmYzMjYwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FLq5ehkpOZaVpfY9xWWKtCH4arc7bVk_uf0CS_R8aeI", searchQuery).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val fetchedMovies = response.body()!!.items
-                    moviesList = fetchedMovies
-                    Log.d("MOVIES_LOG", "Movies List: $moviesList")
+                if (response.isSuccessful) {
+                    val movieResponseList = response.body()?.results ?: emptyList()
+                    moviesList = movieResponseList
+                    Log.d("MOVIES_LOG", "Response successful: $moviesList")
+                    // Update your UI here
                 } else {
                     Log.d("MOVIES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")
-            }
+                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")            }
         })
     }
-
     // Column Composable,
     Column(
         modifier = Modifier
@@ -352,7 +350,7 @@ fun Addmoviescreen(){
             modifier = Modifier.padding(top = 16.dp)
         ) {
             items(moviesList) { movie ->
-                println("Rendering movie: ${movie.volumeInfo.title}")
+                println("Rendering movie: ${movie.title}")
                 MovieItem(movie)
             }
         }
@@ -432,7 +430,7 @@ fun MovieItem(movie: Movie) {
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = movie.volumeInfo.title)
+        Text(text = movie.title)
         Button(onClick = { /* Do something in the future */ }) {
             Text(text = "+")
         }

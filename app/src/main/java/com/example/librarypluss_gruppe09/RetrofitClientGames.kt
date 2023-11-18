@@ -4,7 +4,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.logging.HttpLoggingInterceptor
+//import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,9 +29,9 @@ class ToStringConverterFactory : Converter.Factory() {
 }
 
 //For feilsøking, trengs ikke i ferdig versjon.
-val logging = HttpLoggingInterceptor().apply {
-    level = HttpLoggingInterceptor.Level.BODY
-}
+//val logging = HttpLoggingInterceptor().apply {
+//    level = HttpLoggingInterceptor.Level.BODY
+//}
 
 val OkHttpClient = OkHttpClient.Builder()
     //.addInterceptor(logging)
@@ -45,9 +45,13 @@ val OkHttpClient = OkHttpClient.Builder()
     }
     .build()
 
-val retrofitGames = Retrofit.Builder()
+val retrofitGames: Retrofit = Retrofit.Builder()
     .baseUrl("https://api.igdb.com/v4/")
     .client(com.example.librarypluss_gruppe09.OkHttpClient)
     .addConverterFactory(ToStringConverterFactory())
     .addConverterFactory(GsonConverterFactory.create())
     .build()
+
+
+
+
