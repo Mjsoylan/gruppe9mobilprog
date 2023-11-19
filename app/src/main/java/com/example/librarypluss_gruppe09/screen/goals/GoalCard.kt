@@ -7,9 +7,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -23,22 +28,31 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.librarypluss_gruppe09.models.Media
-import com.example.librarypluss_gruppe09.screen.goals.GoalsViewModel
+import com.example.librarypluss_gruppe09.ui.theme.BlueMoviePrimary
+import com.example.librarypluss_gruppe09.ui.theme.Purple80
+import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
+import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
+    var coler = Purple80
+    if (media.tag == "movie") {
+        coler = BlueMoviePrimary
+    } else if (media.tag == "book") {
+        coler = YellowBookPrimary
+    } else if (media.tag == "game") {
+        coler = RedGamePrimary
+    }
+
     Card(
-        onClick = { },
-        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
+        onClick = {  },
+        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = coler,
+        )
 
     ) {
-        Box {
-            if (viewModel.boolEditingList.value) {
-                AddCheckBox(media)
-            }
-        }
-
         Box(modifier = Modifier.wrapContentSize()) {
             AsyncImage(
                 model = media.imageUrl,
@@ -75,14 +89,16 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                     }
 
                 }
+                Button(onClick = { viewModel.deleteMediaCard(media)}, Modifier.padding(8.dp).align(Alignment.BottomEnd)) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete media",)
+                }
             }
         }
     }
 }
 
 
-//    todo ########## Marius ##########
-//Media data class defined as a parameter and send to addCoardToLibrary, when a Checkbox is clicked
+//todo delite this check,
 @Composable
 fun AddCheckBox(mediaId: Media, viewModelGoal: GoalsViewModel = viewModel()) {
     val addCheck = remember {
@@ -92,7 +108,7 @@ fun AddCheckBox(mediaId: Media, viewModelGoal: GoalsViewModel = viewModel()) {
     Checkbox(checked = addCheck.value, onCheckedChange = {
         addCheck.value = it
 //        if(addCheck.value && viewModelGoal.addMediaToLibBool.value)
-        viewModelGoal.addCardToLibrary(mediaId)
+        viewModelGoal.deleteMediaCard(mediaId)
 
     })
 }

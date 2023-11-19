@@ -4,8 +4,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageLibrary
+import com.example.librarypluss_gruppe09.models.Datasource
 import com.example.librarypluss_gruppe09.models.Media
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,13 +54,14 @@ constructor(private val storage: StorageLibrary) :
 //    init {
 //        viewModelScope.launch {
 //            if (media.first().isEmpty()) {
-//                DataSource.medialist.forEach { media ->
-//                    storage.saveMedia(media)
+//                Datasource.settMedia.forEach { media ->
+//                    storage.savemedia(media)
 //
 //                }
 //            }
 //        }
 //    }
+
 
 //    fun createMovie(movieTitle: String) {
 //        viewModelScope.launch {

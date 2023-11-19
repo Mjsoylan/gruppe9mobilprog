@@ -22,7 +22,6 @@ constructor(private val firestore: FirebaseFirestore) : LibraryService {
         TODO("Not yet implemented")
     }
 
-    //todo ########## Marius ##########
     override suspend fun addMediaToLibrary(mediaId: Media): String =
         firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
 
@@ -37,8 +36,9 @@ constructor(private val firestore: FirebaseFirestore) : LibraryService {
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
 
 
-//    override suspend fun getMedia(mediaId: String): Media =
-//        firestore.collection(MEDIA_COLLECTION).document(mediaId).get().await().toObject()
+    override suspend fun savemedia(mediaId: Media): String =
+//        val mediaUserId = mediaId.copy(userId = curr)
+        firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
 
 
     companion object {

@@ -1,7 +1,6 @@
 package com.example.librarypluss_gruppe09.screen.editcard
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,17 +19,7 @@ class EditCardViewModel @Inject constructor(
 
     val editcard = mutableStateOf(SettDescriptionGoal())
 
-    val editFild =mutableStateOf("")
-
-
-//    init {
-//        val goalid = savedStateHandle.get<String>(GOAL_ID)
-//        if(goalid  != null){
-//            viewModelScope.launch {
-//                editcard.value = storage.getGoal(goalid) ?: Media()
-//            }
-//        }
-//    }
+    val editFild = mutableStateOf("")
 
     init {
         val goalId = savedStateHandle.get<String>(GOAL_ID)
@@ -40,12 +29,20 @@ class EditCardViewModel @Inject constructor(
             }
         }
 
+        //todo make a else when the user adds a new goal
+
     }
 
-    fun updateFild(goalfild : SettDescriptionGoal, updateFild : String){
+    fun updateFild(goalfild: SettDescriptionGoal, updateFild: String) {
         viewModelScope.launch {
             storage.updategoal(goalfild, updateFild)
 
+        }
+    }
+
+    fun addGoal(goal: SettDescriptionGoal) {
+        viewModelScope.launch {
+            storage.createGoal(goal)
         }
     }
 }

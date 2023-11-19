@@ -1,9 +1,10 @@
 package com.example.librarypluss_gruppe09.screen.goals
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,9 +13,14 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 
 @Composable
@@ -32,123 +39,153 @@ fun GoalsScreen(
     viewModel: GoalsViewModel = hiltViewModel()
 ) {
 //todo
-    val goalViweModel = viewModel.goals.collectAsStateWithLifecycle(emptyList())
-    val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
 
 //    val filtervalu = viewModel.boolEditingList.value
 
+    val screenState = viewModel.stategoals.value
+
     Box(modifier = modifier.fillMaxSize()) {
+
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.Top
         ) {
-
-            Button(
-                onClick = {
-                    if (viewModel.boolEditingList.value) {
-                        viewModel.notEditingList()
-                    } else {
-                        viewModel.editinglist()
-                    }
-
-                }, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .wrapContentSize(Alignment.TopCenter)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
 
-                Text(text = viewModel.editList.value)
-
+                //media goals
+                Button(
+                    onClick = {
+                        viewModel.go_to_media_goals()
+                    }, modifier = Modifier
+                        .padding(8.dp)
+                ) {
+                    Text(text = "Media")
+                }
+                //Settgoals
+                Button(
+                    onClick = {
+                        viewModel.go_to_edit_goals()
+                    }, modifier = Modifier
+                        .padding(8.dp)
+                ) {
+                    Text(text = "Goal")
+                }
+                //history goals
+                Button(
+                    onClick = {
+                        viewModel.go_to_history_goals()
+                    }, modifier = Modifier
+                        .padding(8.dp)
+                ) {
+                    Text(text = "History")
+                }
             }
 
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(180.dp),
-                content = {
+            when (screenState) {
+                "editgoals" -> EditGoal(viewModel, onGoalClick)
+                "historygoals" -> HistoryGoal(viewModel)
+                "mediagoals" -> MedaGoal(viewModel)
+                else -> {
+                    MedaGoal(viewModel)
+                }
+            }
+        }
 
-                    items(goalViweModel.value, key = { it.mediaId }) { medie ->
-//                        if(medie.tag == filtervalu){
-//                            MediaCard(medie)
-//                        }
-//                        else if (filtervalu == "random") {
-//                            MediaCard(medie)
-//                        }
-                        GoalCard(medie)
-                    }
-
-                    item {
-                        Button(
-                            onClick = {
-                                if (viewModel.boolEditingList.value) {
-                                    viewModel.notEditingList()
-                                } else {
-                                    viewModel.editinglist()
-                                }
-
-                            }, modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(32.dp)
-                                .wrapContentSize(Alignment.TopCenter)
-                        ) {
-
-                            Text(text = viewModel.editList.value)
-
-                        }
-                    }
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .weight(1F)
-                                .fillMaxSize()
-                        ) {
-                            Text(
-                                text = "some",
-
-                                )
-                        }
-                    }
-
-
-
-                    items(goalViweModel.value, key = { it.mediaId }) { medie ->
-//                        if(medie.tag == filtervalu){
-//                            MediaCard(medie)
-//                        }
-//                        else if (filtervalu == "random") {
-//                            MediaCard(medie)
-//                        }
-                        GoalCard(medie)
-                    }
-                }, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .wrapContentSize(Alignment.TopCenter)
-            )
-
-
-//                LazyVerticalGrid(
-//                    columns = GridCells.FixedSize(180.dp),
-//                    content = {
-//                        items(settgoalsViweModel.value, key = { it.goalId }) { goal ->
-//                            //figur out how to filter a collection and get some documents containgin specific fild
-//                            SettGoalCard(goal = goal, onGoalClick = onGoalClick)
-//                        }
-//                    }, modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(8.dp)
-//                        .wrapContentSize(Alignment.TopCenter)
-//                )
-
+        FloatingActionButton(onClick = { onGoalClick("SettDescriptionGoal(description = ") },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 16.dp, end = 16.dp)) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "",)
         }
     }
+}
+
+@Composable
+fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel()) {
+    val goalViweModel = viewModel.mediagoals.collectAsStateWithLifecycle(emptyList())
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        content = {
+            items(goalViweModel.value, key = { it.mediaId }) { medie ->
+//                        if(medie.tag == filtervalu){
+//                            MediaCard(medie)
+//                        }
+//                        else if (filtervalu == "random") {
+//                            MediaCard(medie)
+//                        }
+                GoalCard(medie)
+            }
+        }, modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .wrapContentSize(Alignment.TopCenter)
+    )
+}
+
+@Composable
+fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) -> Unit) {
+    val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        content = {
+            items(settgoalsViweModel.value, key = { it.goalId }) { edit ->
+//                        if(medie.tag == filtervalu){
+//                            MediaCard(medie)
+//                        }
+//                        else if (filtervalu == "random") {
+//                            MediaCard(medie)
+//                        }
+                SettGoalCard(edit, onGoalClick = onGoalClick)
+            }
+        }, modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    )
+}
+
+@Composable
+fun HistoryGoal(viewModel: GoalsViewModel = hiltViewModel()) {
+
+    val historyViewModel = viewModel.history.collectAsStateWithLifecycle(emptyList())
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        content = {
+            items(historyViewModel.value, key = { it.mediaId }) { history ->
+//                        if(medie.tag == filtervalu){
+//                            MediaCard(medie)
+//                        }
+//                        else if (filtervalu == "random") {
+//                            MediaCard(medie)
+//                        }
+                HistoryCard(history)
+            }
+        }, modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .wrapContentSize(Alignment.TopCenter)
+    )
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettGoalCard(goal: SettDescriptionGoal, onGoalClick: (String) -> Unit) {
+fun SettGoalCard(
+    goal: SettDescriptionGoal,
+    onGoalClick: (String) -> Unit,
+    viewModel: GoalsViewModel = hiltViewModel()
+) {
     Card(
         onClick = {
             onGoalClick(goal.goalId)
-            Log.i("dsa", goal.description)
+
         },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
@@ -169,6 +206,54 @@ fun SettGoalCard(goal: SettDescriptionGoal, onGoalClick: (String) -> Unit) {
 
                     Box {
                         Text(text = goal.description, textAlign = TextAlign.Center)
+                    }
+                }
+                Button(onClick = { viewModel.deleteGoalCard(goal)}) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete goal",)
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HistoryCard(
+    history: History,
+//    viewModel: GoalsViewModel = hiltViewModel()
+) {
+    Card(
+        onClick = {
+
+        },
+        modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
+
+    ) {
+        Box(modifier = Modifier.wrapContentSize()) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom
+                ) {
+
+                    Box {
+                        Text(text = history.tittle, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = history.type, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = history.tittle, textAlign = TextAlign.Center)
+                    }
+                    Box {
+                        Text(text = history.tittle, textAlign = TextAlign.Center)
                     }
                 }
             }

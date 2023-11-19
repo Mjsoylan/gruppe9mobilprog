@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09.firebaseservice
 
+import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 import com.google.android.gms.tasks.Task
@@ -7,18 +8,35 @@ import kotlinx.coroutines.flow.Flow
 
 interface GoalsService {
 
-    val goalscollection: Flow<List<Media>>
+    //Media
+    val mediascollection: Flow<List<Media>>
 
+    suspend fun savemedia(mediaId: Media): String
+
+
+    //settgoal
     val settgoalscollection: Flow<List<SettDescriptionGoal>>
+
+    //history
+    val historycollection: Flow<List<History>>
+
+    suspend fun sendMediaToHistory(mediaId: Media): String
+    suspend fun sendGoalToHistory(goalId: SettDescriptionGoal): String
+
 
     suspend fun getGoal(mediaId: String): SettDescriptionGoal?
 
-    suspend fun deleteGoal(mediaId: Media): Task<Void>
-
-    suspend fun createGoal(mediaId: String): String
-
-    suspend fun sendMediaToLibrary(mediaId: Media): String
-
-
     suspend fun updategoal(goalId: SettDescriptionGoal, updateFild: String): Task<Void>
+
+
+    suspend fun deleteMedia(mediaId: Media): Task<Void>
+
+    suspend fun deleteGoal(goalId: SettDescriptionGoal): Task<Void>
+
+
+    suspend fun createGoal(goalId: SettDescriptionGoal): String
+
+
+    suspend fun addGoal(mediaId: SettDescriptionGoal): String
+
 }

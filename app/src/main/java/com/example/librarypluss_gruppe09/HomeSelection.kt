@@ -83,7 +83,7 @@ fun HomeSelection(modifier: Modifier = Modifier) {
                     nullable = false
                 })
             ) {
-                EditCardScreen()
+                EditCardScreen(navController)
             }
         }
     }
