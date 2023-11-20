@@ -43,7 +43,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.auth.FirebaseAuth
-import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call
@@ -494,12 +493,14 @@ fun GameItem(game: Media) {
             Text("+") // This is the content for the Button.
         }
     }
+}
 
-fun upload(media: Media){
+fun upload(media: Media) {
     val user = FirebaseAuth.getInstance().currentUser!!.uid
-    db.collection("user").document(user).collection("addedMedia").add(media).addOnSuccessListener {
-        Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
-    }
+    db.collection("user").document(user).collection("addedMedia").add(media)
+        .addOnSuccessListener {
+            Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+        }
         .addOnFailureListener { e ->
             Log.w(TAG, "Error adding document", e)
         }
