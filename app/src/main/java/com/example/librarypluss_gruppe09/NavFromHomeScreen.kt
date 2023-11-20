@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -40,13 +41,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-//import com.google.firebase.firestore.ktx.firestore
-//import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//val db = Firebase.firestore
+val db = Firebase.firestore
 @Preview
 @Composable
 fun HomeScreen() {
@@ -129,7 +130,9 @@ fun AddScreen(modifier : Modifier = Modifier) {
 @Composable
 fun Addbookscreen(){
     var search by remember { mutableStateOf("") }
-    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Author"))))) }
+    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Authors"),100,
+        listOf("Categories")
+    )))) }
 
     fun searchBooks(query: String) {
         val booksRepository = BooksRepository()
@@ -194,79 +197,6 @@ fun Addbookscreen(){
                 BookItem(book)
             }
         }
-/*
-        //Upload to FireBase
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("user") }
-        )
-        OutlinedTextField(
-            value = tittle,
-            onValueChange = { tittle= it  },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("tittle") }
-        )
-        OutlinedTextField(
-            value = booktype,
-            onValueChange = { booktype = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("booktype") }
-        )
-        OutlinedTextField(
-            value = pagenum,
-            onValueChange = { pagenum = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("pagenumber") }
-        )
-        OutlinedTextField(
-            value = creater,
-            onValueChange = { creater = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("creater") }
-        )
-        OutlinedTextField(
-                value = review,
-        onValueChange = { review = it },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        label = { Text("review (optional)") }
-        )
-
-        Button(onClick = {
-            val books = hashMapOf(
-            "user" to user,
-            "tittle" to tittle,
-            "booktype" to  booktype,
-            "pagenum" to pagenum,
-            "creater" to  creater
-        )
-            val reviewer = hashMapOf(
-                "user" to user,
-                "text" to review
-            )
-
-            db.collection("books")
-                .add(books)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                        db.collection("books/${documentReference.id}/review").add(reviewer)
-
-
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-
-            user=""
-            tittle=""
-            booktype=""
-            creater=""
-            pagenum=""
-            review=""
-
-        }) { Text(text = "add") } */
     }
 }
 
@@ -279,11 +209,37 @@ fun BookItem(book: Book) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = book.volumeInfo.title)
-        Button(onClick = { /* Do something in the future */ }) {
-            Text(text = "+")
+        Button(onClick = {
+            // Assuming that volumeInfo.title and volumeInfo.authors are strings.
+            val title = book.volumeInfo.title
+            // If authors is a list, you might want to join them into a single string.
+            val authors = book.volumeInfo.authors.joinToString(", ") // This will need to be adjusted based on your data model.
+            val categories = book.volumeInfo.categories.joinToString(", ") // This will need to be adjusted based on your data model.
+            val pageCount = book.volumeInfo.pageCount
+            //val category = book.volumeInfo.category
+
+            val books = hashMapOf(
+                "title" to title,
+                "authors" to authors,
+                "pageCount" to pageCount,
+                "categories" to categories
+            )
+
+            db.collection("books")
+                .add(books)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    // You can continue to add a review here if necessary
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+        }) {
+            Text("+") // This is the content for the Button.
         }
     }
 }
+
 
 
 
@@ -431,21 +387,44 @@ fun MovieItem(movie: Movie) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = movie.title)
-        Button(onClick = { /* Do something in the future */ }) {
-            Text(text = "+")
+        Button(onClick = {
+            // Assuming that volumeInfo.title and volumeInfo.authors are strings.
+            val title = movie.title
+            // If authors is a list, you might want to join them into a single string.
+            //val authors = book.volumeInfo.authors.joinToString(", ") // This will need to be adjusted based on your data model.
+
+            val movies = hashMapOf(
+                "title" to title,
+                //"authors" to authors
+            )
+
+            db.collection("movies")
+                .add(movies)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    // You can continue to add a review here if necessary
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+        }) {
+            Text("+") // This is the content for the Button.
         }
     }
 }
+
+
+
 
 //@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Addgamescreen(){
     var search by remember { mutableStateOf("") }
-    var gamesList by remember { mutableStateOf(listOf(Game(1, "Sample Game"))) }
+    var gamesList by remember { mutableStateOf(listOf(Game(1, "Sample Game"/*, listOf(1,2), listOf("involved_companies")*/))) }
 
     fun searchGames(searchQuery: String) {
         val gameApi = retrofitGames.create(GamesApiService::class.java)
-        val query = "fields id, name; search \"$searchQuery\";"
+        val query = "fields id, name, genres, involved_companies; search \"$searchQuery\";"
         val call = gameApi.searchGames("35nfm0jkloxrrfi54afigm9qklpuhq",
             "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query)
 
@@ -455,7 +434,7 @@ fun Addgamescreen(){
                     val gamesResponseList = response.body()
                     val gamesConvertedList: List<Game> = gamesResponseList?.map { gameResponse ->
                         // Assuming GameResponse has the same 'id' and 'name' properties as Game
-                        Game(id = gameResponse.id, name = gameResponse.name ?: "Unknown")
+                        Game(id = gameResponse.id, name = gameResponse.name ?: "Unknown"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/)
                     } ?: listOf()
                     gamesList = gamesConvertedList
                     Log.d("GAMES_LOG", "Response successful: $gamesList")
@@ -513,90 +492,6 @@ fun Addgamescreen(){
                 GameItem(game)
             }
         }
-
-
-/*
-    //Upload to Firebase
-    // Column Composable,
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White),
-        // parameters set to place the items in center
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        // Icon Composable
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = "add",
-            tint = Color(0xFF0F9D58)
-        )
-        // Text to Display the current Screen
-        Text(text = "add games", color = Color.Black)
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("user") }
-        )
-        OutlinedTextField(
-            value = tittle,
-            onValueChange = { tittle= it  },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("tittle") }
-        )
-        OutlinedTextField(
-            value = gametype,
-            onValueChange = { gametype = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("gametype") }
-        )
-        OutlinedTextField(
-            value = creater,
-            onValueChange = { creater = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("creater") }
-        )
-        OutlinedTextField(
-            value = review,
-            onValueChange = { review = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("review (optional)") }
-        )
-
-        Button(onClick = { val games = hashMapOf(
-            "user" to user,
-            "tittle" to tittle,
-            "gametype" to  gametype,
-            "creater" to  creater
-        )
-            val reviewer = hashMapOf(
-                "user" to user,
-                "text" to review
-            )
-
-
-
-            db.collection("games")
-                .add(games)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                        db.collection("games/${documentReference.id}/review").add(reviewer)
-
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-
-            user=""
-            tittle=""
-            gametype=""
-            creater=""
-            review=""
-        }) { Text(text = "add") }
-
- */
     }
 }
 
@@ -609,8 +504,28 @@ fun GameItem(game: Game) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = game.name)
-        Button(onClick = { /* Do something in the future */ }) {
-            Text(text = "+")
+        Button(onClick = {
+            val name = game.name
+            //val genres = game.genres.joinToString(", ") // This will need to be adjusted based on your data model.
+            //val involved_companies = game.involved_companies.joinToString(", ") // This will need to be adjusted based on your data model.
+
+            val movies = hashMapOf(
+                "name" to name,
+                //"genres" to genres,
+                //"involved_companies" to involved_companies
+            )
+
+            db.collection("games")
+                .add(movies)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                    // You can continue to add a review here if necessary
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
+        }) {
+            Text("+") // This is the content for the Button.
         }
     }
 }

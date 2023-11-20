@@ -4,6 +4,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.logging.HttpLoggingInterceptor
 //import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -29,12 +30,12 @@ class ToStringConverterFactory : Converter.Factory() {
 }
 
 //For feilsøking, trengs ikke i ferdig versjon.
-//val logging = HttpLoggingInterceptor().apply {
-//    level = HttpLoggingInterceptor.Level.BODY
-//}
+val logging = HttpLoggingInterceptor().apply {
+    level = HttpLoggingInterceptor.Level.BODY
+}
 
 val OkHttpClient = OkHttpClient.Builder()
-    //.addInterceptor(logging)
+    .addInterceptor(logging)
     .addInterceptor { chain ->
         val originalRequest = chain.request()
         val requestWithPlainText = originalRequest.newBuilder()

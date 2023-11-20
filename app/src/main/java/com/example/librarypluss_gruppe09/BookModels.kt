@@ -2,7 +2,9 @@ package com.example.librarypluss_gruppe09
 data class BookResponse(
     val kind: String,
     val totalItems: Int,
-    val items: List<Book>
+    val items: List<Book>,
+    val pageCount: Int,
+    val categories: List<String>,
 )
 
 data class Book(
@@ -12,5 +14,7 @@ data class Book(
 data class BookInfo(
     val id: String,
     val title: String,
-    val authors: List<String>
+    val authors: List<String>,
+    val pageCount: Int,
+    val categories: List<String>,
 )
