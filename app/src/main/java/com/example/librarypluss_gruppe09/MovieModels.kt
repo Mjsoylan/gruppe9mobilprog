@@ -1,6 +1,5 @@
 package com.example.librarypluss_gruppe09
 
-import com.example.librarypluss_gruppe09.models.Media
 
 data class MovieResponse(
     val results: List<Movie>
@@ -8,5 +7,6 @@ data class MovieResponse(
 
 data class Movie(
     val id: Int,
-    val title: String
+    val title: String,
+    val poster_path: String
 )

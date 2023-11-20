@@ -17,4 +17,8 @@ data class BookInfo(
     val authors: List<String>,
     val pageCount: Int,
     val categories: List<String>,
+    val imageLinks: ImageLinks?
+)
+data class ImageLinks(
+    val smallThumbnail: String?
 )

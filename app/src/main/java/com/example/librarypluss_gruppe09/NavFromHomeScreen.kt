@@ -133,7 +133,7 @@ fun AddScreen(modifier : Modifier = Modifier) {
 fun Addbookscreen(){
     var search by remember { mutableStateOf("") }
     var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Authors"),100,
-        listOf("Categories")
+        listOf("Categories"), ImageLinks("")
     )))) }
 
     fun searchBooks(query: String) {
@@ -213,6 +213,8 @@ fun BookItem(book: Book) {
         Text(text = book.volumeInfo.title)
         Button(onClick = {
             //TODO CLEAN AND MAKE BEAUTIFUL
+
+
             var genre = ""
             var author = ""
             var genreToDelete = ""
@@ -236,7 +238,9 @@ fun BookItem(book: Book) {
                 book.volumeInfo.title,
                 author,
                 genre,
-                "book")
+                "book",
+                book.volumeInfo.imageLinks?.smallThumbnail.toString()
+            )
             upload(books)
         }) {
             Text("+") // This is the content for the Button.
@@ -252,7 +256,7 @@ fun BookItem(book: Book) {
 @Composable
 fun Addmoviescreen(){
     var search by remember { mutableStateOf("") }
-    var moviesList by remember { mutableStateOf(listOf(Movie(1, "Sample Movie"))) }
+    var moviesList by remember { mutableStateOf(listOf(Movie(1, "Sample Movie", ""))) }
 
     fun searchMovies(searchQuery: String) {
         val movieApi = retrofitMovies.create(MoviesApiService::class.java)
@@ -391,7 +395,8 @@ fun MovieItem(movie: Movie) {
     ) {
         Text(text = movie.title)
         Button(onClick = {
-            val movies= Media("",movie.title,"","","movie")
+            val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
+            val movies= Media("",movie.title,"","","movie",poster)
             upload(movies)
         }) {
             Text("+") // This is the content for the Button.
