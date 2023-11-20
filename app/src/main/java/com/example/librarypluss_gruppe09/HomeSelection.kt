@@ -16,6 +16,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.librarypluss_gruppe09.firebaseservice.AccountService
+import com.example.librarypluss_gruppe09.firebaseservice.impl.AccountImp
 import com.example.librarypluss_gruppe09.screen.goals.GoalsScreen
 import com.example.librarypluss_gruppe09.screen.library.LibraryScreen
 import com.google.firebase.auth.FirebaseAuth

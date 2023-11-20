@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,17 +29,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.librarypluss_gruppe09.MediaCard
+import com.example.librarypluss_gruppe09.firebaseservice.impl.AccountImp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = hiltViewModel()) {
     val medialist = viewModel.media.collectAsStateWithLifecycle(emptyList())
-
     val filtervalu = viewModel.filter.value
+
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-
+            //Text(text = "userid: "+username.username,  color = Color.Black)
             FilterLibrary()
 
             LazyVerticalGrid(

@@ -1,11 +1,16 @@
 package com.example.librarypluss_gruppe09.screen.Login
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.R
+import com.example.librarypluss_gruppe09.auth
 import com.example.librarypluss_gruppe09.commonext.isValidEmail
 import com.example.librarypluss_gruppe09.commonext.isValidPassword
+import com.example.librarypluss_gruppe09.db
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
 import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,14 +26,21 @@ constructor(private val account: AccountService) :
     var uiState = mutableStateOf(LogginUiState())
         private set
 
+    private val username
+        get() =uiState.value.username
     private val email
         get() = uiState.value.email
     private val password
         get() = uiState.value.password
 
 
+
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
+    }
+    fun onUserNameChange(newValue: String) {
+        uiState.value = uiState.value.copy(username = newValue)
+
     }
 
     fun onPasswordChange(newValue: String) {
@@ -62,6 +74,7 @@ constructor(private val account: AccountService) :
             }
         }
     }
+        @SuppressLint("SuspiciousIndentation")
         fun onSignUpClick(loggedIn: () -> Unit) {
             if (!email.isValidEmail()) {
                 uiState.value = uiState.value.copy(errorMessage = R.string.email_error)
@@ -74,12 +87,20 @@ constructor(private val account: AccountService) :
                 return
             }
 
+
             viewModelScope.launch {
                 try {
                     account.createaccunt(email, password) { error ->
-                        if (error == null)
-                            uiState.value = uiState.value.copy(errorMessage = R.string.Accunt_Created)
-                    }
+                        if (error == null){
+                            val newuser = hashMapOf(
+                                "userid" to account.currentUserId,
+                                "username" to  username
+                            )
+                                db.collection("user").document(account.currentUserId).set(newuser)
+                            }
+                            loggedIn()
+                        }
+
                 }
                 catch(e: Exception) {
                     uiState.value = uiState.value.copy(errorMessage = R.string.Accunt_Created_failed)

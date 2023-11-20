@@ -7,6 +7,7 @@ import com.example.librarypluss_gruppe09.models.Media
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import com.google.firebase.firestore.ktx.toObject
@@ -16,8 +17,12 @@ import javax.inject.Inject
 
 class StorageImpl
 @Inject
-constructor(private val firestore: FirebaseFirestore) : CollectionService {
+constructor(private val auth: FirebaseAuth, private val firestore: FirebaseFirestore,
+) : CollectionService {
 
+    override val MEDIA_COLLECTION="user/"+auth.currentUser?.uid+"/addedMedia"
+
+    override val GOALS_COLLECTION="user/"+auth.currentUser?.uid+"/goals"
     override val mediacollection: Flow<List<Media>>
         get() = firestore.collection(MEDIA_COLLECTION).dataObjects()
     override suspend fun getMedia(mediaId: String): Media? =
@@ -40,11 +45,6 @@ constructor(private val firestore: FirebaseFirestore) : CollectionService {
 
 
     //todo querry based on the user id as a key to get det addetmedia to media collection
-    companion object {
-        private const val MEDIA_COLLECTION = "user/gRGLI4BDi9QvCVjT5OaI/addedMedia"
-//        private const val MEDIA_COLLECTION = "media"
-        private const val GOALS_COLLECTION = "user/gRGLI4BDi9QvCVjT5OaI/goals"
 
-    }
 }
 

@@ -42,6 +42,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
+import com.example.librarypluss_gruppe09.models.addmediabook
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -134,7 +135,7 @@ fun Addbookscreen(){
     var booktype by remember { mutableStateOf("") }
     var pagenum by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
-    val user = FirebaseAuth.getInstance().currentUser?.uid
+    val user  = FirebaseAuth.getInstance().currentUser!!.uid
     var review by remember { mutableStateOf("") }
 
 
@@ -215,24 +216,20 @@ fun Addbookscreen(){
 
         Button(onClick = {
             val books = hashMapOf(
-            "user" to user,
             "tittle" to tittle,
-            "booktype" to  booktype,
+            "booktype" to booktype,
             "pagenum" to pagenum,
-            "creater" to  creater
+            "creater" to creater
         )
             val reviewer = hashMapOf(
-                "user" to user,
                 "text" to review
             )
 
             if (review != "") {
-                db.collection("books")
-                    .add(books)
-                    .addOnSuccessListener { documentReference ->
+                db.collection("user").document(user).collection("addedMedia").add(books).addOnSuccessListener {documentReference ->
                         Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
 
-                        db.collection("books/${documentReference.id}/review").add(reviewer)
+                        db.collection("user/${user}/addedMedia/${documentReference.id}/review").add(reviewer)
 
                     }
                     .addOnFailureListener { e ->
@@ -240,11 +237,9 @@ fun Addbookscreen(){
                     }
             }
             else{
-                db.collection("books")
-                    .add(books)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    }
+                db.collection("user").document(user).collection("addedMedia").add(books).addOnSuccessListener {
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+                }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
@@ -284,7 +279,7 @@ fun Addmoviescreen(){
     var tittle by remember { mutableStateOf("") }
     var movietype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
-    val user = FirebaseAuth.getInstance().currentUser?.uid
+    val user = FirebaseAuth.getInstance().currentUser!!.uid
     var review by remember { mutableStateOf("") }
 
     // Column Composable,
@@ -330,36 +325,30 @@ fun Addmoviescreen(){
         )
 
         Button(onClick = { val movies = hashMapOf(
-            "user" to user,
             "tittle" to tittle,
             "movietype" to  movietype,
             "creater" to  creater
         )
             val reviewer = hashMapOf(
-                "user" to user,
                 "text" to review
             )
 
 
             if (review != "") {
-                db.collection("movies")
-                    .add(movies)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                db.collection("user").document(user).collection("addedMedia").add(movies).addOnSuccessListener {documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
 
-                        db.collection("movies/${documentReference.id}/review").add(reviewer)
+                    db.collection("user/${user}/addedMedia/${documentReference.id}/review").add(reviewer)
 
-                    }
+                }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
             }
             else{
-                db.collection("movies")
-                    .add(movies)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    }
+                db.collection("user").document(user).collection("addedMedia").add(movies).addOnSuccessListener {
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+                }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
@@ -378,7 +367,7 @@ fun Addgamescreen(){
     var tittle by remember { mutableStateOf("") }
     var gametype by remember { mutableStateOf("") }
     var creater by remember { mutableStateOf("") }
-    val user = FirebaseAuth.getInstance().currentUser?.uid
+    val user = FirebaseAuth.getInstance().currentUser!!.uid
     var review by remember { mutableStateOf("") }
     // Column Composable,
     Column(
@@ -428,31 +417,26 @@ fun Addgamescreen(){
             "creater" to  creater
         )
             val reviewer = hashMapOf(
-                "user" to user,
                 "text" to review
             )
 
 
 
             if (review != "") {
-                db.collection("games")
-                    .add(games)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                db.collection("user").document(user).collection("addedMedia").add(games).addOnSuccessListener {documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
 
-                        db.collection("games/${documentReference.id}/review").add(reviewer)
+                    db.collection("user/${user}/addedMedia/${documentReference.id}/review").add(reviewer)
 
-                    }
+                }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }
             }
             else{
-                db.collection("games")
-                    .add(games)
-                    .addOnSuccessListener { documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    }
+                db.collection("user").document(user).collection("addedMedia").add(games).addOnSuccessListener {
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+                }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)
                     }

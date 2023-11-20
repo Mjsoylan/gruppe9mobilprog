@@ -18,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
@@ -73,7 +74,10 @@ fun LogginScreen(loggedIn: () -> Unit,modifier: Modifier = Modifier, viewModel: 
             Text(text = stringResource(id = uiState.errorMessage),
                 Modifier.padding(vertical = 8.dp))
 
+        UsernameField(uiState.username,viewModel::onUserNameChange,fieldModifier)
+
         EmailField(uiState.email, viewModel::onEmailChange, fieldModifier)
+
         PasswordField(uiState.password, viewModel::onPasswordChange, fieldModifier)
 
         RepeatPasswordField(uiState.repeatPassword, viewModel::onRepeatPasswordChange, fieldModifier)
@@ -115,6 +119,17 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(R.string.email)) },
         leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+    )
+}
+@Composable
+fun UsernameField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
+    OutlinedTextField(
+        singleLine = true,
+        modifier = modifier,
+        value = value,
+        onValueChange = { onNewValue(it) },
+        placeholder = { Text(stringResource(R.string.Username)) },
+        leadingIcon = { Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Username") }
     )
 }
 
