@@ -9,7 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.librarypluss_gruppe09.screen.Login.LogginScreen
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,16 +20,11 @@ fun NavtoScreen(modifier: Modifier = Modifier) {
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "login",
+            startDestination = "singup",
             modifier = modifier.padding(innerPadding)
         ) {
-            composable("login") {
-                LoginScreen(
-                    goto = { navController.navigate("home") },
-                    Modifier
-                        .fillMaxSize()
-                        .padding()
-                )
+            composable("singup") {
+                LogginScreen(loggedIn = { navController.navigate("home") })
             }
             composable("home") {
                 BottomNavigation()

@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface LibraryService {
     val mediacollection: Flow<List<Media>>
+    val MEDIA_COLLECTION: String
+    val GOALS_COLLECTION: String
+
     suspend fun getMedia(mediaId: String): Media?
 
     suspend fun deleteMedia(mediaId: Media): Task<Void>

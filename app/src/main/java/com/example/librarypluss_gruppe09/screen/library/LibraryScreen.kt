@@ -21,24 +21,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.librarypluss_gruppe09.MediaCard
+import com.example.librarypluss_gruppe09.firebaseservice.impl.AccountImp
 
 @Composable
 fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = hiltViewModel()) {
     val medialist = viewModel.media.collectAsStateWithLifecycle(emptyList())
-
     val filtervalu = viewModel.filter.value
+
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-
             FilterLibrary()
-
             LazyVerticalGrid(
                 columns = GridCells.FixedSize(180.dp),
                 content = {
@@ -72,7 +73,7 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
             .padding(8.dp)
             .wrapContentSize(Alignment.TopCenter),
     ) {
-        Button(onClick = { isExpanded = true }) {
+        IconButton(onClick = { isExpanded = true }) {
             Text(selectedFirstInOrder, fontSize = 15.sp)
         }
         DropdownMenu(

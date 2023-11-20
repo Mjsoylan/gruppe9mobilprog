@@ -14,14 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.librarypluss_gruppe09.screen.editcard.EditCardScreen
+import com.example.librarypluss_gruppe09.firebaseservice.AccountService
+import com.example.librarypluss_gruppe09.firebaseservice.impl.AccountImp
 import com.example.librarypluss_gruppe09.screen.goals.GoalsScreen
 import com.example.librarypluss_gruppe09.screen.library.LibraryScreen
+import com.google.firebase.auth.FirebaseAuth
 
 
 enum class OnScreeen {
@@ -38,6 +42,7 @@ fun HomeSelection(modifier: Modifier = Modifier) {
             ?: OnScreeen.Library.name
     )
 
+    val user = FirebaseAuth.getInstance().currentUser
     Scaffold(topBar = {
         TopAppBar(
             title = {
