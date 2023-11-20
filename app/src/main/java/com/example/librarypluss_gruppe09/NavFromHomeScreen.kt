@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call
@@ -210,30 +211,32 @@ fun BookItem(book: Book) {
     ) {
         Text(text = book.volumeInfo.title)
         Button(onClick = {
-            // Assuming that volumeInfo.title and volumeInfo.authors are strings.
-            val title = book.volumeInfo.title
-            // If authors is a list, you might want to join them into a single string.
-            val authors = book.volumeInfo.authors.joinToString(", ") // This will need to be adjusted based on your data model.
-            val categories = book.volumeInfo.categories.joinToString(", ") // This will need to be adjusted based on your data model.
-            val pageCount = book.volumeInfo.pageCount
-            //val category = book.volumeInfo.category
+            //TODO CLEAN AND MAKE BEAUTIFUL
+            var genre = ""
+            var author = ""
+            var genreToDelete = ""
+            var authorToDelete = ""
+            val charToDelete1 = '['
+            val charToDelete2 = ']'
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
+                genreToDelete = book.volumeInfo.categories.toString()
+                val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
+                genre = modifiedGenre.replace(charToDelete2.toString(), "")
+            }
 
-            val books = hashMapOf(
-                "title" to title,
-                "authors" to authors,
-                "pageCount" to pageCount,
-                "categories" to categories
-            )
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
+                authorToDelete = book.volumeInfo.authors.toString()
+                val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
+                author = modifiedAuthor.replace(charToDelete2.toString(), "")
+            }
 
-            db.collection("books")
-                .add(books)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    // You can continue to add a review here if necessary
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
+            val books= Media(
+                "",
+                book.volumeInfo.title,
+                author,
+                genre,
+                "book")
+            upload(books)
         }) {
             Text("+") // This is the content for the Button.
         }
@@ -259,7 +262,6 @@ fun Addmoviescreen(){
                     val movieResponseList = response.body()?.results ?: emptyList()
                     moviesList = movieResponseList
                     Log.d("MOVIES_LOG", "Response successful: $moviesList")
-                    // Update your UI here
                 } else {
                     Log.d("MOVIES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
@@ -388,25 +390,8 @@ fun MovieItem(movie: Movie) {
     ) {
         Text(text = movie.title)
         Button(onClick = {
-            // Assuming that volumeInfo.title and volumeInfo.authors are strings.
-            val title = movie.title
-            // If authors is a list, you might want to join them into a single string.
-            //val authors = book.volumeInfo.authors.joinToString(", ") // This will need to be adjusted based on your data model.
-
-            val movies = hashMapOf(
-                "title" to title,
-                //"authors" to authors
-            )
-
-            db.collection("movies")
-                .add(movies)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    // You can continue to add a review here if necessary
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
+            val movies= Media("",movie.title,"","","movie")
+            upload(movies)
         }) {
             Text("+") // This is the content for the Button.
         }
@@ -420,7 +405,7 @@ fun MovieItem(movie: Movie) {
 @Composable
 fun Addgamescreen(){
     var search by remember { mutableStateOf("") }
-    var gamesList by remember { mutableStateOf(listOf(Game(1, "Sample Game"/*, listOf(1,2), listOf("involved_companies")*/))) }
+    var gamesList by remember { mutableStateOf(listOf(Media("", "Sample Game","","","game"/*, listOf(1,2), listOf("involved_companies")*/))) }
 
     fun searchGames(searchQuery: String) {
         val gameApi = retrofitGames.create(GamesApiService::class.java)
@@ -432,9 +417,9 @@ fun Addgamescreen(){
             override fun onResponse(call: Call<List<GameResponse>>, response: Response<List<GameResponse>>) {
                 if (response.isSuccessful && response.body() != null) {
                     val gamesResponseList = response.body()
-                    val gamesConvertedList: List<Game> = gamesResponseList?.map { gameResponse ->
+                    val gamesConvertedList: List<Media> = gamesResponseList?.map { gameResponse ->
                         // Assuming GameResponse has the same 'id' and 'name' properties as Game
-                        Game(id = gameResponse.id, name = gameResponse.name ?: "Unknown"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/)
+                        Media(tittle = gameResponse.name ?: "Unknown", tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/)
                     } ?: listOf()
                     gamesList = gamesConvertedList
                     Log.d("GAMES_LOG", "Response successful: $gamesList")
@@ -487,45 +472,37 @@ fun Addgamescreen(){
         LazyColumn(
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            items(gamesList) { game ->
-                println("Rendering book: ${game.name}")
-                GameItem(game)
+            items(gamesList) { media ->
+                println("Rendering book: ${media.tittle}")
+                GameItem(media)
             }
         }
     }
 }
 
 @Composable
-fun GameItem(game: Game) {
+fun GameItem(game: Media) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = game.name)
+        Text(text = game.tittle)
         Button(onClick = {
-            val name = game.name
-            //val genres = game.genres.joinToString(", ") // This will need to be adjusted based on your data model.
-            //val involved_companies = game.involved_companies.joinToString(", ") // This will need to be adjusted based on your data model.
-
-            val movies = hashMapOf(
-                "name" to name,
-                //"genres" to genres,
-                //"involved_companies" to involved_companies
-            )
-
-            db.collection("games")
-                .add(movies)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-                    // You can continue to add a review here if necessary
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
+            upload(game)
         }) {
             Text("+") // This is the content for the Button.
         }
     }
+}
+
+fun upload(media: Media){
+    val user  = "basic " //todo{wait for user}
+    db.collection("user").document(user).collection("addedMedia").add(media).addOnSuccessListener {
+        Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+    }
+        .addOnFailureListener { e ->
+            Log.w(TAG, "Error adding document", e)
+        }
 }

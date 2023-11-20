@@ -8,10 +8,3 @@ data class GameResponse(
     //@SerializedName("genres")val genres: List<Int>,
     //@SerializedName("involved_companies")val involved_companies: List<String>
 )
-
-data class Game(
-    val id: Int,
-    val name: String,
-    //val genres: List<Int>,
-    //val involved_companies: List<String>
-)
