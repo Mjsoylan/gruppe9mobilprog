@@ -49,7 +49,7 @@ constructor(private val firestore: FirebaseFirestore) : GoalsService {
             .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
 
 
-    override suspend fun sendMediaToHistory(mediaId: Media): String =
+    override suspend fun sendMediaToHistory(mediaId: History): String =
         firestore.collection(HISTORY_GOALS_DESCRIPTIO).add(mediaId).await().id
 
 

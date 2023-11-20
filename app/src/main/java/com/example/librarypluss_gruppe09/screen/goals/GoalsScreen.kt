@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.librarypluss_gruppe09.DialogComponent
 import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 
@@ -96,11 +98,13 @@ fun GoalsScreen(
             }
         }
 
-        FloatingActionButton(onClick = { onGoalClick("SettDescriptionGoal(description = ") },
+        FloatingActionButton(
+            onClick = { onGoalClick("SettDescriptionGoal(description = ") },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .padding(bottom = 16.dp, end = 16.dp)) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "",)
+                .padding(bottom = 16.dp, end = 16.dp)
+        ) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "")
         }
     }
 }
@@ -158,7 +162,7 @@ fun HistoryGoal(viewModel: GoalsViewModel = hiltViewModel()) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
         content = {
-            items(historyViewModel.value, key = { it.mediaId }) { history ->
+            items(historyViewModel.value, key = { it.historyId }) { history ->
 //                        if(medie.tag == filtervalu){
 //                            MediaCard(medie)
 //                        }
@@ -208,10 +212,31 @@ fun SettGoalCard(
                         Text(text = goal.description, textAlign = TextAlign.Center)
                     }
                 }
-                Button(onClick = { viewModel.deleteGoalCard(goal)}) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete goal",)
+                Button(
+                    onClick = { viewModel.alertDeleteCard.value = true }, modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.BottomEnd)
+                ) {
+                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete goal")
                 }
             }
+        }
+    }
+
+    when {
+        viewModel.alertDeleteCard.value -> {
+            DialogComponent(
+                onDismissRequest = { viewModel.alertDeleteCard.value = false },
+                onConfirmation = {
+                    viewModel.alertDeleteCard.value = false
+                    viewModel.deleteGoalCard(goal)
+                },
+                dialogTitle = "Delete goal",
+                dialogText = "Move goal to history",
+//                todo add titel to SettGoal
+//                dialogText = " ${goal.tittle} move to history",
+                icon = Icons.Default.Info
+            )
         }
     }
 }
@@ -238,22 +263,17 @@ fun HistoryCard(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp),
+                        .height(90.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Bottom
+                    verticalArrangement = Arrangement.Center
                 ) {
 
                     Box {
-                        Text(text = history.tittle, textAlign = TextAlign.Center)
+                        Text(text = "tittle: ${history.tittle}", textAlign = TextAlign.Center)
                     }
+
                     Box {
-                        Text(text = history.type, textAlign = TextAlign.Center)
-                    }
-                    Box {
-                        Text(text = history.tittle, textAlign = TextAlign.Center)
-                    }
-                    Box {
-                        Text(text = history.tittle, textAlign = TextAlign.Center)
+                        Text(text = "You deleted goal at : ${history.date}", textAlign = TextAlign.Center)
                     }
                 }
             }

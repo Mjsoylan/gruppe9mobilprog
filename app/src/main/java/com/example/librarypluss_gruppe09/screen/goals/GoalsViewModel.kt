@@ -1,13 +1,17 @@
 package com.example.librarypluss_gruppe09.screen.goals
 
+import android.annotation.SuppressLint
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageGoals
+import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,6 +24,14 @@ constructor(private val storage: StorageGoals) :
     val mediagoals = storage.mediascollection
     val settgoals = storage.settgoalscollection
     val stategoals = mutableStateOf("")
+
+    val alertDeleteCard = mutableStateOf(false)
+
+
+    @SuppressLint("SimpleDateFormat")
+    val dateformate = SimpleDateFormat("dd-MM-yyyy")
+    val getDate = Date()
+    val dateToday = dateformate.format(getDate)
 
 
 //    init {
@@ -41,12 +53,13 @@ constructor(private val storage: StorageGoals) :
 //        }
 //    }
 
-    fun deleteMediaCard(medid: Media) {
+    fun deleteMediaCard(medid: Media, date: String) {
         viewModelScope.launch {
             storage.deleteMedia(medid)
-            storage.sendMediaToHistory(medid)
+            storage.sendMediaToHistory(History(tittle = medid.tittle, date = date))
         }
     }
+
     fun deleteGoalCard(goal: SettDescriptionGoal) {
         viewModelScope.launch {
             storage.deleteGoal(goal)
@@ -54,13 +67,16 @@ constructor(private val storage: StorageGoals) :
 //            storage.sendGoalToHistory(goal)
         }
     }
+
     //show one of the collections
     fun go_to_edit_goals() {
         stategoals.value = "editgoals"
     }
+
     fun go_to_media_goals() {
         stategoals.value = "mediagoals"
     }
+
     fun go_to_history_goals() {
         stategoals.value = "historygoals"
     }
