@@ -19,7 +19,7 @@ constructor(private val storage: StorageLibrary,private val account: AccountServ
     //todo change tis to get meda from a user
     val media = storage.mediacollection
     val useruid  = FirebaseAuth.getInstance().currentUser!!.uid
-    var filter = mutableStateOf("random")
+    var filter = mutableStateOf("")
 
 
     fun setFilterBook(){
@@ -39,7 +39,7 @@ constructor(private val storage: StorageLibrary,private val account: AccountServ
 
     fun setFilterall() {
         filter.value = ""
-        filter.value = "random"
+        filter.value = ""
     }
 
     fun deleteCard(medid: Media) {
