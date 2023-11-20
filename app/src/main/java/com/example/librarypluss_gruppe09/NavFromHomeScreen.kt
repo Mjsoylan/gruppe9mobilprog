@@ -41,10 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.librarypluss_gruppe09.firebaseservice.AccountService
-import com.example.librarypluss_gruppe09.models.addmediabook
+import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -411,7 +409,11 @@ fun Addgamescreen(){
             label = { Text("review (optional)") }
         )
 
-        Button(onClick = { val games = hashMapOf(
+        Button(onClick = {
+            val game= Media("",tittle,creater,gametype,"game")
+            upload(game)
+            /*
+            val games = hashMapOf(
             "tittle" to tittle,
             "gametype" to  gametype,
             "creater" to  creater
@@ -441,6 +443,7 @@ fun Addgamescreen(){
                         Log.w(TAG, "Error adding document", e)
                     }
             }
+            */
 
             tittle=""
             gametype=""
@@ -448,4 +451,15 @@ fun Addgamescreen(){
             review=""
         }) { Text(text = "add") }
     }
+}
+
+fun upload(media: Media){
+//    val user  = "basic " //todo{wait for user}
+    val user = FirebaseAuth.getInstance().currentUser!!.uid
+    db.collection("user").document(user).collection("addedMedia").add(media).addOnSuccessListener {
+        Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+    }
+        .addOnFailureListener { e ->
+            Log.w(TAG, "Error adding document", e)
+        }
 }

@@ -40,9 +40,7 @@ fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = h
 
     Box(modifier = modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
-            //Text(text = "userid: "+username.username,  color = Color.Black)
             FilterLibrary()
-
             LazyVerticalGrid(
                 columns = GridCells.FixedSize(180.dp),
                 content = {

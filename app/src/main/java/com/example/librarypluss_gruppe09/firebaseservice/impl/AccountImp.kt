@@ -38,24 +38,16 @@ constructor(private val auth: FirebaseAuth,private val firestore: FirebaseFirest
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
         }
-
-
     override suspend fun authenticate(email: String, password: String, onResult: (Throwable?) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { onResult(it.exception) }.await()
     }
-
-
-
     override suspend fun fastloggin() {
         //temp for working
         auth.signInWithEmailAndPassword("mads.soyland@gmail.com", "password")
     }
-
-
     override suspend fun createaccunt(email: String, password: String, onResult: (Throwable?) -> Unit) {
        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { onResult(it.exception) }.await()
     }
-
     override suspend fun signOut() {
         auth.signOut()
 
