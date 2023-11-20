@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,9 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.librarypluss_gruppe09.MediaCard
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = hiltViewModel()) {
     val medialist = viewModel.media.collectAsStateWithLifecycle(emptyList())
@@ -74,7 +72,7 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
             .padding(8.dp)
             .wrapContentSize(Alignment.TopCenter),
     ) {
-        IconButton(onClick = { isExpanded = true }) {
+        Button(onClick = { isExpanded = true }) {
             Text(selectedFirstInOrder, fontSize = 15.sp)
         }
         DropdownMenu(
@@ -112,7 +110,6 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                     selectedFirstInOrder = "Game"
                     isExpanded = false
                     libraryViewModel.setFilterGame()
-
                 },
             )
             DropdownMenuItem(
