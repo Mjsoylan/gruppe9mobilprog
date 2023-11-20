@@ -1,5 +1,7 @@
 package com.example.librarypluss_gruppe09.screen.goals
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,9 +26,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -88,8 +96,24 @@ fun GoalsScreen(
                 }
             }
 
+            var vanimationtransition by remember {
+                mutableStateOf(true)
+            }
+//https://developer.android.com/jetpack/compose/animation/quick-guide
+            val animatedAlpha by animateFloatAsState(
+                targetValue = if (vanimationtransition) 4.0f else 0f,
+                label = "alpha"
+            )
+
             when (screenState) {
-                "editgoals" -> EditGoal(viewModel, onGoalClick)
+                "editgoals" ->
+                    AnimatedVisibility(
+                        visible = vanimationtransition
+
+                    ) {
+                        EditGoal(viewModel, onGoalClick, animatedAlpha)
+                    }
+
                 "historygoals" -> HistoryGoal(viewModel)
                 "mediagoals" -> MedaGoal(viewModel)
                 else -> {
@@ -117,12 +141,6 @@ fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel()) {
         columns = GridCells.Adaptive(180.dp),
         content = {
             items(goalViweModel.value, key = { it.mediaId }) { medie ->
-//                        if(medie.tag == filtervalu){
-//                            MediaCard(medie)
-//                        }
-//                        else if (filtervalu == "random") {
-//                            MediaCard(medie)
-//                        }
                 GoalCard(medie)
             }
         }, modifier = Modifier
@@ -133,27 +151,21 @@ fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) -> Unit) {
+fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) -> Unit, animation: Float) {
     val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
 
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
         content = {
             items(settgoalsViweModel.value, key = { it.goalId }) { edit ->
-//                        if(medie.tag == filtervalu){
-//                            MediaCard(medie)
-//                        }
-//                        else if (filtervalu == "random") {
-//                            MediaCard(medie)
-//                        }
                 SettGoalCard(edit, onGoalClick = onGoalClick)
             }
         }, modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp).graphicsLayer { alpha = animation  }
     )
 }
-
+@Preview
 @Composable
 fun HistoryGoal(viewModel: GoalsViewModel = hiltViewModel()) {
 
@@ -163,12 +175,6 @@ fun HistoryGoal(viewModel: GoalsViewModel = hiltViewModel()) {
         columns = GridCells.Adaptive(180.dp),
         content = {
             items(historyViewModel.value, key = { it.historyId }) { history ->
-//                        if(medie.tag == filtervalu){
-//                            MediaCard(medie)
-//                        }
-//                        else if (filtervalu == "random") {
-//                            MediaCard(medie)
-//                        }
                 HistoryCard(history)
             }
         }, modifier = Modifier
@@ -273,7 +279,10 @@ fun HistoryCard(
                     }
 
                     Box {
-                        Text(text = "You deleted goal at : ${history.date}", textAlign = TextAlign.Center)
+                        Text(
+                            text = "You deleted goal at : ${history.date}",
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }

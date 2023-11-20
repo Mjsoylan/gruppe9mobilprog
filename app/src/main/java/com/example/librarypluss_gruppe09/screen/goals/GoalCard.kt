@@ -116,7 +116,6 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                 onConfirmation = {
                     viewModel.alertDeleteCard.value = false
                     viewModel.deleteMediaCard(media, viewModel.dateToday.toString())
-                    Log.i("dome", viewModel.getDate.toString())
                 },
                 dialogTitle = "Delete media",
                 dialogText = " ${media.tittle} move to history",
