@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.librarypluss_gruppe09.firebaseservice.LibraryService
 import com.example.librarypluss_gruppe09.models.Media
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,11 @@ import javax.inject.Inject
 
 class StorageLibrary
 @Inject
-constructor(private val firestore: FirebaseFirestore) : LibraryService {
+constructor(private val firestore: FirebaseFirestore,private val auth: FirebaseAuth) : LibraryService {
+
+    override val MEDIA_COLLECTION="user/"+auth.currentUser?.uid+"/addedMedia"
+
+    override val GOALS_COLLECTION="user/"+auth.currentUser?.uid+"/goals"
 
     override val mediacollection: Flow<List<Media>>
         get() = firestore.collection(MEDIA_COLLECTION).dataObjects()

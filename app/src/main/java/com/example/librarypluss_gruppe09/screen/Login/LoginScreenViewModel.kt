@@ -1,18 +1,14 @@
 package com.example.librarypluss_gruppe09.screen.Login
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.R
-import com.example.librarypluss_gruppe09.auth
 import com.example.librarypluss_gruppe09.commonext.isValidEmail
 import com.example.librarypluss_gruppe09.commonext.isValidPassword
 import com.example.librarypluss_gruppe09.db
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
-import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

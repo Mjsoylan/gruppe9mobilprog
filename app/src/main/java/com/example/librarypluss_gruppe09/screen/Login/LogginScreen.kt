@@ -48,7 +48,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.librarypluss_gruppe09.MediaCard
 import com.example.librarypluss_gruppe09.R
 
 @OptIn(ExperimentalMaterial3Api::class)

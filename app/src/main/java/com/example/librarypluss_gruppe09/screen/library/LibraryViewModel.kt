@@ -3,15 +3,11 @@ package com.example.librarypluss_gruppe09.screen.library
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.librarypluss_gruppe09.R
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
-import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageImpl
 import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageLibrary
-import com.example.librarypluss_gruppe09.models.Datasource
 import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
