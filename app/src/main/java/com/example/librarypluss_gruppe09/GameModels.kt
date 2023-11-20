@@ -1,16 +1,10 @@
 package com.example.librarypluss_gruppe09
+
+import com.google.gson.annotations.SerializedName
+
 data class GameResponse(
-    val kind: String,
-    val totalItems: Int,
-    val items: List<Game>
-)
-
-data class Game(
-    val gameInfo: GameInfo
-)
-
-data class GameInfo(
     val id: Int,
-    val title: String,
-    val developer: List<String>
+    @SerializedName("name") val name: String?,
+    //@SerializedName("genres")val genres: List<Int>,
+    //@SerializedName("involved_companies")val involved_companies: List<String>
 )

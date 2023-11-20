@@ -9,6 +9,7 @@ object RetrofitClientBooks {
     val instance: BooksApiService by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(OkHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

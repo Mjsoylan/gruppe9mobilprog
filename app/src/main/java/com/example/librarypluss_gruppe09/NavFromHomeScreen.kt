@@ -43,9 +43,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.auth.FirebaseAuth
+import com.example.librarypluss_gruppe09.models.Media
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 val db = Firebase.firestore
 @Preview
@@ -124,20 +127,36 @@ fun AddScreen(modifier : Modifier = Modifier) {
         }
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
+
+//@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun Addbookscreen(){
     var search by remember { mutableStateOf("") }
-    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Author"))))) }
-    var tittle by remember { mutableStateOf("") }
-    var booktype by remember { mutableStateOf("") }
-    var pagenum by remember { mutableStateOf("") }
-    var creater by remember { mutableStateOf("") }
-    val user  = FirebaseAuth.getInstance().currentUser!!.uid
-    var review by remember { mutableStateOf("") }
+    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Authors"),100,
+        listOf("Categories")
+    )))) }
 
+    fun searchBooks(query: String) {
+        val booksRepository = BooksRepository()
 
+        val call = booksRepository.searchBooks(query)
+        call.enqueue(object : Callback<BookResponse> {
+            override fun onResponse(call: Call<BookResponse>, response: Response<BookResponse>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val fetchedBooks = response.body()!!.items
+                    booksList = fetchedBooks
+                    Log.d("BOOKS_LOG", "Books List: $booksList")
+                } else {
+                    Log.d("BOOKS_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<BookResponse>, t: Throwable) {
+                Log.e("BOOKS_API_FAILURE", "Error: ${t.localizedMessage}")
+            }
+        })
+    }
 
     // Column Composable,
     Column(
@@ -166,7 +185,7 @@ fun Addbookscreen(){
         Button(
             onClick = {
                 // Trigger the API call here
-                //searchBooks(search) // 'search.value' gets the current text from the 'search' state
+                searchBooks(search) // 'search.value' gets the current text from the 'search' state
             },
             modifier = Modifier.padding(16.dp)
         ) {
@@ -181,76 +200,6 @@ fun Addbookscreen(){
                 BookItem(book)
             }
         }
-
-        OutlinedTextField(
-            value = tittle,
-            onValueChange = { tittle= it  },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("tittle") }
-        )
-        OutlinedTextField(
-            value = booktype,
-            onValueChange = { booktype = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("booktype") }
-        )
-        OutlinedTextField(
-            value = pagenum,
-            onValueChange = { pagenum = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("pagenumber") }
-        )
-        OutlinedTextField(
-            value = creater,
-            onValueChange = { creater = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("creater") }
-        )
-        OutlinedTextField(
-                value = review,
-        onValueChange = { review = it },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        label = { Text("review (optional)") }
-        )
-
-        Button(onClick = {
-            val books = hashMapOf(
-            "tittle" to tittle,
-            "booktype" to booktype,
-            "pagenum" to pagenum,
-            "creater" to creater
-        )
-            val reviewer = hashMapOf(
-                "text" to review
-            )
-
-            if (review != "") {
-                db.collection("user").document(user).collection("addedMedia").add(books).addOnSuccessListener {documentReference ->
-                        Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                        db.collection("user/${user}/addedMedia/${documentReference.id}/review").add(reviewer)
-
-                    }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-            }
-            else{
-                db.collection("user").document(user).collection("addedMedia").add(books).addOnSuccessListener {
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
-                }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-            }
-
-            tittle=""
-            booktype=""
-            creater=""
-            pagenum=""
-            review=""
-
-        }) { Text(text = "add") }
     }
 }
 
@@ -263,24 +212,67 @@ fun BookItem(book: Book) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = book.volumeInfo.title)
-        Button(onClick = { /* Do something in the future */ }) {
-            Text(text = "+")
+        Button(onClick = {
+            //TODO CLEAN AND MAKE BEAUTIFUL
+            var genre = ""
+            var author = ""
+            var genreToDelete = ""
+            var authorToDelete = ""
+            val charToDelete1 = '['
+            val charToDelete2 = ']'
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
+                genreToDelete = book.volumeInfo.categories.toString()
+                val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
+                genre = modifiedGenre.replace(charToDelete2.toString(), "")
+            }
+
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
+                authorToDelete = book.volumeInfo.authors.toString()
+                val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
+                author = modifiedAuthor.replace(charToDelete2.toString(), "")
+            }
+
+            val books= Media(
+                "",
+                book.volumeInfo.title,
+                author,
+                genre,
+                "book")
+            upload(books)
+        }) {
+            Text("+") // This is the content for the Button.
         }
     }
 }
 
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+//@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun Addmoviescreen(){
-    var tittle by remember { mutableStateOf("") }
-    var movietype by remember { mutableStateOf("") }
-    var creater by remember { mutableStateOf("") }
-    val user = FirebaseAuth.getInstance().currentUser!!.uid
-    var review by remember { mutableStateOf("") }
+    var search by remember { mutableStateOf("") }
+    var moviesList by remember { mutableStateOf(listOf(Movie(1, "Sample Movie"))) }
 
+    fun searchMovies(searchQuery: String) {
+        val movieApi = retrofitMovies.create(MoviesApiService::class.java)
+
+        movieApi.searchMovies("Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkY2E5Y2FmNmIyNGYwMjJhMDdkN2VjNDg5Yzc5YzQ5MiIsInN1YiI6IjY1NTc5NGZkN2YwNTQwMThkNmYzMjYwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FLq5ehkpOZaVpfY9xWWKtCH4arc7bVk_uf0CS_R8aeI", searchQuery).enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                if (response.isSuccessful) {
+                    val movieResponseList = response.body()?.results ?: emptyList()
+                    moviesList = movieResponseList
+                    Log.d("MOVIES_LOG", "Response successful: $moviesList")
+                } else {
+                    Log.d("MOVIES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")            }
+        })
+    }
     // Column Composable,
     Column(
         modifier = Modifier
@@ -296,8 +288,41 @@ fun Addmoviescreen(){
             contentDescription = "add",
             tint = Color(0xFF0F9D58)
         )
-        // Text to Display the current Screen
+        Text(text = "Add movies", color = Color.Black)
+        OutlinedTextField(
+            value = search,
+            onValueChange = { search = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text("search") }
+        )
+
+        Button(
+            onClick = {
+                // Trigger the API call here
+                searchMovies(search) // 'search.value' gets the current text from the 'search' state
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Search")
+        }
+
+        LazyColumn(
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            items(moviesList) { movie ->
+                println("Rendering movie: ${movie.title}")
+                MovieItem(movie)
+            }
+        }
+        /*
+        //Upload to Firebase
         Text(text = "Add movie", color = Color.Black)
+        OutlinedTextField(
+            value = user,
+            onValueChange = { user = it },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            label = { Text("user") }
+        )
         OutlinedTextField(
             value = tittle,
             onValueChange = { tittle= it  },
@@ -324,50 +349,91 @@ fun Addmoviescreen(){
         )
 
         Button(onClick = { val movies = hashMapOf(
+            "user" to user,
             "tittle" to tittle,
             "movietype" to  movietype,
             "creater" to  creater
         )
             val reviewer = hashMapOf(
+                "user" to user,
                 "text" to review
             )
 
-
-            if (review != "") {
-                db.collection("user").document(user).collection("addedMedia").add(movies).addOnSuccessListener {documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                    db.collection("user/${user}/addedMedia/${documentReference.id}/review").add(reviewer)
-
-                }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-            }
-            else{
-                db.collection("user").document(user).collection("addedMedia").add(movies).addOnSuccessListener {
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
-                }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-            }
+            user=""
             tittle=""
             movietype=""
             creater=""
-            review=""
+
+
+            db.collection("movies")
+                .add(movies)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                        db.collection("books/${documentReference.id}/review").add(reviewer)
+
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
         }) { Text(text = "add") }
+
+         */
+    }
+}
+
+@Composable
+fun MovieItem(movie: Movie) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = movie.title)
+        Button(onClick = {
+            val movies= Media("",movie.title,"","","movie")
+            upload(movies)
+        }) {
+            Text("+") // This is the content for the Button.
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Addgamescreen(){
-    var tittle by remember { mutableStateOf("") }
-    var gametype by remember { mutableStateOf("") }
-    var creater by remember { mutableStateOf("") }
-    val user = FirebaseAuth.getInstance().currentUser!!.uid
-    var review by remember { mutableStateOf("") }
+    var search by remember { mutableStateOf("") }
+    var gamesList by remember { mutableStateOf(listOf(Media("", "Sample Game","","","game"/*, listOf(1,2), listOf("involved_companies")*/))) }
+
+    fun searchGames(searchQuery: String) {
+        val gameApi = retrofitGames.create(GamesApiService::class.java)
+        val query = "fields id, name, genres, involved_companies; search \"$searchQuery\";"
+        val call = gameApi.searchGames("35nfm0jkloxrrfi54afigm9qklpuhq",
+            "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query)
+
+        call.enqueue(object : Callback<List<GameResponse>> {
+            override fun onResponse(call: Call<List<GameResponse>>, response: Response<List<GameResponse>>) {
+                if (response.isSuccessful && response.body() != null) {
+                    val gamesResponseList = response.body()
+                    val gamesConvertedList: List<Media> = gamesResponseList?.map { gameResponse ->
+                        // Assuming GameResponse has the same 'id' and 'name' properties as Game
+                        Media(tittle = gameResponse.name ?: "Unknown", tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/)
+                    } ?: listOf()
+                    gamesList = gamesConvertedList
+                    Log.d("GAMES_LOG", "Response successful: $gamesList")
+                    }
+                else {
+                    Log.d("GAMES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<List<GameResponse>>, t: Throwable) {
+                Log.e("GAMES_API_FAILURE", "Error: ${t.localizedMessage}")
+            }
+        })
+    }
+
     // Column Composable,
     Column(
         modifier = Modifier
@@ -384,78 +450,52 @@ fun Addgamescreen(){
             tint = Color(0xFF0F9D58)
         )
         // Text to Display the current Screen
-        Text(text = "add games", color = Color.Black)
+        Text(text = "Add games", color = Color.Black)
         OutlinedTextField(
-            value = tittle,
-            onValueChange = { tittle= it  },
+            value = search,
+            onValueChange = { search = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("tittle") }
-        )
-        OutlinedTextField(
-            value = gametype,
-            onValueChange = { gametype = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("gametype") }
-        )
-        OutlinedTextField(
-            value = creater,
-            onValueChange = { creater = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("creater") }
-        )
-        OutlinedTextField(
-            value = review,
-            onValueChange = { review = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("review (optional)") }
+            label = { Text("search") }
         )
 
-        Button(onClick = {
-            val game= Media("",tittle,creater,gametype,"game")
-            upload(game)
-            /*
-            val games = hashMapOf(
-            "tittle" to tittle,
-            "gametype" to  gametype,
-            "creater" to  creater
-        )
-            val reviewer = hashMapOf(
-                "text" to review
-            )
+        Button(
+            onClick = {
+                // Trigger the API call here
+                searchGames(search) // 'search.value' gets the current text from the 'search' state
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text(text = "Search")
+        }
 
-
-
-            if (review != "") {
-                db.collection("user").document(user).collection("addedMedia").add(games).addOnSuccessListener {documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                    db.collection("user/${user}/addedMedia/${documentReference.id}/review").add(reviewer)
-
-                }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
+        LazyColumn(
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            items(gamesList) { media ->
+                println("Rendering book: ${media.tittle}")
+                GameItem(media)
             }
-            else{
-                db.collection("user").document(user).collection("addedMedia").add(games).addOnSuccessListener {
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
-                }
-                    .addOnFailureListener { e ->
-                        Log.w(TAG, "Error adding document", e)
-                    }
-            }
-            */
-
-            tittle=""
-            gametype=""
-            creater=""
-            review=""
-        }) { Text(text = "add") }
+        }
     }
 }
 
+@Composable
+fun GameItem(game: Media) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = game.tittle)
+        Button(onClick = {
+            upload(game)
+        }) {
+            Text("+") // This is the content for the Button.
+        }
+    }
+
 fun upload(media: Media){
-//    val user  = "basic " //todo{wait for user}
     val user = FirebaseAuth.getInstance().currentUser!!.uid
     db.collection("user").document(user).collection("addedMedia").add(media).addOnSuccessListener {
         Log.d(TAG, "DocumentSnapshot added with ID: ${user}")

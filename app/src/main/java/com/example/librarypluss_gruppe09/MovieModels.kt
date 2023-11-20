@@ -1,16 +1,12 @@
 package com.example.librarypluss_gruppe09
+
+import com.example.librarypluss_gruppe09.models.Media
+
 data class MovieResponse(
-    val kind: String,
-    val totalItems: Int,
-    val items: List<Movie>
+    val results: List<Movie>
 )
 
 data class Movie(
-    val volumeInfo: MovieInfo
-)
-
-data class MovieInfo(
-    val id: String,
-    val title: String,
-    val authors: List<String>
+    val id: Int,
+    val title: String
 )
