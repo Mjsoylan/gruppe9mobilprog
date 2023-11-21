@@ -1,10 +1,12 @@
 package com.example.librarypluss_gruppe09.screen.library
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,6 +28,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.librarypluss_gruppe09.ui.theme.BlueMoviePrimary
+import com.example.librarypluss_gruppe09.ui.theme.Purple80
+import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
+import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @Composable
 fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = hiltViewModel()) {
@@ -82,49 +88,62 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
             onDismissRequest = {
                 isExpanded = false
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(2.dp)
         ) {
-            DropdownMenuItem(
-                text = {
-                    Text(text = "Book", textAlign = TextAlign.Center)
-                },
-                onClick = {
-                    selectedFirstInOrder = "Book"
-                    isExpanded = false
-                    libraryViewModel.setFilterBook()
-                }
-            )
-            DropdownMenuItem(
-                text = {
-                    Text(text = "Movie", textAlign = TextAlign.Center)
-                },
-                onClick = {
-                    selectedFirstInOrder = "Movie"
-                    isExpanded = false
-                    libraryViewModel.setFilterMovie()
-                }
-            )
-            DropdownMenuItem(
-                text = {
-                    Text(text = "Game", textAlign = TextAlign.Center)
-                },
-                onClick = {
-                    selectedFirstInOrder = "Game"
-                    isExpanded = false
-                    libraryViewModel.setFilterGame()
-                },
-            )
-            DropdownMenuItem(
-                text = {
-                    Text(text = "All", textAlign = TextAlign.Center)
-                },
-                onClick = {
-                    selectedFirstInOrder = "All"
-                    isExpanded = false
-                    libraryViewModel.setFilterall()
+//            Column(
+//                modifier = Modifier
+//                    .padding(90.dp)
+//                    .align(Alignment.CenterHorizontally),
+//            ) {
+                DropdownMenuItem(
+                    text = {
+                        Text(text = "Book", textAlign = TextAlign.Center)
+                    },
+                    onClick = {
+                        selectedFirstInOrder = "Book"
+                        isExpanded = false
+                        libraryViewModel.setFilterBook()
+                    },
+                    modifier = Modifier.background(YellowBookPrimary)
+                )
+                DropdownMenuItem(
+                    text = {
+                        Text(text = "Movie", textAlign = TextAlign.Center)
+                    },
+                    onClick = {
+                        selectedFirstInOrder = "Movie"
+                        isExpanded = false
+                        libraryViewModel.setFilterMovie()
+                    },
+                    modifier = Modifier.background(BlueMoviePrimary)
+                )
+                DropdownMenuItem(
+                    text = {
+                        Text(text = "Game", textAlign = TextAlign.Center)
+                    },
+                    onClick = {
+                        selectedFirstInOrder = "Game"
+                        isExpanded = false
+                        libraryViewModel.setFilterGame()
+                    },
+                    modifier = Modifier.background(RedGamePrimary)
 
-                },
-            )
+                )
+                DropdownMenuItem(
+                    text = {
+                        Text(text = "All", textAlign = TextAlign.Center)
+                    },
+                    onClick = {
+                        selectedFirstInOrder = "All"
+                        isExpanded = false
+                        libraryViewModel.setFilterall()
+
+                    },
+                    modifier = Modifier.background(Purple80)
+                )
+//            }
         }
     }
 }
