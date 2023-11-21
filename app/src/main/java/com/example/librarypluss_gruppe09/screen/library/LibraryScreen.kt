@@ -67,6 +67,7 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
     var selectedFirstInOrder by remember {
         mutableStateOf("All")
     }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
