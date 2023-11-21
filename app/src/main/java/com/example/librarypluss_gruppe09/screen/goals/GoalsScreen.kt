@@ -121,15 +121,6 @@ fun GoalsScreen(
                 }
             }
         }
-
-        FloatingActionButton(
-            onClick = { onGoalClick("SettDescriptionGoal(description = ") },
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 16.dp, end = 16.dp)
-        ) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "")
-        }
     }
 }
 
@@ -154,16 +145,28 @@ fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel()) {
 fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) -> Unit, animation: Float) {
     val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
 
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(180.dp),
-        content = {
-            items(settgoalsViweModel.value, key = { it.goalId }) { edit ->
-                SettGoalCard(edit, onGoalClick = onGoalClick)
-            }
-        }, modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp).graphicsLayer { alpha = animation  }
-    )
+    Box(modifier = Modifier.fillMaxSize()){
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(180.dp),
+            content = {
+                items(settgoalsViweModel.value, key = { it.goalId }) { edit ->
+                    SettGoalCard(edit, onGoalClick = onGoalClick)
+                }
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .graphicsLayer { alpha = animation }
+        )
+
+        FloatingActionButton(
+            onClick = { onGoalClick("sett new goal") },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(bottom = 16.dp, end = 16.dp)
+        ) {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "")
+        }
+    }
 }
 @Preview
 @Composable
@@ -195,7 +198,6 @@ fun SettGoalCard(
     Card(
         onClick = {
             onGoalClick(goal.goalId)
-
         },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp)
 
@@ -209,7 +211,7 @@ fun SettGoalCard(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp),
+                        .height(90.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
@@ -218,14 +220,14 @@ fun SettGoalCard(
                         Text(text = goal.description, textAlign = TextAlign.Center)
                     }
                 }
-                Button(
-                    onClick = { viewModel.alertDeleteCard.value = true }, modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.BottomEnd)
-                ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete goal")
-                }
             }
+        }
+        Button(
+            onClick = { viewModel.alertDeleteCard.value = true }, modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.End)
+        ) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "delete goal")
         }
     }
 
@@ -235,12 +237,10 @@ fun SettGoalCard(
                 onDismissRequest = { viewModel.alertDeleteCard.value = false },
                 onConfirmation = {
                     viewModel.alertDeleteCard.value = false
-                    viewModel.deleteGoalCard(goal)
+                    viewModel.deleteGoalCard(goal, viewModel.dateToday.toString())
                 },
                 dialogTitle = "Delete goal",
-                dialogText = "Move goal to history",
-//                todo add titel to SettGoal
-//                dialogText = " ${goal.tittle} move to history",
+                dialogText = "Send goal to history",
                 icon = Icons.Default.Info
             )
         }
@@ -275,7 +275,7 @@ fun HistoryCard(
                 ) {
 
                     Box {
-                        Text(text = "tittle: ${history.tittle}", textAlign = TextAlign.Center)
+                        Text(text = "value: ${history.previousvalue}", textAlign = TextAlign.Center)
                     }
 
                     Box {

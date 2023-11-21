@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
@@ -30,10 +32,13 @@ fun EditCardScreen(
         modifier = modifier.fillMaxSize()
     ) {
 
+        Text(text = "Description")
+
         OutlinedTextField(
             value = viewModel.editFild.value,
             onValueChange = { viewModel.editFild.value = it },
-            label = { Text("") })
+            label = { Text("sett description") },
+            modifier = Modifier.height(90.dp))
 
         //to update a goal
         Button(onClick = {

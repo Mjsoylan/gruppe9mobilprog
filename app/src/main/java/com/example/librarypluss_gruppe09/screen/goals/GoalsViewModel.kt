@@ -56,15 +56,15 @@ constructor(private val storage: StorageGoals) :
     fun deleteMediaCard(medid: Media, date: String) {
         viewModelScope.launch {
             storage.deleteMedia(medid)
-            storage.sendMediaToHistory(History(tittle = medid.tittle, date = date))
+            storage.sendMediaToHistory(History(previousvalue = medid.tittle, date = date))
         }
     }
 
-    fun deleteGoalCard(goal: SettDescriptionGoal) {
+    fun deleteGoalCard(goal: SettDescriptionGoal, date: String) {
         viewModelScope.launch {
             storage.deleteGoal(goal)
             //todo add a list or change History data class to only store a string and date
-//            storage.sendGoalToHistory(goal)
+            storage.sendGoalToHistory(History(previousvalue = goal.description, date = date))
         }
     }
 

@@ -77,9 +77,8 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                         .fillMaxWidth()
                         .height(180.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Bottom
+                    verticalArrangement = Arrangement.Top
                 ) {
-
                     Box {
                         Text(text = media.tittle, textAlign = TextAlign.Center)
                     }
@@ -92,19 +91,16 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                     Box {
                         Text(text = media.tag, textAlign = TextAlign.Center)
                     }
-
-                }
-
-                Button(
-                    onClick = { viewModel.alertDeleteCard.value = true },
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.BottomEnd)
-                ) {
-                    Icon(imageVector = Icons.Default.Delete, contentDescription = "delete media")
                 }
             }
-
+        }
+        Button(
+            onClick = { viewModel.alertDeleteCard.value = true },
+            modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.End)
+        ) {
+            Icon(imageVector = Icons.Default.Delete, contentDescription = "delete media")
         }
     }
 

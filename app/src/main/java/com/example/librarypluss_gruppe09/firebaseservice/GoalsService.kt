@@ -21,7 +21,7 @@ interface GoalsService {
     val historycollection: Flow<List<History>>
 
     suspend fun sendMediaToHistory(mediaId: History): String
-    suspend fun sendGoalToHistory(goalId: SettDescriptionGoal): String
+    suspend fun sendGoalToHistory(goalId: History): String
 
 
     suspend fun getGoal(mediaId: String): SettDescriptionGoal?

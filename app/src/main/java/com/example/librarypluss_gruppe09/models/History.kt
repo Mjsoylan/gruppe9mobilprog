@@ -6,4 +6,4 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 
 //todo add date for when added to history
 @IgnoreExtraProperties
-data class History(@DocumentId val historyId: String = "", val tittle: String = "", val date : String = "")
+data class History(@DocumentId val historyId: String = "", val previousvalue: String = "", val date : String = "")

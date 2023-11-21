@@ -7,6 +7,7 @@ import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import com.google.firebase.firestore.ktx.toObject
@@ -16,7 +17,13 @@ import javax.inject.Inject
 
 class StorageGoals
 @Inject
-constructor(private val firestore: FirebaseFirestore) : GoalsService {
+constructor(private val firestore: FirebaseFirestore, private val auth: FirebaseAuth) : GoalsService {
+
+     val MEDIA_COLLECTION ="user/"+auth.currentUser?.uid+"/mediagoal"
+
+     val SETT_GOALS = "user/"+auth.currentUser?.uid+"/goals"
+
+     val HISTORY_GOALS_DESCRIPTIO = "user/"+auth.currentUser?.uid+"/history"
 
     //Media
     override val mediascollection: Flow<List<Media>>
@@ -53,8 +60,8 @@ constructor(private val firestore: FirebaseFirestore) : GoalsService {
         firestore.collection(HISTORY_GOALS_DESCRIPTIO).add(mediaId).await().id
 
 
-    override suspend fun sendGoalToHistory(goalId: SettDescriptionGoal): String =
-        firestore.collection(SETT_GOALS).add(goalId).await().id
+    override suspend fun sendGoalToHistory(goalId: History): String =
+        firestore.collection(HISTORY_GOALS_DESCRIPTIO).add(goalId).await().id
 
 
     override suspend fun deleteGoal(goalId: SettDescriptionGoal): Task<Void> =
@@ -77,13 +84,13 @@ constructor(private val firestore: FirebaseFirestore) : GoalsService {
         firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
 
 
-    companion object {
-        private const val MEDIA_COLLECTION = "media"
-
-        private const val SETT_GOALS = "settgoal"
-
-        private const val HISTORY_GOALS_DESCRIPTIO = "history"
-
-    }
+//    companion object {
+//        private const val MEDIA_COLLECTION = "media"
+//
+//        private const val SETT_GOALS = "settgoal"
+//
+//        private const val HISTORY_GOALS_DESCRIPTIO = "history"
+//
+//    }
 }
 
