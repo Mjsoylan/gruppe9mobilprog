@@ -65,7 +65,9 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                     .fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
                 ) {
