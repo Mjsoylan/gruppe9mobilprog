@@ -51,7 +51,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 val db = Firebase.firestore
-
 @Preview
 @Composable
 fun HomeScreen() {
@@ -84,7 +83,7 @@ fun FeedScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun AddScreen(modifier: Modifier = Modifier) {
+fun AddScreen(modifier : Modifier = Modifier) {
     val navController = rememberNavController()
     Scaffold(topBar = {
         TopAppBar(
@@ -130,23 +129,13 @@ fun AddScreen(modifier: Modifier = Modifier) {
 }
 
 //@OptIn(ExperimentalMaterial3Api::class)
-@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
-fun Addbookscreen() {
+fun Addbookscreen(){
     var search by remember { mutableStateOf("") }
-    var booksList by remember {
-        mutableStateOf(
-            listOf(
-                Book(
-                    BookInfo(
-                        "1", "Sample Book", listOf("Authors"), 100,
-                        listOf("Categories"), ImageLinks("")
-                    )
-                )
-            )
-        )
-    }
+    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Authors"),100,
+        listOf("Categories"), ImageLinks("")
+    )))) }
 
     fun searchBooks(query: String) {
         val booksRepository = BooksRepository()
@@ -233,19 +222,19 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories.isNotEmpty() == true) {
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors.isNotEmpty() == true) {
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
             }
 
-            val books = Media(
+            val books= Media(
                 "",
                 book.volumeInfo.title,
                 author,
@@ -257,58 +246,23 @@ fun BookItem(book: Book) {
         }) {
             Text("+") // This is the content for the Button.
         }
-        Button(onClick = {
-            //TODO CLEAN AND MAKE BEAUTIFUL
-
-
-            var genre = ""
-            var author = ""
-            var genreToDelete = ""
-            var authorToDelete = ""
-            val charToDelete1 = '['
-            val charToDelete2 = ']'
-            if (book.volumeInfo.categories.isNotEmpty() == true) {
-                genreToDelete = book.volumeInfo.categories.toString()
-                val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
-                genre = modifiedGenre.replace(charToDelete2.toString(), "")
-            }
-
-            if (book.volumeInfo.authors.isNotEmpty() == true) {
-                authorToDelete = book.volumeInfo.authors.toString()
-                val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
-                author = modifiedAuthor.replace(charToDelete2.toString(), "")
-            }
-
-            val books = Media(
-                "",
-                book.volumeInfo.title,
-                author,
-                genre,
-                "book",
-                book.volumeInfo.imageLinks?.smallThumbnail.toString()
-            )
-            uploadToGoal(books)
-        }) {
-            Text("+ goal") // This is the content for the Button.
-        }
     }
 }
+
+
 
 
 //@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun Addmoviescreen() {
+fun Addmoviescreen(){
     var search by remember { mutableStateOf("") }
     var moviesList by remember { mutableStateOf(listOf(Movie(1, "Sample Movie", ""))) }
 
     fun searchMovies(searchQuery: String) {
         val movieApi = retrofitMovies.create(MoviesApiService::class.java)
 
-        movieApi.searchMovies(
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkY2E5Y2FmNmIyNGYwMjJhMDdkN2VjNDg5Yzc5YzQ5MiIsInN1YiI6IjY1NTc5NGZkN2YwNTQwMThkNmYzMjYwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FLq5ehkpOZaVpfY9xWWKtCH4arc7bVk_uf0CS_R8aeI",
-            searchQuery
-        ).enqueue(object : Callback<MovieResponse> {
+        movieApi.searchMovies("Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkY2E5Y2FmNmIyNGYwMjJhMDdkN2VjNDg5Yzc5YzQ5MiIsInN1YiI6IjY1NTc5NGZkN2YwNTQwMThkNmYzMjYwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FLq5ehkpOZaVpfY9xWWKtCH4arc7bVk_uf0CS_R8aeI", searchQuery).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 if (response.isSuccessful) {
                     val movieResponseList = response.body()?.results ?: emptyList()
@@ -320,8 +274,7 @@ fun Addmoviescreen() {
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")
-            }
+                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")            }
         })
     }
     // Column Composable,
@@ -444,7 +397,7 @@ fun MovieItem(movie: Movie) {
         Text(text = movie.title, modifier = Modifier.width(200.dp))
         Button(onClick = {
             val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
-            val movies = Media("", movie.title, "", "", "movie", poster)
+            val movies= Media("",movie.title,"","","movie",poster)
             upload(movies)
         }) {
             Text("+") // This is the content for the Button.
@@ -461,47 +414,28 @@ fun MovieItem(movie: Movie) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Addgamescreen() {
+fun Addgamescreen(){
     var search by remember { mutableStateOf("") }
-    var gamesList by remember {
-        mutableStateOf(
-            listOf(
-                Media(
-                    "",
-                    "Sample Game",
-                    "",
-                    "",
-                    "game"/*, listOf(1,2), listOf("involved_companies")*/
-                )
-            )
-        )
-    }
+    var gamesList by remember { mutableStateOf(listOf(Media("", "Sample Game","","","game"/*, listOf(1,2), listOf("involved_companies")*/))) }
 
     fun searchGames(searchQuery: String) {
         val gameApi = retrofitGames.create(GamesApiService::class.java)
         val query = "fields id, name, genres, involved_companies; search \"$searchQuery\";"
-        val call = gameApi.searchGames(
-            "35nfm0jkloxrrfi54afigm9qklpuhq",
-            "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query
-        )
+        val call = gameApi.searchGames("35nfm0jkloxrrfi54afigm9qklpuhq",
+            "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query)
 
         call.enqueue(object : Callback<List<GameResponse>> {
-            override fun onResponse(
-                call: Call<List<GameResponse>>,
-                response: Response<List<GameResponse>>
-            ) {
+            override fun onResponse(call: Call<List<GameResponse>>, response: Response<List<GameResponse>>) {
                 if (response.isSuccessful && response.body() != null) {
                     val gamesResponseList = response.body()
                     val gamesConvertedList: List<Media> = gamesResponseList?.map { gameResponse ->
                         // Assuming GameResponse has the same 'id' and 'name' properties as Game
-                        Media(
-                            tittle = gameResponse.name ?: "Unknown",
-                            tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/
-                        )
+                        Media(tittle = gameResponse.name ?: "Unknown", tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/)
                     } ?: listOf()
                     gamesList = gamesConvertedList
                     Log.d("GAMES_LOG", "Response successful: $gamesList")
-                } else {
+                    }
+                else {
                     Log.d("GAMES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }

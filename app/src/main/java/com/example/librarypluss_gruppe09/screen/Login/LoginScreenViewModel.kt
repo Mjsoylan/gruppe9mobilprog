@@ -103,6 +103,12 @@ constructor(private val account: AccountService) :
                 }
             }
         }
+        fun gotosignup(Signup: () -> Unit){
+            Signup()
+    }
+    fun gotologgin(backtologged: () -> Unit){
+        backtologged()
+    }
           fun fastLogin(loggedIn: () -> Unit) {
               viewModelScope.launch {
                   account.fastloggin()

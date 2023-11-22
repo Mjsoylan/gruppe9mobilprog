@@ -20,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
@@ -52,7 +53,54 @@ import com.example.librarypluss_gruppe09.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogginScreen(loggedIn: () -> Unit,modifier: Modifier = Modifier, viewModel: LoginScreenViewModel = hiltViewModel()) {
+fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Modifier, viewModel: LoginScreenViewModel = hiltViewModel()) {
+    val uiState by viewModel.uiState
+
+
+    val fieldModifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp, 4.dp)
+
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        if (uiState.errorMessage != 0)
+            Text(text = stringResource(id = uiState.errorMessage),
+                Modifier.padding(vertical = 8.dp))
+
+
+        EmailField(uiState.email, viewModel::onEmailChange, fieldModifier)
+
+        PasswordField(uiState.password, viewModel::onPasswordChange, fieldModifier)
+
+
+        Row {
+            Button(
+                onClick = { viewModel.onLoginClick(loggedIn) },
+                modifier = Modifier
+                    .padding(5.dp, 8.dp),
+            ) {
+                Text(text = stringResource(R.string.login), fontSize = 16.sp)
+            }
+            Button(
+                onClick = { viewModel.gotosignup(Signup) },
+                modifier = Modifier
+                    .padding(5.dp, 8.dp),
+            ) {
+                Text(text = stringResource(R.string.create_account), fontSize = 16.sp)
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun signinscreen(loggedIn: () -> Unit,backtologged: () -> Unit,modifier: Modifier = Modifier, viewModel:LoginScreenViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState
 
 
@@ -83,13 +131,6 @@ fun LogginScreen(loggedIn: () -> Unit,modifier: Modifier = Modifier, viewModel: 
 
         Row {
             Button(
-                onClick = { viewModel.onLoginClick(loggedIn) },
-                modifier = Modifier
-                    .padding(5.dp, 8.dp),
-            ) {
-                Text(text = stringResource(R.string.login), fontSize = 16.sp)
-            }
-            Button(
                 onClick = { viewModel.onSignUpClick(loggedIn) },
                 modifier = Modifier
                     .padding(5.dp, 8.dp),
@@ -97,12 +138,13 @@ fun LogginScreen(loggedIn: () -> Unit,modifier: Modifier = Modifier, viewModel: 
                 Text(text = stringResource(R.string.create_account), fontSize = 16.sp)
             }
             Button(
-                onClick = { viewModel.fastLogin(loggedIn) },
+                onClick = { viewModel.gotologgin(backtologged)},
                 modifier = Modifier
                     .padding(5.dp, 8.dp),
             ) {
-                Text(text = stringResource(R.string.Fastlogin), fontSize = 16.sp)
+                Text(text = stringResource(R.string.backtologin), fontSize = 16.sp)
             }
+
         }
     }
 }
@@ -168,7 +210,7 @@ private fun PasswordField(
         leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Lock") },
         trailingIcon = {
             IconButton(onClick = { isVisible = !isVisible }) {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "Visibility")
+                Icon(imageVector = Icons.Default.Info, contentDescription = "Visibility")
             }
         },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
