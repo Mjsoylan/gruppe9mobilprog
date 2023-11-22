@@ -202,6 +202,7 @@ fun Addbookscreen(){
     }
 }
 
+
 @Composable
 fun BookItem(book: Book) {
     Row(
@@ -395,8 +396,8 @@ fun MovieItem(movie: Movie) {
     ) {
         Text(text = movie.title)
         Button(onClick = {
-            val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
-            val movies= Media("",movie.title,"","","movie",poster)
+            //val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
+            val movies= Media("",movie.title,"","","movie","https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png")
             upload(movies)
         }) {
             Text("+") // This is the content for the Button.
@@ -408,11 +409,11 @@ fun MovieItem(movie: Movie) {
 @Composable
 fun Addgamescreen(){
     var search by remember { mutableStateOf("") }
-    var gamesList by remember { mutableStateOf(listOf(Media("", "Sample Game","","","game"/*, listOf(1,2), listOf("involved_companies")*/))) }
+    var gamesList by remember { mutableStateOf(listOf(Media("", "Sample Game","","","game","https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"/*, listOf(1,2), listOf("involved_companies")*/))) }
 
     fun searchGames(searchQuery: String) {
         val gameApi = retrofitGames.create(GamesApiService::class.java)
-        val query = "fields id, name, genres, involved_companies; search \"$searchQuery\";"
+        val query = "fields id, name, genres, involved_companies, cover; search \"$searchQuery\";"
         val call = gameApi.searchGames("35nfm0jkloxrrfi54afigm9qklpuhq",
             "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query)
 
