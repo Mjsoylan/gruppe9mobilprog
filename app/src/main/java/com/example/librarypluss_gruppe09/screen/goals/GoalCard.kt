@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -59,14 +60,6 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
 
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
-            AsyncImage(
-                model = media.imageUrl,
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .height(90.dp)
-                    .padding(2.dp, 0.dp, 2.dp, 2.dp),
-            )
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -79,17 +72,25 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Top
                 ) {
+                    AsyncImage(
+                        model = media.imageUrl,
+                        contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .height(90.dp)
+                            .padding(2.dp, 0.dp, 2.dp, 2.dp),
+                    )
                     Box {
-                        Text(text = media.tittle, textAlign = TextAlign.Center)
+                        Text(text = media.tittle, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                     Box {
-                        Text(text = media.type, textAlign = TextAlign.Center)
+                        Text(text = media.type, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                     Box {
-                        Text(text = media.creator, textAlign = TextAlign.Center)
+                        Text(text = media.creator, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                     Box {
-                        Text(text = media.tag, textAlign = TextAlign.Center)
+                        Text(text = media.tag, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                 }
             }
