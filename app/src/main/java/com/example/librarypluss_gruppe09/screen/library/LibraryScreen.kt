@@ -43,7 +43,7 @@ fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = h
         Column(modifier = Modifier.fillMaxSize()) {
             FilterLibrary()
             LazyVerticalGrid(
-                columns = GridCells.FixedSize(180.dp),
+                columns = GridCells.Adaptive(180.dp),
                 content = {
                     if (filtervalu != "") {
                         items(medialist.value.filter {
