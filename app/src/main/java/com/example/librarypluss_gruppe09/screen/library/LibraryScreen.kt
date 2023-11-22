@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,10 +80,15 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
-            .wrapContentSize(Alignment.TopCenter),
+            .padding(2.dp)
+            .wrapContentSize(Alignment.Center),
     ) {
-        IconButton(onClick = { isExpanded = true }) {
+        IconButton(
+            onClick = { isExpanded = true }, modifier =
+            Modifier
+                .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(10.dp))
+                .width(200.dp)
+        ) {
             Text(selectedFirstInOrder, fontSize = 15.sp)
         }
         DropdownMenu(
@@ -89,14 +97,14 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                 isExpanded = false
             },
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(2.dp)
+                .width(200.dp)
         ) {
-//            Column(
-//                modifier = Modifier
-//                    .padding(90.dp)
-//                    .align(Alignment.CenterHorizontally),
-//            ) {
+            Column(
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+
+            ) {
                 DropdownMenuItem(
                     text = {
                         Text(text = "Book", textAlign = TextAlign.Center)
@@ -106,7 +114,9 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                         isExpanded = false
                         libraryViewModel.setFilterBook()
                     },
-                    modifier = Modifier.background(YellowBookPrimary)
+                    modifier = Modifier
+                        .background(YellowBookPrimary)
+//                        .align(Alignment.CenterHorizontally)
                 )
                 DropdownMenuItem(
                     text = {
@@ -117,7 +127,9 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                         isExpanded = false
                         libraryViewModel.setFilterMovie()
                     },
-                    modifier = Modifier.background(BlueMoviePrimary)
+                    modifier = Modifier
+                        .background(BlueMoviePrimary)
+//                        .align(Alignment.CenterHorizontally)
                 )
                 DropdownMenuItem(
                     text = {
@@ -128,7 +140,9 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                         isExpanded = false
                         libraryViewModel.setFilterGame()
                     },
-                    modifier = Modifier.background(RedGamePrimary)
+                    modifier = Modifier
+                        .background(RedGamePrimary)
+//                        .align(Alignment.CenterHorizontally)
 
                 )
                 DropdownMenuItem(
@@ -141,9 +155,12 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                         libraryViewModel.setFilterall()
 
                     },
-                    modifier = Modifier.background(Purple80)
+                    modifier = Modifier
+                        .background(Purple80)
+//                        .align(Alignment.CenterHorizontally)
                 )
-//            }
+            }
+
         }
     }
 }

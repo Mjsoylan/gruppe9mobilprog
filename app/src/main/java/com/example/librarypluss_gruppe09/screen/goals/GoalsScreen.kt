@@ -2,7 +2,6 @@ package com.example.librarypluss_gruppe09.screen.goals
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +42,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.librarypluss_gruppe09.DialogComponent
 import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
-import kotlin.math.round
 
 @Composable
 fun GoalsScreen(
@@ -145,10 +143,14 @@ fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) -> Unit, animation: Float) {
+fun EditGoal(
+    viewModel: GoalsViewModel = hiltViewModel(),
+    onGoalClick: (String) -> Unit,
+    animation: Float
+) {
     val settgoalsViweModel = viewModel.settgoals.collectAsStateWithLifecycle(emptyList())
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier.fillMaxSize()) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(180.dp),
             content = {
@@ -161,6 +163,7 @@ fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) 
                 .graphicsLayer { alpha = animation }
         )
 
+
         FloatingActionButton(
             onClick = { onGoalClick("sett new goal") },
             modifier = Modifier
@@ -171,6 +174,7 @@ fun EditGoal(viewModel: GoalsViewModel = hiltViewModel(), onGoalClick: (String) 
         }
     }
 }
+
 @Preview
 @Composable
 fun HistoryGoal(viewModel: GoalsViewModel = hiltViewModel()) {
@@ -189,7 +193,6 @@ fun HistoryGoal(viewModel: GoalsViewModel = hiltViewModel()) {
             .wrapContentSize(Alignment.TopCenter)
     )
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -220,7 +223,7 @@ fun SettGoalCard(
                 ) {
 
                     Box {
-                        Text(text = goal.description, textAlign = TextAlign.Center)
+                        Text(text = goal.description, textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyLarge)
                     }
                 }
             }
@@ -278,7 +281,7 @@ fun HistoryCard(
                 ) {
 
                     Box {
-                        Text(text = "value: ${history.previousvalue}", textAlign = TextAlign.Center)
+                        Text(text = "value: ${history.previousvalue}", textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
 
                     Box {
