@@ -222,13 +222,13 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories.isNotEmpty() == true) {
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors.isNotEmpty() == true) {
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
@@ -240,7 +240,8 @@ fun BookItem(book: Book) {
                 author,
                 genre,
                 "book",
-                book.volumeInfo.imageLinks?.smallThumbnail.toString()
+                "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+                //book.volumeInfo.imageLinks?.smallThumbnail.toString()
             )
             upload(books)
         }) {
@@ -255,13 +256,13 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories.isNotEmpty() == true) {
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors.isNotEmpty() == true) {
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
@@ -273,7 +274,8 @@ fun BookItem(book: Book) {
                 author,
                 genre,
                 "book",
-                book.volumeInfo.imageLinks?.smallThumbnail.toString()
+                "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+                //book.volumeInfo.imageLinks?.smallThumbnail.toString()
             )
             uploadToGoal(books)
         }) {
@@ -436,14 +438,14 @@ fun MovieItem(movie: Movie) {
     ) {
         Text(text = movie.title, modifier = Modifier.width(200.dp))
         Button(onClick = {
-            //val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
+            val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
             val movies = Media(
                 "",
                 movie.title,
                 "",
                 "",
                 "movie",
-                "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+                poster
             )
             upload(movies)
         }) {
@@ -497,7 +499,8 @@ fun Addgamescreen() {
                         // Assuming GameResponse has the same 'id' and 'name' properties as Game
                         Media(
                             tittle = gameResponse.name ?: "Unknown",
-                            tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/
+                            tag = "game",
+                            imageUrl = "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/
                         )
                     } ?: listOf()
                     gamesList = gamesConvertedList
