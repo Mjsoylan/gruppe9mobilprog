@@ -2,6 +2,7 @@ package com.example.librarypluss_gruppe09.models
 
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -29,7 +30,7 @@ object ConstantsNavigation {
         ),
         BottomNavItem(
             label = "Profile",
-            icon = Icons.Filled.KeyboardArrowDown,
+            icon = Icons.Filled.AccountBox,
             route = "profile"
         ),
         BottomNavItem(

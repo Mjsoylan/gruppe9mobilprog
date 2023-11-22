@@ -4,7 +4,9 @@ import android.util.JsonReader
 import com.example.librarypluss_gruppe09.firebaseservice.User
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
 import com.example.librarypluss_gruppe09.models.Media
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import com.google.firebase.firestore.ktx.toObject
@@ -25,10 +27,6 @@ constructor(private val auth: FirebaseAuth,private val firestore: FirebaseFirest
         get() = auth.currentUser != null
 
 
-    override suspend fun usernametesting(userid: String): User? {
-      return firestore.collection("user").document(currentUserId).get().await().toObject()
-    }
-
     override val currentUser: Flow<User>
         get() = callbackFlow {
             val listener =
@@ -38,6 +36,11 @@ constructor(private val auth: FirebaseAuth,private val firestore: FirebaseFirest
             auth.addAuthStateListener(listener)
             awaitClose { auth.removeAuthStateListener(listener) }
         }
+
+
+
+
+
     override suspend fun authenticate(email: String, password: String, onResult: (Throwable?) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { onResult(it.exception) }.await()
     }

@@ -3,18 +3,27 @@ package com.example.librarypluss_gruppe09.firebaseservice.impl
 import android.content.ContentValues
 import android.util.Log
 import com.example.librarypluss_gruppe09.firebaseservice.LibraryService
+import com.example.librarypluss_gruppe09.firebaseservice.User
+import com.example.librarypluss_gruppe09.models.Feedmedia
 import com.example.librarypluss_gruppe09.models.Media
+import com.example.librarypluss_gruppe09.models.UserAccunt
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.dataObjects
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class StorageLibrary
 @Inject
-constructor(private val firestore: FirebaseFirestore,private val auth: FirebaseAuth) : LibraryService {
+constructor(private val firestore: FirebaseFirestore, private val auth: FirebaseAuth,
+) : LibraryService {
+
+    override val USER_COOLECTION="user"
+
+    override val FEED_COLLECTION="addedmeida"
 
     override val MEDIA_COLLECTION="user/"+auth.currentUser?.uid+"/addedMedia"
 
@@ -22,10 +31,17 @@ constructor(private val firestore: FirebaseFirestore,private val auth: FirebaseA
 
     override val mediacollection: Flow<List<Media>>
         get() = firestore.collection(MEDIA_COLLECTION).dataObjects()
+    override val feedcollection: Flow<List<Feedmedia>>
+        get() = firestore.collection(FEED_COLLECTION).dataObjects()
+
+    override val UsersCollection: Flow<List<UserAccunt>>
+        get() = firestore.collection(USER_COOLECTION).dataObjects()
+
 
     override suspend fun getMedia(mediaId: String): Media? {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun addMediaToLibrary(mediaId: Media): String =
         firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
