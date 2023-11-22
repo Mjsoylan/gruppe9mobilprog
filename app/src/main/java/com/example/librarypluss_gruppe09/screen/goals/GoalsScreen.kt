@@ -2,6 +2,7 @@ package com.example.librarypluss_gruppe09.screen.goals
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +43,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.librarypluss_gruppe09.DialogComponent
 import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
+import kotlin.math.round
 
 @Composable
 fun GoalsScreen(
@@ -281,7 +284,7 @@ fun HistoryCard(
                     Box {
                         Text(
                             text = "You deleted goal at : ${history.date}",
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         )
                     }
                 }

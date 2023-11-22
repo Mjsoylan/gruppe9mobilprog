@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -54,14 +55,6 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
         )
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
-            AsyncImage(
-                model = media.imageUrl,
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .height(90.dp)
-                    .padding(2.dp, 0.dp, 2.dp, 2.dp),
-            )
             Box(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
@@ -70,21 +63,31 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp),
+                        .height(180.dp).wrapContentSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom
-                ) {
+                )
+                {
+                    AsyncImage(
+                        model = media.imageUrl,
+                        contentDescription = "",
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .height(90.dp)
+                            .padding(2.dp, 2.dp, 2.dp, 2.dp),
+                    )
+
                     Box {
-                        Text(text = media.tittle, textAlign = TextAlign.Center)
+                        Text(text = media.tittle, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                     Box {
-                        Text(text = media.type, textAlign = TextAlign.Center)
+                        Text(text = media.type, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                     Box {
-                        Text(text = media.creator, textAlign = TextAlign.Center)
+                        Text(text = media.creator, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                     Box {
-                        Text(text = media.tag, textAlign = TextAlign.Center)
+                        Text(text = media.tag, textAlign = TextAlign.Center, style = MaterialTheme.typography.titleSmall)
                     }
                 }
             }
