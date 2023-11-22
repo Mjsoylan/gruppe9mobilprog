@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -26,15 +29,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,6 +51,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 val db = Firebase.firestore
+
 @Preview
 @Composable
 fun HomeScreen() {
@@ -82,7 +84,7 @@ fun FeedScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun AddScreen(modifier : Modifier = Modifier) {
+fun AddScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     Scaffold(topBar = {
         TopAppBar(
@@ -128,13 +130,23 @@ fun AddScreen(modifier : Modifier = Modifier) {
 }
 
 //@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
-fun Addbookscreen(){
+fun Addbookscreen() {
     var search by remember { mutableStateOf("") }
-    var booksList by remember { mutableStateOf(listOf(Book(BookInfo("1", "Sample Book", listOf("Authors"),100,
-        listOf("Categories"), ImageLinks("")
-    )))) }
+    var booksList by remember {
+        mutableStateOf(
+            listOf(
+                Book(
+                    BookInfo(
+                        "1", "Sample Book", listOf("Authors"), 100,
+                        listOf("Categories"), ImageLinks("")
+                    )
+                )
+            )
+        )
+    }
 
     fun searchBooks(query: String) {
         val booksRepository = BooksRepository()
@@ -177,7 +189,7 @@ fun Addbookscreen(){
         OutlinedTextField(
             value = search,
             onValueChange = { search = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
             label = { Text("search") }
         )
 
@@ -207,10 +219,10 @@ fun BookItem(book: Book) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).wrapContentSize(Alignment.Center),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = book.volumeInfo.title)
+        Text(text = book.volumeInfo.title, modifier = Modifier.width(200.dp))
         Button(onClick = {
             //TODO CLEAN AND MAKE BEAUTIFUL
 
@@ -221,19 +233,19 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories?.isNotEmpty() == true) {
+            if (book.volumeInfo.categories.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors?.isNotEmpty() == true) {
+            if (book.volumeInfo.authors.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
             }
 
-            val books= Media(
+            val books = Media(
                 "",
                 book.volumeInfo.title,
                 author,
@@ -245,23 +257,58 @@ fun BookItem(book: Book) {
         }) {
             Text("+") // This is the content for the Button.
         }
+        Button(onClick = {
+            //TODO CLEAN AND MAKE BEAUTIFUL
+
+
+            var genre = ""
+            var author = ""
+            var genreToDelete = ""
+            var authorToDelete = ""
+            val charToDelete1 = '['
+            val charToDelete2 = ']'
+            if (book.volumeInfo.categories.isNotEmpty() == true) {
+                genreToDelete = book.volumeInfo.categories.toString()
+                val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
+                genre = modifiedGenre.replace(charToDelete2.toString(), "")
+            }
+
+            if (book.volumeInfo.authors.isNotEmpty() == true) {
+                authorToDelete = book.volumeInfo.authors.toString()
+                val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
+                author = modifiedAuthor.replace(charToDelete2.toString(), "")
+            }
+
+            val books = Media(
+                "",
+                book.volumeInfo.title,
+                author,
+                genre,
+                "book",
+                book.volumeInfo.imageLinks?.smallThumbnail.toString()
+            )
+            uploadToGoal(books)
+        }) {
+            Text("+ goal") // This is the content for the Button.
+        }
     }
 }
-
-
 
 
 //@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun Addmoviescreen(){
+fun Addmoviescreen() {
     var search by remember { mutableStateOf("") }
     var moviesList by remember { mutableStateOf(listOf(Movie(1, "Sample Movie", ""))) }
 
     fun searchMovies(searchQuery: String) {
         val movieApi = retrofitMovies.create(MoviesApiService::class.java)
 
-        movieApi.searchMovies("Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkY2E5Y2FmNmIyNGYwMjJhMDdkN2VjNDg5Yzc5YzQ5MiIsInN1YiI6IjY1NTc5NGZkN2YwNTQwMThkNmYzMjYwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FLq5ehkpOZaVpfY9xWWKtCH4arc7bVk_uf0CS_R8aeI", searchQuery).enqueue(object : Callback<MovieResponse> {
+        movieApi.searchMovies(
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkY2E5Y2FmNmIyNGYwMjJhMDdkN2VjNDg5Yzc5YzQ5MiIsInN1YiI6IjY1NTc5NGZkN2YwNTQwMThkNmYzMjYwNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FLq5ehkpOZaVpfY9xWWKtCH4arc7bVk_uf0CS_R8aeI",
+            searchQuery
+        ).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 if (response.isSuccessful) {
                     val movieResponseList = response.body()?.results ?: emptyList()
@@ -273,7 +320,8 @@ fun Addmoviescreen(){
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")            }
+                Log.e("MOVIES_API_FAILURE", "Error: ${t.localizedMessage}")
+            }
         })
     }
     // Column Composable,
@@ -295,7 +343,7 @@ fun Addmoviescreen(){
         OutlinedTextField(
             value = search,
             onValueChange = { search = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
             label = { Text("search") }
         )
 
@@ -390,44 +438,70 @@ fun MovieItem(movie: Movie) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).wrapContentSize(Alignment.Center),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = movie.title)
+        Text(text = movie.title, modifier = Modifier.width(200.dp))
         Button(onClick = {
             val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
-            val movies= Media("",movie.title,"","","movie",poster)
+            val movies = Media("", movie.title, "", "", "movie", poster)
             upload(movies)
         }) {
             Text("+") // This is the content for the Button.
+        }
+        Button(onClick = {
+            val poster = "https://image.tmdb.org/t/p/original" + movie.poster_path
+            val movies = Media("", movie.title, "", "", "movie", poster)
+            uploadToGoal(movies)
+        }) {
+            Text("+ goal") // This is the content for the Button.
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Addgamescreen(){
+fun Addgamescreen() {
     var search by remember { mutableStateOf("") }
-    var gamesList by remember { mutableStateOf(listOf(Media("", "Sample Game","","","game"/*, listOf(1,2), listOf("involved_companies")*/))) }
+    var gamesList by remember {
+        mutableStateOf(
+            listOf(
+                Media(
+                    "",
+                    "Sample Game",
+                    "",
+                    "",
+                    "game"/*, listOf(1,2), listOf("involved_companies")*/
+                )
+            )
+        )
+    }
 
     fun searchGames(searchQuery: String) {
         val gameApi = retrofitGames.create(GamesApiService::class.java)
         val query = "fields id, name, genres, involved_companies; search \"$searchQuery\";"
-        val call = gameApi.searchGames("35nfm0jkloxrrfi54afigm9qklpuhq",
-            "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query)
+        val call = gameApi.searchGames(
+            "35nfm0jkloxrrfi54afigm9qklpuhq",
+            "Bearer 2cz8jk3istcu7y6ingfwnh7529lfed", query
+        )
 
         call.enqueue(object : Callback<List<GameResponse>> {
-            override fun onResponse(call: Call<List<GameResponse>>, response: Response<List<GameResponse>>) {
+            override fun onResponse(
+                call: Call<List<GameResponse>>,
+                response: Response<List<GameResponse>>
+            ) {
                 if (response.isSuccessful && response.body() != null) {
                     val gamesResponseList = response.body()
                     val gamesConvertedList: List<Media> = gamesResponseList?.map { gameResponse ->
                         // Assuming GameResponse has the same 'id' and 'name' properties as Game
-                        Media(tittle = gameResponse.name ?: "Unknown", tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/)
+                        Media(
+                            tittle = gameResponse.name ?: "Unknown",
+                            tag = "game"/*, genres = gameResponse.genres, involved_companies = gameResponse.involved_companies*/
+                        )
                     } ?: listOf()
                     gamesList = gamesConvertedList
                     Log.d("GAMES_LOG", "Response successful: $gamesList")
-                    }
-                else {
+                } else {
                     Log.d("GAMES_API_RESPONSE", "Error: ${response.errorBody()?.string()}")
                 }
             }
@@ -458,7 +532,7 @@ fun Addgamescreen(){
         OutlinedTextField(
             value = search,
             onValueChange = { search = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Done),
             label = { Text("search") }
         )
 
@@ -473,7 +547,8 @@ fun Addgamescreen(){
         }
 
         LazyColumn(
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier
+                .padding(top = 16.dp)
         ) {
             items(gamesList) { media ->
                 println("Rendering book: ${media.tittle}")
@@ -488,14 +563,19 @@ fun GameItem(game: Media) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp).wrapContentSize(Alignment.Center),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = game.tittle)
+        Text(text = game.tittle, modifier = Modifier.width(200.dp))
         Button(onClick = {
             upload(game)
-        }) {
+        }, modifier = Modifier.padding(2.dp)) {
             Text("+") // This is the content for the Button.
+        }
+        Button(onClick = {
+            uploadToGoal(game)
+        }, modifier = Modifier.padding(2.dp)) {
+            Text("+ goal") // This is the content for the Button.
         }
     }
 }
@@ -503,6 +583,17 @@ fun GameItem(game: Media) {
 fun upload(media: Media) {
     val user = FirebaseAuth.getInstance().currentUser!!.uid
     db.collection("user").document(user).collection("addedMedia").add(media)
+        .addOnSuccessListener {
+            Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+        }
+        .addOnFailureListener { e ->
+            Log.w(TAG, "Error adding document", e)
+        }
+}
+
+fun uploadToGoal(media: Media) {
+    val user = FirebaseAuth.getInstance().currentUser!!.uid
+    db.collection("user").document(user).collection("mediagoal").add(media)
         .addOnSuccessListener {
             Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
         }
