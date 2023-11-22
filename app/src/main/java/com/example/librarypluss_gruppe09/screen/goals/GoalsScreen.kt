@@ -49,10 +49,6 @@ fun GoalsScreen(
     onGoalClick: (String) -> Unit,
     viewModel: GoalsViewModel = hiltViewModel()
 ) {
-//todo
-
-//    val filtervalu = viewModel.boolEditingList.value
-
     val screenState = viewModel.stategoals.value
 
     Box(modifier = modifier.fillMaxSize()) {
