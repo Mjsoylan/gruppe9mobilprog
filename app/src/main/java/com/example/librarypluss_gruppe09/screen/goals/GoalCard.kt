@@ -1,6 +1,5 @@
 package com.example.librarypluss_gruppe09.screen.goals
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,23 +13,20 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.librarypluss_gruppe09.DialogComponent
-import com.example.librarypluss_gruppe09.models.History
 import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.ui.theme.BlueMoviePrimary
 import com.example.librarypluss_gruppe09.ui.theme.Purple80
@@ -58,38 +54,72 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
         )
 
     ) {
-        Box(modifier = Modifier.wrapContentSize()) {
-            AsyncImage(
-                model = media.imageUrl,
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier
-                    .height(90.dp)
-                    .padding(2.dp, 0.dp, 2.dp, 2.dp),
-            )
+        Box(
+            modifier = Modifier
+                .wrapContentSize()
+                .height(180.dp)
+        ) {
             Box(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.TopStart)
                     .fillMaxWidth()
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp),
+                        .wrapContentSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top
+                    verticalArrangement = Arrangement.Bottom
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentSize()
+                    ) {
+
+                        AsyncImage(
+                            model = media.imageUrl,
+                            contentDescription = "",
+                            contentScale = ContentScale.FillBounds,
+                            modifier = Modifier
+                                .height(90.dp)
+                                .padding(2.dp, 2.dp, 2.dp, 2.dp),
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .align(Alignment.TopEnd)
+                        ) {
+                            Text(
+                                text = media.tag,
+                                textAlign = TextAlign.Center,
+                                style = TextStyle(),
+                                modifier = Modifier.padding(5.dp),
+                            )
+                        }
+                    }
+
                     Box {
-                        Text(text = media.tittle, textAlign = TextAlign.Center)
+                        Text(
+                            text = media.tittle,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleSmall
+                        )
                     }
                     Box {
-                        Text(text = media.type, textAlign = TextAlign.Center)
+                        Text(
+                            text = media.type,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleSmall
+                        )
                     }
                     Box {
-                        Text(text = media.creator, textAlign = TextAlign.Center)
-                    }
-                    Box {
-                        Text(text = media.tag, textAlign = TextAlign.Center)
+                        Text(
+                            text = media.creator,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleSmall
+                        )
                     }
                 }
             }
