@@ -32,7 +32,7 @@ fun ProfileScreen(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "user name")
+        Text(text = "User")
         Image(
             painter = painterResource(R.drawable.ic_launcher_foreground),
             contentDescription = "profile picture",
@@ -51,7 +51,7 @@ fun ProfileScreen(
             Text(text = "Settings")
         }
         Button(onClick = { }) {
-            Text(text = "Statestikk")
+            Text(text = "Statistikk")
         }
         Button(onClick = { navController.navigate("goals") }) {
             Text(text = "Goals")

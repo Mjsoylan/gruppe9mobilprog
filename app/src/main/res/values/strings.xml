@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">LibraryPluss_Gruppe09</string>
-    <string name="email_error">email error</string>
-    <string name="password_error">password error has happened</string>
-    <string name="could_not_log_in">error login failed</string>
-    <string name="password_match_error">falied with password match</string>
-    <string name="could_not_create_account">could not create account</string>
-    <string name="login">logging in</string>
-    <string name="create_account">create account</string>
-    <string name="sign_out">signing out</string>
-    <string name="email">email</string>
-    <string name="password">password</string>
-    <string name="repeat_password">repeated password</string>
-    <string name="Accunt_Created">account has been created</string>
-    <string name="Accunt_Created_failed">account creation failed</string>
-    <string name="Fastlogin">quick login</string>
-    <string name="Username">username</string>
-    <string name="backtologin">back to login</string>
+    <string name="email_error">Email Error</string>
+    <string name="password_error">Password Error</string>
+    <string name="could_not_log_in">Login Failed</string>
+    <string name="password_match_error">Passwords do not match</string>
+    <string name="could_not_create_account">Could not create account</string>
+    <string name="login">Log in</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_out">Sign out</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="Accunt_Created">Account has been created</string>
+    <string name="Accunt_Created_failed">Account creation failed</string>
+    <string name="Fastlogin">Quick Login</string>
+    <string name="Username">Username</string>
+    <string name="backtologin">Back to Login</string>
 </resources>

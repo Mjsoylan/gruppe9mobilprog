@@ -172,7 +172,7 @@ fun Addbookscreen() {
             tint = Color(0xFF0F9D58)
         )
         // Text to Display the current Screen
-        Text(text = "Add books", color = Color.Black)
+        Text(text = "Add Books", color = Color.Black)
         OutlinedTextField(
             value = search,
             onValueChange = { search = it },
@@ -180,7 +180,7 @@ fun Addbookscreen() {
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
-            label = { Text("search") }
+            label = { Text("Search") }
         )
 
         Button(
@@ -279,7 +279,7 @@ fun BookItem(book: Book) {
             )
             uploadToGoal(books)
         }) {
-            Text("+ goal") // This is the content for the Button.
+            Text("+ Goal") // This is the content for the Button.
         }
 
     }
@@ -330,7 +330,7 @@ fun Addmoviescreen() {
             contentDescription = "add",
             tint = Color(0xFF0F9D58)
         )
-        Text(text = "Add movies", color = Color.Black)
+        Text(text = "Add Movies", color = Color.Black)
         OutlinedTextField(
             value = search,
             onValueChange = { search = it },
@@ -338,7 +338,7 @@ fun Addmoviescreen() {
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
-            label = { Text("search") }
+            label = { Text("Search") }
         )
 
         Button(
@@ -359,71 +359,6 @@ fun Addmoviescreen() {
                 MovieItem(movie)
             }
         }
-        /*
-        //Upload to Firebase
-        Text(text = "Add movie", color = Color.Black)
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("user") }
-        )
-        OutlinedTextField(
-            value = tittle,
-            onValueChange = { tittle= it  },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("tittle") }
-        )
-        OutlinedTextField(
-            value = movietype,
-            onValueChange = { movietype = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("movietype") }
-        )
-        OutlinedTextField(
-            value = creater,
-            onValueChange = { creater = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("creater") }
-        )
-        OutlinedTextField(
-            value = review,
-            onValueChange = { review = it },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("review (optional)") }
-        )
-
-        Button(onClick = { val movies = hashMapOf(
-            "user" to user,
-            "tittle" to tittle,
-            "movietype" to  movietype,
-            "creater" to  creater
-        )
-            val reviewer = hashMapOf(
-                "user" to user,
-                "text" to review
-            )
-
-            user=""
-            tittle=""
-            movietype=""
-            creater=""
-
-
-            db.collection("movies")
-                .add(movies)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-
-                        db.collection("books/${documentReference.id}/review").add(reviewer)
-
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-        }) { Text(text = "add") }
-
-         */
     }
 }
 
@@ -456,7 +391,7 @@ fun MovieItem(movie: Movie) {
             val movies = Media("", movie.title, "", "", "movie", poster)
             uploadToGoal(movies)
         }) {
-            Text("+ goal") // This is the content for the Button.
+            Text("+ Goal") // This is the content for the Button.
         }
     }
 }
@@ -532,7 +467,7 @@ fun Addgamescreen() {
             tint = Color(0xFF0F9D58)
         )
         // Text to Display the current Screen
-        Text(text = "Add games", color = Color.Black)
+        Text(text = "Add Games", color = Color.Black)
         OutlinedTextField(
             value = search,
             onValueChange = { search = it },
@@ -540,7 +475,7 @@ fun Addgamescreen() {
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
-            label = { Text("search") }
+            label = { Text("Search") }
         )
 
         Button(
@@ -583,7 +518,7 @@ fun GameItem(game: Media) {
         Button(onClick = {
             uploadToGoal(game)
         }, modifier = Modifier.padding(2.dp)) {
-            Text("+ goal") // This is the content for the Button.
+            Text("+ Goal") // This is the content for the Button.
         }
     }
 }
@@ -667,20 +602,20 @@ fun ManualAdd() {
             value = tittle,
             onValueChange = { tittle = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("tittle") }
+            label = { Text("Title") }
         )
 
         OutlinedTextField(
             value = catagories,
             onValueChange = { catagories = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("catagories") }
+            label = { Text("Categories") }
         )
         OutlinedTextField(
             value = creater,
             onValueChange = { creater = it },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            label = { Text("creater") }
+            label = { Text("Author/Developer/Director") }
         )
 
 
@@ -691,7 +626,7 @@ fun ManualAdd() {
             creater = ""
             catagories = ""
 
-        }) { Text(text = "add") }
+        }) { Text(text = "Add") }
     }
 }
 
