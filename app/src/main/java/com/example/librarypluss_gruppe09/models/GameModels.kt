@@ -1,4 +1,4 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.models
 
 import com.google.gson.annotations.SerializedName
 

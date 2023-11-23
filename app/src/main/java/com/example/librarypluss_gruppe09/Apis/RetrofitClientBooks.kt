@@ -1,4 +1,4 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.Apis
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

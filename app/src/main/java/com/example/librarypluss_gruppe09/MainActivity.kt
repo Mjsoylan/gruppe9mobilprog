@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import com.example.librarypluss_gruppe09.ui.theme.LibraryPluss_Gruppe09Theme
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

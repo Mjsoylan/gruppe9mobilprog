@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LibraryPluss_Gruppe09</string>
+    <string name="app_name">Library+</string>
     <string name="email_error">Email Error</string>
     <string name="password_error">Password Error</string>
     <string name="could_not_log_in">Login Failed</string>
