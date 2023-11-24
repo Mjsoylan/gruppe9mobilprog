@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09.screen.feed
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,17 +34,24 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
             ) {
                 Text(text = "Feed")
             }
-            LazyVerticalGrid(
-                columns = GridCells.FixedSize(360.dp),
-                content = {
 
-                        items(medialist.value.sortedByDescending {it.uploadtime}, key = { it.mediaId }) { medie ->
 
-                            Feedmediacard(medie)
-                        }
-                    }, modifier = modifier.padding(20.dp,0.dp,10.dp)
+            Log.i("somhai", viewModel.activefeed.toString())
+            Log.i("somhai", medialist.toString())
 
-            )
+//            LazyVerticalGrid(
+//                columns = GridCells.FixedSize(360.dp),
+//                content = {
+//
+//                        items(medialist.value.sortedByDescending {it.uploadtime}, key = { it.mediaId }) { medie ->
+//
+//                            Feedmediacard(medie)
+//
+//
+//                        }
+//                    }, modifier = modifier.padding(20.dp,0.dp,10.dp)
+//
+//            )
         }
     }
     }

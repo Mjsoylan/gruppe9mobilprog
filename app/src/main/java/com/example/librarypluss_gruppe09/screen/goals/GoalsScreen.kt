@@ -161,7 +161,7 @@ fun EditGoal(
 
 
         FloatingActionButton(
-            onClick = { onGoalClick("sett new goal") },
+            onClick = { onGoalClick("Add") },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(bottom = 16.dp, end = 16.dp)

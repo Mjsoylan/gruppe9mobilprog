@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09.screen.goals
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -74,27 +75,25 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize()
+                            .wrapContentSize().padding(top = 4.dp)
                     ) {
 
                         AsyncImage(
                             model = media.imageUrl,
                             contentDescription = "",
-                            contentScale = ContentScale.FillBounds,
                             modifier = Modifier
-                                .height(90.dp)
-                                .padding(2.dp, 2.dp, 2.dp, 2.dp),
+                                .height(90.dp).fillMaxWidth()
+                                .padding(4.dp, 4.dp, 4.dp, 4.dp),
                         )
 
                         Box(
                             modifier = Modifier
-                                .padding(5.dp)
-                                .align(Alignment.TopEnd)
+                                .padding(8.dp)
+                                .align(Alignment.TopEnd).background(MaterialTheme.colorScheme.tertiaryContainer , MaterialTheme.shapes.medium)
                         ) {
                             Text(
                                 text = media.tag,
                                 textAlign = TextAlign.Center,
-                                style = TextStyle(),
                                 modifier = Modifier.padding(5.dp),
                             )
                         }
@@ -145,7 +144,7 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
                 },
                 dialogTitle = "Delete media",
                 dialogText = " ${media.tittle} move to history",
-                icon = Icons.Default.Info
+                icon = Icons.Default.Delete
             )
         }
     }

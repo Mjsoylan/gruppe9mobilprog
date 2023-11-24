@@ -1,5 +1,6 @@
 package com.example.librarypluss_gruppe09.screen.library
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -75,27 +78,25 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize()
+                            .wrapContentSize().padding(top = 4.dp)
                     ) {
 
                         AsyncImage(
                             model = media.imageUrl,
                             contentDescription = "",
-                            contentScale = ContentScale.FillBounds,
                             modifier = Modifier
-                                .height(90.dp)
-                                .padding(2.dp, 2.dp, 2.dp, 2.dp),
+                                .height(90.dp).fillMaxWidth()
+                                .padding(4.dp, 4.dp, 4.dp, 4.dp),
                         )
 
                         Box(
                             modifier = Modifier
-                                .padding(5.dp)
-                                .align(Alignment.TopEnd)
+                                .padding(8.dp)
+                                .align(Alignment.TopEnd).background(MaterialTheme.colorScheme.tertiaryContainer , MaterialTheme.shapes.medium)
                         ) {
                             Text(
                                 text = media.tag,
                                 textAlign = TextAlign.Center,
-                                style = TextStyle(),
                                 modifier = Modifier.padding(5.dp),
                             )
                         }
