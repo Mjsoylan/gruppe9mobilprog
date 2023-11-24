@@ -1,11 +1,16 @@
 package com.example.librarypluss_gruppe09.models
 
 
+import android.graphics.drawable.VectorDrawable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.runtime.R
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import com.example.librarypluss_gruppe09.retrofitGames
 
 data class BottomNavItem(
     val label: String,
@@ -14,6 +19,7 @@ data class BottomNavItem(
     //add selected
 )
 
+//https://www.geeksforgeeks.org/bottom-navigation-bar-in-android-jetpack-compose/
 object ConstantsNavigation {
     val BottomNavItems = listOf(
         BottomNavItem(
@@ -26,11 +32,11 @@ object ConstantsNavigation {
             icon = Icons.Filled.KeyboardArrowDown,
             route = "feed"
         ),
-        /*BottomNavItem(
+        BottomNavItem(
             label = "Profile",
             icon = Icons.Filled.AccountBox,
             route = "profile"
-        ),*/
+        ),
         BottomNavItem(
             label = "Add",
             icon = Icons.Filled.Add,

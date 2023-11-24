@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.librarypluss_gruppe09.OnScreeen
 import com.example.librarypluss_gruppe09.R
 
 
@@ -53,7 +54,7 @@ fun ProfileScreen(
         Button(onClick = { }) {
             Text(text = "Statistikk")
         }
-        Button(onClick = { navController.navigate("goals") }) {
+        Button(onClick = { navController.navigate(OnScreeen.Goals.name) }) {
             Text(text = "Goals")
         }
     }

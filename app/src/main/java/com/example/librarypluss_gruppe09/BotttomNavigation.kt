@@ -1,13 +1,20 @@
 package com.example.librarypluss_gruppe09
 
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,16 +24,56 @@ import com.example.librarypluss_gruppe09.models.ConstantsNavigation
 @Composable
 fun BottomNavigation() {
     val navController = rememberNavController()
-
     Scaffold(
+        topBar = { ToppApp(navController) },
         bottomBar = { BottomNavFromHome(navController = navController) },
     ) { innerPadding ->
-        HomeNav(navController = navController, padding = innerPadding)
+        HomeNavHost(navController = navController, padding = innerPadding)
     }
 }
 
+enum class OnScreeen {
+    Library,
+    Goals
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ToppApp(navController: NavHostController) {
+    val onScreentittle by rememberUpdatedState(
+        newValue = navController.currentBackStackEntryAsState().value?.destination?.route
+            ?: OnScreeen.Library.name
+    )
+
+    TopAppBar(
+        title = {
+            if (onScreentittle.contains("=")) {
+                Text(text = "Edit Goal")
+            } else {
+                Text(text = onScreentittle)
+            }
+        },
+        actions = {
+            IconButton(onClick = { navController.navigate(OnScreeen.Library.name) }) {
+                Icon(
+                    Icons.Filled.List,
+                    contentDescription = "Library"
+                )
+            }
+            IconButton(onClick = { navController.navigate(OnScreeen.Goals.name) }) {
+                Icon(
+                    Icons.Filled.Done,
+                    contentDescription = "Goals"
+                )
+            }
+        }
+    )
+}
+
+
 @Composable
 fun BottomNavFromHome(navController: NavHostController) {
+
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination?.route

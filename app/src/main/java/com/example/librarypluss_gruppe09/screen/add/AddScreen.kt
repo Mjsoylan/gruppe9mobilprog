@@ -1,4 +1,4 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.screen.add
 
 import android.content.ContentValues.TAG
 import android.icu.util.Calendar
@@ -40,28 +40,34 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.librarypluss_gruppe09.Book
+import com.example.librarypluss_gruppe09.BookInfo
+import com.example.librarypluss_gruppe09.BookResponse
+import com.example.librarypluss_gruppe09.BooksRepository
+import com.example.librarypluss_gruppe09.GameResponse
+import com.example.librarypluss_gruppe09.GamesApiService
+import com.example.librarypluss_gruppe09.ImageLinks
+import com.example.librarypluss_gruppe09.Movie
+import com.example.librarypluss_gruppe09.MovieResponse
+import com.example.librarypluss_gruppe09.MoviesApiService
 import com.example.librarypluss_gruppe09.models.Feedmedia
 import com.example.librarypluss_gruppe09.models.Media
+import com.example.librarypluss_gruppe09.retrofitGames
+import com.example.librarypluss_gruppe09.retrofitMovies
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import com.example.librarypluss_gruppe09.R
 val db = Firebase.firestore
 
-@Preview
-@Composable
-fun HomeScreen() {
-    HomeSelection()
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun AddScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
@@ -71,7 +77,7 @@ fun AddScreen(modifier: Modifier = Modifier) {
             actions = {
                 IconButton(onClick = { navController.navigate("books") }) {
                     Icon(
-                        painter = painterResource(id = R.drawable.bookicon),
+                        Icons.Default.Add,
                         contentDescription = "books"
                     )
                 }
@@ -222,13 +228,13 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories?.isNotEmpty() == true) {
+            if (book.volumeInfo.categories.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors?.isNotEmpty() == true) {
+            if (book.volumeInfo.authors.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
@@ -256,13 +262,13 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories?.isNotEmpty() == true) {
+            if (book.volumeInfo.categories.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors?.isNotEmpty() == true) {
+            if (book.volumeInfo.authors.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
