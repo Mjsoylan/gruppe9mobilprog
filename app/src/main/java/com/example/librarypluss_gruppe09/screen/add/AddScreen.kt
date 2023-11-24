@@ -228,13 +228,13 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories.isNotEmpty() == true) {
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors.isNotEmpty() == true) {
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
@@ -262,13 +262,13 @@ fun BookItem(book: Book) {
             var authorToDelete = ""
             val charToDelete1 = '['
             val charToDelete2 = ']'
-            if (book.volumeInfo.categories.isNotEmpty() == true) {
+            if (book.volumeInfo.categories?.isNotEmpty() == true) {
                 genreToDelete = book.volumeInfo.categories.toString()
                 val modifiedGenre = genreToDelete.replace(charToDelete1.toString(), "")
                 genre = modifiedGenre.replace(charToDelete2.toString(), "")
             }
 
-            if (book.volumeInfo.authors.isNotEmpty() == true) {
+            if (book.volumeInfo.authors?.isNotEmpty() == true) {
                 authorToDelete = book.volumeInfo.authors.toString()
                 val modifiedAuthor = authorToDelete.replace(charToDelete1.toString(), "")
                 author = modifiedAuthor.replace(charToDelete2.toString(), "")
