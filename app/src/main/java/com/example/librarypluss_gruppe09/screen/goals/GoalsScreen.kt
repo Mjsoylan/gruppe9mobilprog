@@ -46,7 +46,7 @@ import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 @Composable
 fun GoalsScreen(
     modifier: Modifier = Modifier,
-    onGoalClick: (String) -> Unit,
+    onGoalClick: (String) -> Unit, onMediaClick: (String) -> Unit,
     viewModel: GoalsViewModel = hiltViewModel()
 ) {
     val screenState = viewModel.stategoals.value
@@ -112,9 +112,9 @@ fun GoalsScreen(
                     }
 
                 "historygoals" -> HistoryGoal(viewModel)
-                "mediagoals" -> MedaGoal(viewModel)
+                "mediagoals" -> MedaGoal(viewModel ,onMediaClick = onMediaClick)
                 else -> {
-                    MedaGoal(viewModel)
+                    MedaGoal(viewModel, onMediaClick = onMediaClick)
                 }
             }
         }
@@ -122,14 +122,14 @@ fun GoalsScreen(
 }
 
 @Composable
-fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel()) {
+fun MedaGoal(viewModel: GoalsViewModel = hiltViewModel(), onMediaClick : (String) -> Unit ) {
     val goalViweModel = viewModel.mediagoals.collectAsStateWithLifecycle(emptyList())
 
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
         content = {
             items(goalViweModel.value, key = { it.mediaId }) { medie ->
-                GoalCard(medie)
+                GoalCard(medie, onMediaClick = onMediaClick)
             }
         }, modifier = Modifier
             .fillMaxWidth()

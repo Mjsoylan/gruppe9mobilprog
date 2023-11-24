@@ -26,7 +26,6 @@ class EditCardViewModel @Inject constructor(
 
     init {
         val goalId = savedStateHandle.get<String>(GOAL_ID)
-        Log.i("somek", goalId.toString())
         //when edding a card det goalId is sett to the "Add" string
         if (goalId == "Add") {
             show_button.value = true

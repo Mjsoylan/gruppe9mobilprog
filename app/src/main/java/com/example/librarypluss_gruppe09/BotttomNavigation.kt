@@ -1,6 +1,7 @@
 package com.example.librarypluss_gruppe09
 
 
+import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.List
@@ -47,8 +48,12 @@ fun ToppApp(navController: NavHostController) {
 
     TopAppBar(
         title = {
-            if (onScreentittle.contains("=")) {
+            Log.i("somekj", onScreentittle.toString())
+            if (onScreentittle.contains("goalId=")) {
                 Text(text = "Edit Goal")
+            }
+            if (onScreentittle.contains("mediaId")) {
+                Text(text = "Media")
             } else {
                 Text(text = onScreentittle)
             }

@@ -8,7 +8,6 @@ import com.example.librarypluss_gruppe09.R
 import com.example.librarypluss_gruppe09.commonext.isValidEmail
 import com.example.librarypluss_gruppe09.commonext.isValidPassword
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
-//import com.example.librarypluss_gruppe09.screen.add.db
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -16,10 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,7 +30,7 @@ import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
+fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel(), onMediaClick : (String) -> Unit) {
 
     var coler = Purple80
     //todo add boock/ movie and Game icon form Mads branch
@@ -49,7 +45,7 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel()) {
 
 
     Card(
-        onClick = {
+        onClick = { onMediaClick(media.mediaId)
         },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
         colors = CardDefaults.cardColors(

@@ -36,7 +36,7 @@ import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
+fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel(), onMediaClick : (String) -> Unit) {
 
     var coler = Purple80
     if (media.tag == "movie") {
@@ -48,7 +48,7 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel()) {
     }
 
     Card(
-        onClick = { },
+        onClick = { onMediaClick(media.mediaId)},
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = coler,

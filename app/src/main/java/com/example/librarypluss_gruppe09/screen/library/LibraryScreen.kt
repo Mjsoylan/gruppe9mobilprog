@@ -37,7 +37,11 @@ import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
 import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @Composable
-fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = hiltViewModel()) {
+fun LibraryScreen(
+    modifier: Modifier = Modifier,
+    viewModel: LibraryViewModel = hiltViewModel(),
+    onMediaClick: (String) -> Unit
+) {
     val medialist = viewModel.media.collectAsStateWithLifecycle(emptyList())
     val filtervalu = viewModel.filter.value
 
@@ -52,12 +56,12 @@ fun LibraryScreen(modifier: Modifier = Modifier, viewModel: LibraryViewModel = h
                         items(medialist.value.filter {
                             it.tag == filtervalu
                         }, key = { it.mediaId }) { medie ->
-                            MediaCard(medie)
+                            MediaCard(medie, onMediaClick = onMediaClick)
                         }
 
                     } else {
                         items(medialist.value, key = { it.mediaId }) { medie ->
-                            MediaCard(medie)
+                            MediaCard(medie, onMediaClick = onMediaClick)
                         }
                     }
                 }, modifier = modifier.padding(16.dp)

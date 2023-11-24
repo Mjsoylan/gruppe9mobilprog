@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.librarypluss_gruppe09.models.Media
+import com.example.librarypluss_gruppe09.screen.MediaScreen.MediaScreen
 import com.example.librarypluss_gruppe09.screen.add.AddScreen
 import com.example.librarypluss_gruppe09.screen.editcard.EditCardScreen
 import com.example.librarypluss_gruppe09.screen.feed.FeedScreen
@@ -24,33 +25,53 @@ fun HomeNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "home", modifier = Modifier.padding(paddingValues = padding)
+        startDestination = LIBRARY, modifier = Modifier.padding(paddingValues = padding)
     ) {
-        composable("home") {
-            LibraryScreen()
-        }
-        composable("feed") {
+//        composable(LIBRARY) {
+//            LibraryScreen(onMediaClick = { mediaid ->
+//                val route = "$LIBRARY?$MEDIA_ID=$mediaid"
+//                navController.navigate(route)
+//            })
+//        }
+        composable(FEED) {
             FeedScreen()
         }
-        composable("profile") {
+        composable(PROFILE) {
             ProfileScreen(navController, viewModel = ProfileViewModel(media = Media()))
         }
-        composable("add") {
+        composable(ADD) {
             AddScreen()
         }
 
         //within the Library screen
         composable(OnScreeen.Library.name) {
-            LibraryScreen()
+            LibraryScreen(onMediaClick = { mediaid ->
+                val route = "${LIBRARY}?$MEDIA_ID=$mediaid"
+                navController.navigate(route)
+            })
         }
+
+        composable(
+            route = "${LIBRARY}$MEDIA_ID_ARG",
+            arguments = listOf(navArgument(MEDIA_ID) {
+                nullable = false
+            })
+        ) {
+            MediaScreen(navController)
+        }
+
         composable(OnScreeen.Goals.name) {
             GoalsScreen(onGoalClick = { goalid ->
                 val route = "${GOAL_EDIT}?$GOAL_ID=$goalid"
                 navController.navigate(route)
+            }, onMediaClick = {mediaid ->
+                val route = "${LIBRARY}?$MEDIA_ID=$mediaid"
+                navController.navigate(route)
             })
         }
+
         composable(
-            route = "${"goalEdit"}$GOAL_ID_ARG",
+            route = "${GOAL_EDIT}$GOAL_ID_ARG",
             arguments = listOf(navArgument(GOAL_ID) {
                 nullable = false
             })
