@@ -3,6 +3,14 @@ package com.example.librarypluss_gruppe09.screen.feed
 import android.content.Context
 import android.net.ConnectivityManager
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,28 +19,60 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.librarypluss_gruppe09.ui.theme.ConnectionState
+import com.example.librarypluss_gruppe09.ui.theme.connectivityState
 
 
-@Preview
 @Composable
 fun FeedScreen(modifier: Modifier = Modifier, viewModel: FeedViewModel = hiltViewModel()) {
     val medialist = viewModel.activefeed.collectAsStateWithLifecycle(emptyList())
 
+//https://medium.com/scalereal/observing-live-connectivity-status-in-jetpack-compose-way-f849ce8431c7
+    val networkconection by connectivityState()
 
-    val connectionType = remember {
-        mutableStateOf("Not Connected")
+    val boolConnection = networkconection === ConnectionState.Available
+
+    //
+    val animateNetworkConectionInfo by remember {
+        mutableStateOf(true)
     }
 
+    val density = LocalDensity.current
+
     Box(modifier = modifier.fillMaxSize()) {
+        //https://developer.android.com/jetpack/compose/animation/composables-modifiers
+//        AnimatedVisibility(visible = animateNetworkConectionInfo, enter = slideInVertically {
+//            // Slide in from 40 dp from the top.
+//            with(density) { -40.dp.roundToPx() }
+//        } + expandVertically(
+//            // Expand from the top.
+//            expandFrom = Alignment.Top
+//        ) + fadeIn(
+//            // Fade in with the initial alpha of 0.3f.
+//            initialAlpha = 0.3f
+//        ),
+//            exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
+
+            //composabel
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Red)){
+                Text(text = "connection is on, show UI ${boolConnection}")
+            }
+//        }
+        
         Column(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
