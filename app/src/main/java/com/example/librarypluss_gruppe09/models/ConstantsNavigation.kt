@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.R
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import com.example.librarypluss_gruppe09.OnScreeen
 import com.example.librarypluss_gruppe09.retrofitGames
 
 data class BottomNavItem(
@@ -25,22 +26,23 @@ object ConstantsNavigation {
         BottomNavItem(
             label = "Home",
             icon = Icons.Filled.Home,
-            route = "home"
+            route = OnScreeen.Library.name
         ),
         BottomNavItem(
             label = "Feed",
             icon = Icons.Filled.KeyboardArrowDown,
-            route = "feed"
+            route = OnScreeen.Feed.name
         ),
         BottomNavItem(
             label = "Profile",
             icon = Icons.Filled.AccountBox,
-            route = "profile"
+            route = OnScreeen.Profile.name
         ),
         BottomNavItem(
             label = "Add",
             icon = Icons.Filled.Add,
-            route = "add"
+            route = OnScreeen.Add.name
+
         )
     )
 }

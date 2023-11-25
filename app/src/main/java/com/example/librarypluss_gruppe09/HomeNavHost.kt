@@ -25,7 +25,7 @@ fun HomeNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = LIBRARY, modifier = Modifier.padding(paddingValues = padding)
+        startDestination = OnScreeen.Library.name, modifier = Modifier.padding(paddingValues = padding)
     ) {
 //        composable(LIBRARY) {
 //            LibraryScreen(onMediaClick = { mediaid ->
@@ -33,13 +33,17 @@ fun HomeNavHost(
 //                navController.navigate(route)
 //            })
 //        }
-        composable(FEED) {
+//        composable("home"){
+//            LibraryScreen()
+//        }
+
+        composable(OnScreeen.Feed.name) {
             FeedScreen()
         }
-        composable(PROFILE) {
+        composable(OnScreeen.Profile.name) {
             ProfileScreen(navController, viewModel = ProfileViewModel(media = Media()))
         }
-        composable(ADD) {
+        composable(OnScreeen.Add.name) {
             AddScreen()
         }
 

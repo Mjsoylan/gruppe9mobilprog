@@ -35,7 +35,10 @@ fun BottomNavigation() {
 
 enum class OnScreeen {
     Library,
-    Goals
+    Goals,
+    Feed,
+    Profile,
+    Add
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
