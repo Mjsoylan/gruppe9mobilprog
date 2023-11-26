@@ -26,7 +26,6 @@ import com.example.librarypluss_gruppe09.ui.theme.Purple80
 import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
 import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
-class Feedmediacard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Feedmediacard(Feedmedia: Feedmedia, viewModel: FeedViewModel = hiltViewModel()) {
