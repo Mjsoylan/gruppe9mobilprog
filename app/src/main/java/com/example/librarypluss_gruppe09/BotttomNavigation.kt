@@ -2,10 +2,6 @@ package com.example.librarypluss_gruppe09
 
 
 import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -58,15 +54,14 @@ fun ToppApp(navController: NavHostController) {
             Log.i("somekj", onScreentittle.toString())
             if (onScreentittle.contains("goalId=")) {
                 Text(text = "Edit Goal")
-            } else if(onScreentittle.contains("mediaId")) {
+            } else if (onScreentittle.contains("mediaId")) {
                 Text(text = "Media")
             } else {
                 Text(text = onScreentittle)
             }
         },
         actions = {
-            // nav to libary or goal while on thoes screens
-            if (onScreentittle=="Library" || onScreentittle=="Goals"){
+            if (onScreentittle == "Library" || onScreentittle == "Goals") {
                 IconButton(onClick = { navController.navigate(OnScreeen.Library.name) }) {
                     Icon(
                         painter = painterResource(id = R.drawable.libary),
@@ -90,36 +85,36 @@ fun BottomNavFromHome(navController: NavHostController) {
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination?.route
-            ConstantsNavigation.BottomNavItems.forEach { screen ->
-                val title = screen.label
+        ConstantsNavigation.BottomNavItems.forEach { screen ->
+            val title = screen.label
 
-                NavigationBarItem(selected = currentDestination == screen.route,
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            // Pop up to the start destination of the graph to
-                            // avoid building up a large stack of destinations
-                            // on the back stack as users select items
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            // Avoid multiple copies of the same destination when
-                            // reselecting the same item
-                            launchSingleTop = true
-                            // Restore state when reselecting a previously selected item
-                            restoreState = true
+            NavigationBarItem(selected = currentDestination == screen.route,
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
                         }
-                    },
-                    icon = {
-                        Icon(
-                            screen.icon,
-                            contentDescription = title
-                        )
-                    },
-                    label = { Text(text = screen.label) })
-            }
-
-
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                },
+                icon = {
+                    Icon(
+                        screen.icon,
+                        contentDescription = title
+                    )
+                },
+                label = { Text(text = screen.label) })
         }
+
+
+    }
 
 }
 

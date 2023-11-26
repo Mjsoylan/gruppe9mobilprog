@@ -13,7 +13,6 @@ data class BottomNavItem(
     val label: String,
     val icon: ImageVector,
     val route: String,
-    //add selected
 )
 
 //https://www.geeksforgeeks.org/bottom-navigation-bar-in-android-jetpack-compose/

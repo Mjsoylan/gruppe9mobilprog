@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,8 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -36,7 +33,11 @@ import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel(), onMediaClick : (String) -> Unit) {
+fun GoalCard(
+    media: Media,
+    viewModel: GoalsViewModel = hiltViewModel(),
+    onMediaClick: (String) -> Unit
+) {
 
     var coler = Purple80
     if (media.tag == "movie") {
@@ -48,7 +49,7 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel(), onMediaC
     }
 
     Card(
-        onClick = { onMediaClick(media.mediaId)},
+        onClick = { onMediaClick(media.mediaId) },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = coler,
@@ -75,21 +76,27 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel(), onMediaC
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize().padding(top = 4.dp)
+                            .wrapContentSize()
+                            .padding(top = 4.dp)
                     ) {
 
                         AsyncImage(
                             model = media.imageUrl,
                             contentDescription = "",
                             modifier = Modifier
-                                .height(90.dp).fillMaxWidth()
+                                .height(90.dp)
+                                .fillMaxWidth()
                                 .padding(4.dp, 4.dp, 4.dp, 4.dp),
                         )
 
                         Box(
                             modifier = Modifier
                                 .padding(8.dp)
-                                .align(Alignment.TopEnd).background(MaterialTheme.colorScheme.tertiaryContainer , MaterialTheme.shapes.medium)
+                                .align(Alignment.TopEnd)
+                                .background(
+                                    MaterialTheme.colorScheme.tertiaryContainer,
+                                    MaterialTheme.shapes.medium
+                                )
                         ) {
                             Text(
                                 text = media.tag,

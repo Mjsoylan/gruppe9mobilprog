@@ -2,18 +2,11 @@ package com.example.librarypluss_gruppe09.screen.Login
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
-import com.example.librarypluss_gruppe09.screen.library.LibraryViewModel
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -22,10 +15,7 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,22 +28,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.librarypluss_gruppe09.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Modifier, viewModel: LoginScreenViewModel = hiltViewModel()) {
+fun LogginScreen(
+    loggedIn: () -> Unit,
+    Signup: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LoginScreenViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
     val fieldModifier = Modifier
@@ -70,8 +60,10 @@ fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Mo
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (uiState.errorMessage != 0)
-            Text(text = stringResource(id = uiState.errorMessage),
-                Modifier.padding(vertical = 8.dp))
+            Text(
+                text = stringResource(id = uiState.errorMessage),
+                Modifier.padding(vertical = 8.dp)
+            )
 
         EmailField(uiState.email, viewModel::onEmailChange, fieldModifier)
         PasswordField(uiState.password, viewModel::onPasswordChange, fieldModifier)
@@ -94,9 +86,15 @@ fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Mo
         }
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun signinscreen(loggedIn: () -> Unit,backtologged: () -> Unit,modifier: Modifier = Modifier, viewModel:LoginScreenViewModel = hiltViewModel()) {
+fun signinscreen(
+    loggedIn: () -> Unit,
+    backtologged: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LoginScreenViewModel = hiltViewModel()
+) {
 
     val uiState by viewModel.uiState
     val fieldModifier = Modifier
@@ -112,16 +110,22 @@ fun signinscreen(loggedIn: () -> Unit,backtologged: () -> Unit,modifier: Modifie
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (uiState.errorMessage != 0)
-            Text(text = stringResource(id = uiState.errorMessage),
-                Modifier.padding(vertical = 8.dp))
+            Text(
+                text = stringResource(id = uiState.errorMessage),
+                Modifier.padding(vertical = 8.dp)
+            )
 
-        UsernameField(uiState.username,viewModel::onUserNameChange,fieldModifier)
+        UsernameField(uiState.username, viewModel::onUserNameChange, fieldModifier)
 
         EmailField(uiState.email, viewModel::onEmailChange, fieldModifier)
 
         PasswordField(uiState.password, viewModel::onPasswordChange, fieldModifier)
 
-        RepeatPasswordField(uiState.repeatPassword, viewModel::onRepeatPasswordChange, fieldModifier)
+        RepeatPasswordField(
+            uiState.repeatPassword,
+            viewModel::onRepeatPasswordChange,
+            fieldModifier
+        )
 
         Row {
             Button(
@@ -132,7 +136,7 @@ fun signinscreen(loggedIn: () -> Unit,backtologged: () -> Unit,modifier: Modifie
                 Text(text = stringResource(R.string.create_account), fontSize = 16.sp)
             }
             Button(
-                onClick = { viewModel.gotologgin(backtologged)},
+                onClick = { viewModel.gotologgin(backtologged) },
                 modifier = Modifier
                     .padding(5.dp, 8.dp),
             ) {
@@ -144,7 +148,6 @@ fun signinscreen(loggedIn: () -> Unit,backtologged: () -> Unit,modifier: Modifie
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
@@ -154,11 +157,14 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(R.string.email)) },
         leadingIcon = {
-            Icon(imageVector = Icons.Default.Email,
-                contentDescription = "Email")
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = "Email"
+            )
         }
     )
 }
+
 @Composable
 fun UsernameField(value: String, onNewValue: (String) -> Unit, modifier: Modifier = Modifier) {
     OutlinedTextField(
@@ -168,8 +174,10 @@ fun UsernameField(value: String, onNewValue: (String) -> Unit, modifier: Modifie
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(R.string.Username)) },
         leadingIcon = {
-            Icon(imageVector = Icons.Default.AccountBox,
-                contentDescription = "Username")
+            Icon(
+                imageVector = Icons.Default.AccountBox,
+                contentDescription = "Username"
+            )
         }
     )
 }
@@ -188,7 +196,6 @@ fun RepeatPasswordField(
     PasswordField(value, R.string.repeat_password, onNewValue, modifier)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PasswordField(
     value: String,

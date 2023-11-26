@@ -1,7 +1,6 @@
 package com.example.librarypluss_gruppe09
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +11,6 @@ import com.example.librarypluss_gruppe09.screen.Login.LogginScreen
 import com.example.librarypluss_gruppe09.screen.Login.signinscreen
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavtoScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()

@@ -11,9 +11,6 @@ interface GoalsService {
     //Media
     val mediascollection: Flow<List<Media>>
 
-    suspend fun savemedia(mediaId: Media): String
-
-
     //settgoal
     val settgoalscollection: Flow<List<SettDescriptionGoal>>
 
@@ -35,8 +32,5 @@ interface GoalsService {
 
 
     suspend fun createGoal(goalId: SettDescriptionGoal): String
-
-
-    suspend fun addGoal(mediaId: SettDescriptionGoal): String
 
 }

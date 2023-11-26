@@ -33,26 +33,6 @@ constructor(private val storage: StorageGoals) :
     val getDate = Date()
     val dateToday = dateformate.format(getDate)
 
-
-//    init {
-//        viewModelScope.launch {
-////            if (mediagoals.first().isEmpty()) {
-//////                media
-////                Datasource.settMedia.forEach { media ->
-////                    storage.savemedia(media)
-////
-////                }
-////
-////            }
-//            if (history.first().isEmpty()) {
-//                //goals
-//                Datasource.settGoals.forEach { goal ->
-//                    storage.addGoal(goal)
-//                }
-//            }
-//        }
-//    }
-
     fun deleteMediaCard(medid: Media, date: String) {
         viewModelScope.launch {
             storage.deleteMedia(medid)
@@ -63,7 +43,6 @@ constructor(private val storage: StorageGoals) :
     fun deleteGoalCard(goal: SettDescriptionGoal, date: String) {
         viewModelScope.launch {
             storage.deleteGoal(goal)
-            //todo add a list or change History data class to only store a string and date
             storage.sendGoalToHistory(History(previousvalue = goal.description, date = date))
         }
     }
@@ -80,5 +59,4 @@ constructor(private val storage: StorageGoals) :
     fun go_to_history_goals() {
         stategoals.value = "historygoals"
     }
-
 }

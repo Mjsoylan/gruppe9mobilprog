@@ -20,9 +20,7 @@ class StorageGoals
 constructor(private val firestore: FirebaseFirestore, private val auth: FirebaseAuth) : GoalsService {
 
      val MEDIA_COLLECTION ="user/"+auth.currentUser?.uid+"/mediagoal"
-
      val SETT_GOALS = "user/"+auth.currentUser?.uid+"/goals"
-
      val HISTORY_GOALS_DESCRIPTIO = "user/"+auth.currentUser?.uid+"/history"
 
     //Media
@@ -34,15 +32,9 @@ constructor(private val firestore: FirebaseFirestore, private val auth: Firebase
     override val settgoalscollection: Flow<List<SettDescriptionGoal>>
         get() = firestore.collection(SETT_GOALS).dataObjects()
 
-
     //History
     override val historycollection: Flow<List<History>>
         get() = firestore.collection(HISTORY_GOALS_DESCRIPTIO).dataObjects()
-
-
-    override suspend fun addGoal(mediaId: SettDescriptionGoal): String =
-//        val mediaUserId = mediaId.copy(userId = curr)
-        firestore.collection(HISTORY_GOALS_DESCRIPTIO).add(mediaId).await().id
 
     override suspend fun getGoal(mediaId: String): SettDescriptionGoal? =
         firestore.collection(SETT_GOALS).document(mediaId).get().await().toObject()
@@ -77,20 +69,5 @@ constructor(private val firestore: FirebaseFirestore, private val auth: Firebase
 
     override suspend fun createGoal(mediaId: SettDescriptionGoal): String =
         firestore.collection(SETT_GOALS).add(mediaId).await().id
-
-
-    override suspend fun savemedia(mediaId: Media): String =
-//        val mediaUserId = mediaId.copy(userId = auth.currentUserId)
-        firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
-
-
-//    companion object {
-//        private const val MEDIA_COLLECTION = "media"
-//
-//        private const val SETT_GOALS = "settgoal"
-//
-//        private const val HISTORY_GOALS_DESCRIPTIO = "history"
-//
-//    }
 }
 

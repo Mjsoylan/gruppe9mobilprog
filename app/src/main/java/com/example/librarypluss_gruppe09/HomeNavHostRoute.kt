@@ -2,8 +2,6 @@ package com.example.librarypluss_gruppe09
 
 //rout for navigation to a screen
 const val FEED = "feed"
-const val PROFILE = "profile"
-const val ADD = "add"
 
 const val LIBRARY = "library"
 const val MEDIA_ID = "mediaId"

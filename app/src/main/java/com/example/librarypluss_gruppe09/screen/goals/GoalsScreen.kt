@@ -253,7 +253,6 @@ fun SettGoalCard(
 @Composable
 fun HistoryCard(
     history: History,
-//    viewModel: GoalsViewModel = hiltViewModel()
 ) {
     Card(
         onClick = {

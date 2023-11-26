@@ -49,8 +49,6 @@ constructor(
         firestore.collection(GOAL_MEDIA_COLLECTION).document(mediaId).get().await().toObject()
 
 
-
-
     override suspend fun addMediaToLibrary(mediaId: Media): String =
         firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
 
@@ -63,15 +61,4 @@ constructor(
                 )
             }
             .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error deleting document", e) }
-
-
-    override suspend fun savemedia(mediaId: Media): String =
-//        val mediaUserId = mediaId.copy(userId = curr)
-        firestore.collection(MEDIA_COLLECTION).add(mediaId).await().id
-
-
-    companion object {
-        private const val MEDIA_COLLECTION = "user/gRGLI4BDi9QvCVjT5OaI/addedMedia"
-
-    }
 }

@@ -50,7 +50,4 @@ constructor(private val auth: FirebaseAuth, private val firestore: FirebaseFires
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { onResult(it.exception) }.await()
     }
-    override suspend fun signOut() {
-        auth.signOut()
-    }
 }

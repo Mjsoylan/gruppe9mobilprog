@@ -72,7 +72,7 @@ fun AddScreen(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
     Scaffold(topBar = {
         TopAppBar(
-            title = { /*TODO*/ },
+            title = {  },
             actions = {
                 IconButton(onClick = { navController.navigate("books") }) {
                     Icon(
@@ -220,7 +220,6 @@ fun BookItem(book: Book) {
     ) {
         Text(text = book.volumeInfo.title, modifier = Modifier.width(200.dp))
         Button(onClick = {
-            //TODO CLEAN AND MAKE BEAUTIFUL
             var genre = ""
             var author = ""
             var genreToDelete = ""
@@ -254,7 +253,6 @@ fun BookItem(book: Book) {
         }
 
         Button(onClick = {
-            //TODO CLEAN AND MAKE BEAUTIFUL
             var genre = ""
             var author = ""
             var genreToDelete = ""

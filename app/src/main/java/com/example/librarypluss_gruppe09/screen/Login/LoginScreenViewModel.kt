@@ -15,17 +15,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-
 @HiltViewModel
 class LoginScreenViewModel @Inject
 constructor(private val account: AccountService) :
     ViewModel() {
     val db = Firebase.firestore
-    val user = account.currentUser
     var uiState = mutableStateOf(LogginUiState())
         private set
     private val username
-        get() =uiState.value.username
+        get() = uiState.value.username
     private val email
         get() = uiState.value.email
     private val password
@@ -35,6 +33,7 @@ constructor(private val account: AccountService) :
     fun onEmailChange(newValue: String) {
         uiState.value = uiState.value.copy(email = newValue)
     }
+
     fun onUserNameChange(newValue: String) {
         uiState.value = uiState.value.copy(username = newValue)
 
@@ -52,9 +51,7 @@ constructor(private val account: AccountService) :
         if (!email.isValidEmail()) {
             uiState.value = uiState.value.copy(errorMessage = R.string.email_error)
             return
-        }
-
-        else if (!password.isValidPassword()) {
+        } else if (!password.isValidPassword()) {
             uiState.value = uiState.value.copy(errorMessage = R.string.password_error)
             return
         }
@@ -65,51 +62,52 @@ constructor(private val account: AccountService) :
                     if (error == null)
                         loggedIn()
                 }
-            }
-            catch(e: Exception) {
+            } catch (e: Exception) {
                 uiState.value = uiState.value.copy(errorMessage = R.string.could_not_log_in)
             }
         }
     }
-        @SuppressLint("SuspiciousIndentation")
-        fun onSignUpClick(loggedIn: () -> Unit) {
-            if (!email.isValidEmail()) {
-                uiState.value = uiState.value.copy(errorMessage = R.string.email_error)
-                return
-            } else if (!password.isValidPassword()) {
-                uiState.value = uiState.value.copy(errorMessage = R.string.password_error)
-                return
-            } else if (!(password == uiState.value.repeatPassword)) {
-                uiState.value = uiState.value.copy(errorMessage = R.string.password_match_error)
-                return
-            }
+
+    @SuppressLint("SuspiciousIndentation")
+    fun onSignUpClick(loggedIn: () -> Unit) {
+        if (!email.isValidEmail()) {
+            uiState.value = uiState.value.copy(errorMessage = R.string.email_error)
+            return
+        } else if (!password.isValidPassword()) {
+            uiState.value = uiState.value.copy(errorMessage = R.string.password_error)
+            return
+        } else if (!(password == uiState.value.repeatPassword)) {
+            uiState.value = uiState.value.copy(errorMessage = R.string.password_match_error)
+            return
+        }
 
 
-            viewModelScope.launch {
-                try {
-                    account.createaccunt(email, password) { error ->
-                        if (error == null){
-                            val newuser = hashMapOf(
-                                "userid" to account.currentUserId,
-                                "username" to  username
-                            )
-                                db.collection("user").document(account.currentUserId).set(newuser)
-                            loggedIn()
-                            }
-                        }
+        viewModelScope.launch {
+            try {
+                account.createaccunt(email, password) { error ->
+                    if (error == null) {
+                        val newuser = hashMapOf(
+                            "userid" to account.currentUserId,
+                            "username" to username
+                        )
+                        db.collection("user").document(account.currentUserId).set(newuser)
+                        loggedIn()
+                    }
                 }
-                catch(e: Exception) {
-                    uiState.value = uiState.value.copy(errorMessage = R.string.Accunt_Created_failed)
-                }
+            } catch (e: Exception) {
+                uiState.value = uiState.value.copy(errorMessage = R.string.Accunt_Created_failed)
             }
         }
-    fun gotosignup(Signup: () -> Unit){
-            Signup()
     }
-    fun gotologgin(backtologged: () -> Unit){
+
+    fun gotosignup(Signup: () -> Unit) {
+        Signup()
+    }
+
+    fun gotologgin(backtologged: () -> Unit) {
         backtologged()
     }
-    }
+}
 
 
 

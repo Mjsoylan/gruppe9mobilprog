@@ -1,7 +1,6 @@
 package com.example.librarypluss_gruppe09.screen.editcard
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

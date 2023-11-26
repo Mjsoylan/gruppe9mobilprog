@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.librarypluss_gruppe09.firebaseservice.AccountService
 import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageLibrary
 import com.example.librarypluss_gruppe09.models.Media
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,15 +13,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryViewModel @Inject
-constructor(private val storage: StorageLibrary,private val account: AccountService) :
+constructor(private val storage: StorageLibrary) :
     ViewModel() {
-    //todo change tis to get meda from a user
     val media = storage.mediacollection
-    val useruid  = FirebaseAuth.getInstance().currentUser!!.uid
     var filter = mutableStateOf("")
 
 
-    fun setFilterBook(){
+    fun setFilterBook() {
         filter.value = ""
         filter.value = "book"
     }
@@ -41,31 +38,5 @@ constructor(private val storage: StorageLibrary,private val account: AccountServ
         filter.value = ""
         filter.value = ""
     }
-
-    fun deleteCard(medid: Media) {
-        viewModelScope.launch {
-            //todo implement delete media
-            storage.deleteMedia(medid)
-        }
-    }
-
-//    init {
-//        viewModelScope.launch {
-//            if (media.first().isEmpty()) {
-//                Datasource.settMedia.forEach { media ->
-//                    storage.savemedia(media)
-//
-//                }
-//            }
-//        }
-//    }
-
-
-//    fun createMovie(movieTitle: String) {
-//        viewModelScope.launch {
-//            storage.saveMedia(Media(tittle = movieTitle))
-//        }
-//    }
-
 }
 

@@ -120,7 +120,6 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                     },
                     modifier = Modifier
                         .background(YellowBookPrimary)
-//                        .align(Alignment.CenterHorizontally)
                 )
                 DropdownMenuItem(
                     text = {
@@ -133,7 +132,6 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                     },
                     modifier = Modifier
                         .background(BlueMoviePrimary)
-//                        .align(Alignment.CenterHorizontally)
                 )
                 DropdownMenuItem(
                     text = {
@@ -146,7 +144,6 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                     },
                     modifier = Modifier
                         .background(RedGamePrimary)
-//                        .align(Alignment.CenterHorizontally)
 
                 )
                 DropdownMenuItem(
@@ -161,7 +158,6 @@ fun FilterLibrary(libraryViewModel: LibraryViewModel = viewModel()) {
                     },
                     modifier = Modifier
                         .background(Purple80)
-//                        .align(Alignment.CenterHorizontally)
                 )
             }
 

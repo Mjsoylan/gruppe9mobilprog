@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.librarypluss_gruppe09.firebaseservice.impl.StorageLibrary
 import com.example.librarypluss_gruppe09.models.Media
 import com.example.librarypluss_gruppe09.screen.Login.LogginScreen
 import com.example.librarypluss_gruppe09.screen.Login.signinscreen
@@ -20,9 +19,6 @@ import com.example.librarypluss_gruppe09.screen.goals.GoalsScreen
 import com.example.librarypluss_gruppe09.screen.library.LibraryScreen
 import com.example.librarypluss_gruppe09.screen.profile.ProfileScreen
 import com.example.librarypluss_gruppe09.screen.profile.ProfileViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 
 @Composable
 fun HomeNavHost(
@@ -31,17 +27,9 @@ fun HomeNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = OnScreeen.Library.name, modifier = Modifier.padding(paddingValues = padding)
+        startDestination = OnScreeen.Library.name,
+        modifier = Modifier.padding(paddingValues = padding)
     ) {
-//        composable(LIBRARY) {
-//            LibraryScreen(onMediaClick = { mediaid ->
-//                val route = "$LIBRARY?$MEDIA_ID=$mediaid"
-//                navController.navigate(route)
-//            })
-//        }
-//        composable("home"){
-//            LibraryScreen()
-//        }
 
         composable(OnScreeen.Feed.name) {
             FeedScreen(onMediaClick = { mediaid ->
@@ -85,7 +73,7 @@ fun HomeNavHost(
             GoalsScreen(onGoalClick = { goalid ->
                 val route = "${GOAL_EDIT}?$GOAL_ID=$goalid"
                 navController.navigate(route)
-            }, onMediaClick = {mediaid ->
+            }, onMediaClick = { mediaid ->
                 val route = "${LIBRARY}?$MEDIA_ID=$mediaid"
                 navController.navigate(route)
             })

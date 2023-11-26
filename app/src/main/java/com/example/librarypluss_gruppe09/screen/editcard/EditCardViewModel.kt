@@ -1,6 +1,5 @@
 package com.example.librarypluss_gruppe09.screen.editcard
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

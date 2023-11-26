@@ -26,14 +26,16 @@ import com.example.librarypluss_gruppe09.ui.theme.Purple80
 import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
 import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
-//todo move to models
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel(), onMediaClick : (String) -> Unit) {
+fun MediaCard(
+    media: Media,
+    viewModel: LibraryViewModel = hiltViewModel(),
+    onMediaClick: (String) -> Unit
+) {
 
     var coler = Purple80
-    //todo add boock/ movie and Game icon form Mads branch
 
     if (media.tag == "movie") {
         coler = BlueMoviePrimary
@@ -45,7 +47,8 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel(), onMed
 
 
     Card(
-        onClick = { onMediaClick(media.mediaId)
+        onClick = {
+            onMediaClick(media.mediaId)
         },
         modifier = Modifier.padding(8.dp, 0.dp, 8.dp, 8.dp),
         colors = CardDefaults.cardColors(
@@ -74,21 +77,27 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel(), onMed
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize().padding(top = 4.dp)
+                            .wrapContentSize()
+                            .padding(top = 4.dp)
                     ) {
 
                         AsyncImage(
                             model = media.imageUrl,
                             contentDescription = "",
                             modifier = Modifier
-                                .height(90.dp).fillMaxWidth()
+                                .height(90.dp)
+                                .fillMaxWidth()
                                 .padding(4.dp, 4.dp, 4.dp, 4.dp),
                         )
 
                         Box(
                             modifier = Modifier
                                 .padding(8.dp)
-                                .align(Alignment.TopEnd).background(MaterialTheme.colorScheme.tertiaryContainer , MaterialTheme.shapes.medium)
+                                .align(Alignment.TopEnd)
+                                .background(
+                                    MaterialTheme.colorScheme.tertiaryContainer,
+                                    MaterialTheme.shapes.medium
+                                )
                         ) {
                             Text(
                                 text = media.tag,
@@ -119,7 +128,6 @@ fun MediaCard(media: Media, viewModel: LibraryViewModel = hiltViewModel(), onMed
                             style = MaterialTheme.typography.titleSmall
                         )
                     }
-
                 }
             }
         }
