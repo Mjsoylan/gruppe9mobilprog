@@ -8,6 +8,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject
 constructor(private val media: Media) : ViewModel() {
 
+
     fun mediaListUpdate(){
         val names = mutableListOf<String>()
         names.add(media.tittle)

@@ -14,11 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.librarypluss_gruppe09.NavtoScreen
 import com.example.librarypluss_gruppe09.OnScreeen
 import com.example.librarypluss_gruppe09.R
 
@@ -28,6 +27,8 @@ fun ProfileScreen(
     navController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -40,19 +41,21 @@ fun ProfileScreen(
                 .size(100.dp)
                 .clip(CircleShape)
         )
+
         Box {
-            Text(text = "list of last updated media")
+            Text(text = stringResource(R.string.list_of_last_updated_media))
             viewModel.mediaListUpdate()
 
         }
+
         Button(onClick = { }) {
-            Text(text = "Settings")
+            Text(text = stringResource(R.string.settings))
         }
         Button(onClick = { }) {
-            Text(text = "Statistikk")
+            Text(text = stringResource(R.string.statistikk))
         }
         Button(onClick = { navController.navigate(OnScreeen.Goals.name) }) {
-            Text(text = "Goals")
+            Text(text = stringResource(R.string.goals))
         }
     }
 }
