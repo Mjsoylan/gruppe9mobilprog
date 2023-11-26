@@ -14,25 +14,22 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//todo
-val db = Firebase.firestore
+
 
 @HiltViewModel
 class LoginScreenViewModel @Inject
 constructor(private val account: AccountService) :
     ViewModel() {
-
+    val db = Firebase.firestore
     val user = account.currentUser
     var uiState = mutableStateOf(LogginUiState())
         private set
-
     private val username
         get() =uiState.value.username
     private val email
         get() = uiState.value.email
     private val password
         get() = uiState.value.password
-
 
 
     fun onEmailChange(newValue: String) {
@@ -97,30 +94,21 @@ constructor(private val account: AccountService) :
                                 "username" to  username
                             )
                                 db.collection("user").document(account.currentUserId).set(newuser)
-                            }
                             loggedIn()
+                            }
                         }
-
                 }
                 catch(e: Exception) {
                     uiState.value = uiState.value.copy(errorMessage = R.string.Accunt_Created_failed)
                 }
             }
         }
-        fun gotosignup(Signup: () -> Unit){
+    fun gotosignup(Signup: () -> Unit){
             Signup()
     }
     fun gotologgin(backtologged: () -> Unit){
         backtologged()
     }
-          fun fastLogin(loggedIn: () -> Unit) {
-              viewModelScope.launch {
-                  account.fastloggin()
-                  loggedIn()
-              }
-
-            }
-
     }
 
 

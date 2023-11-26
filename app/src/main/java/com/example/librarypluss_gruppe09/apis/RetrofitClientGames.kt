@@ -1,4 +1,4 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.apis
 
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -47,7 +47,7 @@ val OkHttpClient = OkHttpClient.Builder()
 
 val retrofitGames: Retrofit = Retrofit.Builder()
     .baseUrl("https://api.igdb.com/v4/")
-    .client(com.example.librarypluss_gruppe09.OkHttpClient)
+    .client(com.example.librarypluss_gruppe09.apis.OkHttpClient)
     .addConverterFactory(ToStringConverterFactory())
     .addConverterFactory(GsonConverterFactory.create())
     .build()

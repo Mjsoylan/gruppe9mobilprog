@@ -15,8 +15,11 @@ interface LibraryService {
     val GOALS_COLLECTION: String
     val USER_COOLECTION: String
     val FEED_COLLECTION: String
+    val GOAL_MEDIA_COLLECTION: String
 
     suspend fun getMedia(mediaId: String): Media?
+    suspend fun getFeedMedia(mediaId: String): Media?
+    suspend fun getGoalMedia(mediaId: String): Media?
 
 
 

@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.librarypluss_gruppe09.models.Media
+import com.example.librarypluss_gruppe09.screen.Login.LogginScreen
+import com.example.librarypluss_gruppe09.screen.Login.signinscreen
 import com.example.librarypluss_gruppe09.screen.MediaScreen.MediaScreen
 import com.example.librarypluss_gruppe09.screen.add.AddScreen
 import com.example.librarypluss_gruppe09.screen.editcard.EditCardScreen
@@ -38,7 +40,10 @@ fun HomeNavHost(
 //        }
 
         composable(OnScreeen.Feed.name) {
-            FeedScreen()
+            FeedScreen(onMediaClick = { mediaid ->
+                val route = "${FEED}?$MEDIA_ID=$mediaid"
+                navController.navigate(route)
+            })
         }
         composable(OnScreeen.Profile.name) {
             ProfileScreen(navController, viewModel = ProfileViewModel(media = Media()))
@@ -63,6 +68,14 @@ fun HomeNavHost(
         ) {
             MediaScreen(navController)
         }
+        composable(
+            route = "${FEED}$MEDIA_ID_ARG",
+            arguments = listOf(navArgument(MEDIA_ID) {
+                nullable = false
+            })
+        ) {
+            MediaScreen(navController)
+        }
 
         composable(OnScreeen.Goals.name) {
             GoalsScreen(onGoalClick = { goalid ->
@@ -81,6 +94,14 @@ fun HomeNavHost(
             })
         ) {
             EditCardScreen(navController)
+        }
+        composable(OnScreeen.Login.name) {
+            LogginScreen(loggedIn = { navController.navigate(OnScreeen.Library.name) },
+                Signup = { navController.navigate(OnScreeen.signup.name) })
+        }
+        composable(OnScreeen.signup.name) {
+            signinscreen(loggedIn = { navController.navigate(OnScreeen.Library.name) },
+                backtologged = { navController.navigate(OnScreeen.Login.name) })
         }
     }
 }

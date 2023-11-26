@@ -98,7 +98,7 @@ fun MediaScreen(navController: NavHostController, viewModel: MediaViewModel = hi
             Button(onClick = {
                 navController.popBackStack()
             }) {
-                Text(text = "Back to Library")
+                Text(text = "Back")
             }
 
         }

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.librarypluss_gruppe09.NavtoScreen
 import com.example.librarypluss_gruppe09.OnScreeen
 import com.example.librarypluss_gruppe09.R
 
@@ -27,8 +28,6 @@ fun ProfileScreen(
     navController: NavHostController,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    
-
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -41,13 +40,11 @@ fun ProfileScreen(
                 .size(100.dp)
                 .clip(CircleShape)
         )
-
         Box {
             Text(text = "list of last updated media")
             viewModel.mediaListUpdate()
 
         }
-
         Button(onClick = { }) {
             Text(text = "Settings")
         }

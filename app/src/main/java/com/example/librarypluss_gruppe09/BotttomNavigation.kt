@@ -3,6 +3,7 @@ package com.example.librarypluss_gruppe09
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -16,6 +17,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -38,7 +40,10 @@ enum class OnScreeen {
     Goals,
     Feed,
     Profile,
-    Add
+    Add,
+    Login,
+    signup;
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,7 +53,6 @@ fun ToppApp(navController: NavHostController) {
         newValue = navController.currentBackStackEntryAsState().value?.destination?.route
             ?: OnScreeen.Library.name
     )
-
     TopAppBar(
         title = {
             Log.i("somekj", onScreentittle.toString())
@@ -62,17 +66,20 @@ fun ToppApp(navController: NavHostController) {
             }
         },
         actions = {
-            IconButton(onClick = { navController.navigate(OnScreeen.Library.name) }) {
-                Icon(
-                    Icons.Filled.List,
-                    contentDescription = "Library"
-                )
-            }
-            IconButton(onClick = { navController.navigate(OnScreeen.Goals.name) }) {
-                Icon(
-                    Icons.Filled.Done,
-                    contentDescription = "Goals"
-                )
+            // nav to libary or goal while on thoes screens
+            if (onScreentittle=="Library" || onScreentittle=="Goals"){
+                IconButton(onClick = { navController.navigate(OnScreeen.Library.name) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.libary),
+                        contentDescription = "Library"
+                    )
+                }
+                IconButton(onClick = { navController.navigate(OnScreeen.Goals.name) }) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.goals),
+                        contentDescription = "Goals"
+                    )
+                }
             }
         }
     )
@@ -81,40 +88,40 @@ fun ToppApp(navController: NavHostController) {
 
 @Composable
 fun BottomNavFromHome(navController: NavHostController) {
-
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination?.route
+            ConstantsNavigation.BottomNavItems.forEach { screen ->
+                val title = screen.label
 
-        ConstantsNavigation.BottomNavItems.forEach { screen ->
-            val title = screen.label
-
-            NavigationBarItem(selected = currentDestination == screen.route,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+                NavigationBarItem(selected = currentDestination == screen.route,
+                    onClick = {
+                        navController.navigate(screen.route) {
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
-                    }
-                },
-                icon = {
-                    Icon(
-                        screen.icon,
-                        contentDescription = title
-                    )
-                },
-                label = { Text(text = screen.label) })
+                    },
+                    icon = {
+                        Icon(
+                            screen.icon,
+                            contentDescription = title
+                        )
+                    },
+                    label = { Text(text = screen.label) })
+            }
+
+
         }
 
-    }
 }
 
 

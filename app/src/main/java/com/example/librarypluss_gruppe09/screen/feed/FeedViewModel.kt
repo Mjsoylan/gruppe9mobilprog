@@ -12,9 +12,6 @@ class FeedViewModel @Inject
 constructor(private val Feed: StorageLibrary, private val account: AccountService) :
     ViewModel() {
 
-    val activefeed = Feed.mediacollection
-
-    val userfeed = Feed.UsersCollection
-    val useruid = FirebaseAuth.getInstance().currentUser!!.uid
+    val activefeed = Feed.feedcollection
 }
 
