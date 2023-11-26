@@ -58,8 +58,7 @@ fun ToppApp(navController: NavHostController) {
             Log.i("somekj", onScreentittle.toString())
             if (onScreentittle.contains("goalId=")) {
                 Text(text = "Edit Goal")
-            }
-            if (onScreentittle.contains("mediaId")) {
+            } else if(onScreentittle.contains("mediaId")) {
                 Text(text = "Media")
             } else {
                 Text(text = onScreentittle)
