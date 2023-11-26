@@ -1,5 +1,6 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.apis
 
+import com.example.librarypluss_gruppe09.models.BookResponse
 import retrofit2.Call
 class BooksRepository {
 

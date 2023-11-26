@@ -26,9 +26,10 @@ import com.example.librarypluss_gruppe09.ui.theme.Purple80
 import com.example.librarypluss_gruppe09.ui.theme.RedGamePrimary
 import com.example.librarypluss_gruppe09.ui.theme.YellowBookPrimary
 
+// not used but was planned to be for feedpage and would show username but was in the end not impl
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Feedmediacard(Feedmedia: Feedmedia, viewModel: FeedViewModel = hiltViewModel()) {
+fun Feedmediacard(Feedmedia: Feedmedia, viewModel: FeedViewModel = hiltViewModel(),onMediaClick : (String) -> Unit) {
 
     var coler = Purple80
     if (Feedmedia.tag == "movie") {
@@ -40,13 +41,16 @@ fun Feedmediacard(Feedmedia: Feedmedia, viewModel: FeedViewModel = hiltViewModel
     }
 
     Card(
-        onClick = {},
+        onClick = {onMediaClick(Feedmedia.mediaId)},
         modifier = Modifier.padding(8.dp, 0.dp, 20.dp, 8.dp),
         colors = CardDefaults.cardColors(
             containerColor = coler,
         )
     ) {
         Box(modifier = Modifier.wrapContentSize()) {
+            Box {
+                Text(text = Feedmedia.userId, textAlign = TextAlign.Center)
+            }
             AsyncImage(
                 model = Feedmedia.imageUrl,
                 contentDescription = "",

@@ -10,11 +10,7 @@ interface  AccountService {
     val hasUser: Boolean
     val currentUser: Flow<User>
 
-
-
     suspend fun authenticate(email: String, password: String, onResult: (Throwable?) -> Unit)
-
-    suspend fun fastloggin()
     suspend fun createaccunt(email: String, password: String, onResult: (Throwable?) -> Unit)
     suspend fun signOut()
 }

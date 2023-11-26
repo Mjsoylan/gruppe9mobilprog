@@ -1,5 +1,7 @@
-package com.example.librarypluss_gruppe09
+package com.example.librarypluss_gruppe09.apis
 
+import com.example.librarypluss_gruppe09.apis.OkHttpClient
+import com.example.librarypluss_gruppe09.apis.ToStringConverterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

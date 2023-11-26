@@ -40,24 +40,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.librarypluss_gruppe09.Book
-import com.example.librarypluss_gruppe09.BookInfo
-import com.example.librarypluss_gruppe09.BookResponse
-import com.example.librarypluss_gruppe09.BooksRepository
-import com.example.librarypluss_gruppe09.GameResponse
-import com.example.librarypluss_gruppe09.GamesApiService
-import com.example.librarypluss_gruppe09.ImageLinks
-import com.example.librarypluss_gruppe09.Movie
-import com.example.librarypluss_gruppe09.MovieResponse
-import com.example.librarypluss_gruppe09.MoviesApiService
+import com.example.librarypluss_gruppe09.models.Book
+import com.example.librarypluss_gruppe09.models.BookInfo
+import com.example.librarypluss_gruppe09.models.BookResponse
+import com.example.librarypluss_gruppe09.apis.BooksRepository
+import com.example.librarypluss_gruppe09.models.GameResponse
+import com.example.librarypluss_gruppe09.apis.GamesApiService
+import com.example.librarypluss_gruppe09.models.ImageLinks
+import com.example.librarypluss_gruppe09.models.Movie
+import com.example.librarypluss_gruppe09.models.MovieResponse
+import com.example.librarypluss_gruppe09.apis.MoviesApiService
 import com.example.librarypluss_gruppe09.models.Feedmedia
 import com.example.librarypluss_gruppe09.models.Media
-import com.example.librarypluss_gruppe09.retrofitGames
-import com.example.librarypluss_gruppe09.retrofitMovies
+import com.example.librarypluss_gruppe09.apis.retrofitGames
+import com.example.librarypluss_gruppe09.apis.retrofitMovies
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -66,7 +65,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.librarypluss_gruppe09.R
 val db = Firebase.firestore
-
+// sets op the navgation for the add pages and start page
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScreen(modifier: Modifier = Modifier) {
@@ -77,7 +76,7 @@ fun AddScreen(modifier: Modifier = Modifier) {
             actions = {
                 IconButton(onClick = { navController.navigate("books") }) {
                     Icon(
-                        Icons.Default.Add,
+                        painter = painterResource(id = R.drawable.bookicon),
                         contentDescription = "books"
                     )
                 }
@@ -529,6 +528,7 @@ fun GameItem(game: Media) {
     }
 }
 
+// a page for manual adding media wiht text fields
 @Composable
 fun ManualAdd() {
     var tittle by remember { mutableStateOf("") }
@@ -624,7 +624,7 @@ fun ManualAdd() {
             label = { Text("Author/Developer/Director") }
         )
 
-
+        // starts the upload funksjon and make a media object to send to it also resets the text fields
         Button(onClick = {
             val media = Media("", tittle, creater, catagories, type)
             upload(media)
@@ -636,37 +636,34 @@ fun ManualAdd() {
     }
 }
 
-
+// funksjon that uploads a media object to both user addedmeida and addedmedia(of all users) to the database
 fun upload(media: Media) {
     val user = FirebaseAuth.getInstance().currentUser!!.uid
-    db.collection("user").document(user).collection("addedMedia").add(media)
-        .addOnSuccessListener {
-            Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
-        }
-        .addOnFailureListener { e ->
-            Log.w(TAG, "Error adding document", e)
-        }
+    // getting the time and makeing a feedmediaobj to upload to database that has uploadtime and userid
     val time = Calendar.getInstance().time
-    val test = Feedmedia(
-        "",
-        media.tittle,
-        media.creator,
-        media.type,
-        media.tag,
-        media.imageUrl,
+    val FeedmeidaConvert = Feedmedia("", media.tittle, media.creator, media.type, media.tag, media.imageUrl,
         user,
         time
     )
-    // for feedpage må man oplaste twice
-    db.collection("addedmeida").add(test)
-        .addOnSuccessListener { documentReference ->
-            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+    // uploading to firebase store
+    db.collection("user").document(user).collection("addedMedia").add(media)
+        .addOnSuccessListener {
+            Log.d(TAG, "DocumentSnapshot added with ID: ${user}")
+            // for feedpage må man oplaste twice og bare når det er sukkes for user
+            db.collection("addedmeida").add(FeedmeidaConvert)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }
         }
         .addOnFailureListener { e ->
             Log.w(TAG, "Error adding document", e)
         }
 }
 
+// uploads a media object to user goal meida to the database
 fun uploadToGoal(media: Media) {
     val user = FirebaseAuth.getInstance().currentUser!!.uid
     db.collection("user").document(user).collection("mediagoal").add(media)

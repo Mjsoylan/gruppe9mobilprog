@@ -42,11 +42,6 @@ constructor(private val auth: FirebaseAuth, private val firestore: FirebaseFires
             .addOnCompleteListener { onResult(it.exception) }.await()
     }
 
-    override suspend fun fastloggin() {
-        //temp for working
-        auth.signInWithEmailAndPassword("mads.soyland@gmail.com", "password")
-    }
-
     override suspend fun createaccunt(
         email: String,
         password: String,
@@ -55,10 +50,7 @@ constructor(private val auth: FirebaseAuth, private val firestore: FirebaseFires
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { onResult(it.exception) }.await()
     }
-
     override suspend fun signOut() {
         auth.signOut()
-
-        auth.signInAnonymously()
     }
 }

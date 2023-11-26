@@ -1,5 +1,7 @@
 package com.example.librarypluss_gruppe09.screen.MediaScreen
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -12,6 +14,7 @@ import com.example.librarypluss_gruppe09.models.SettDescriptionGoal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class MediaViewModel @Inject constructor(
@@ -25,7 +28,15 @@ class MediaViewModel @Inject constructor(
 
         if (mediaid != null) {
             viewModelScope.launch {
-                media.value = storage.getMedia(mediaid) ?: Media()
+                if ((storage.getMedia(mediaid) ?: Media().mediaId) != ""){
+                    media.value = storage.getMedia(mediaid) ?: Media()
+                }
+                else if ((storage.getFeedMedia(mediaid) ?: Media().mediaId) != ""){
+                    media.value = storage.getFeedMedia(mediaid) ?: Media()
+                }
+                else if ((storage.getGoalMedia(mediaid) ?: Media().mediaId) != "") {
+                    media.value = storage.getGoalMedia(mediaid) ?: Media()
+                }
             }
         }
     }

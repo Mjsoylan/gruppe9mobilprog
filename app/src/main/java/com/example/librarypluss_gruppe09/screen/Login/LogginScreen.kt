@@ -54,9 +54,8 @@ import com.example.librarypluss_gruppe09.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Modifier, viewModel: LoginScreenViewModel = hiltViewModel()) {
+
     val uiState by viewModel.uiState
-
-
     val fieldModifier = Modifier
         .fillMaxWidth()
         .padding(16.dp, 4.dp)
@@ -74,11 +73,8 @@ fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Mo
             Text(text = stringResource(id = uiState.errorMessage),
                 Modifier.padding(vertical = 8.dp))
 
-
         EmailField(uiState.email, viewModel::onEmailChange, fieldModifier)
-
         PasswordField(uiState.password, viewModel::onPasswordChange, fieldModifier)
-
 
         Row {
             Button(
@@ -101,13 +97,11 @@ fun LogginScreen(loggedIn: () -> Unit,Signup: () -> Unit,modifier: Modifier = Mo
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun signinscreen(loggedIn: () -> Unit,backtologged: () -> Unit,modifier: Modifier = Modifier, viewModel:LoginScreenViewModel = hiltViewModel()) {
+
     val uiState by viewModel.uiState
-
-
     val fieldModifier = Modifier
         .fillMaxWidth()
         .padding(16.dp, 4.dp)
-
 
     Column(
         modifier = modifier
@@ -159,7 +153,10 @@ fun EmailField(value: String, onNewValue: (String) -> Unit, modifier: Modifier =
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(R.string.email)) },
-        leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
+        leadingIcon = {
+            Icon(imageVector = Icons.Default.Email,
+                contentDescription = "Email")
+        }
     )
 }
 @Composable
@@ -170,7 +167,10 @@ fun UsernameField(value: String, onNewValue: (String) -> Unit, modifier: Modifie
         value = value,
         onValueChange = { onNewValue(it) },
         placeholder = { Text(stringResource(R.string.Username)) },
-        leadingIcon = { Icon(imageVector = Icons.Default.AccountBox, contentDescription = "Username") }
+        leadingIcon = {
+            Icon(imageVector = Icons.Default.AccountBox,
+                contentDescription = "Username")
+        }
     )
 }
 
@@ -197,8 +197,6 @@ private fun PasswordField(
     modifier: Modifier = Modifier
 ) {
     var isVisible by remember { mutableStateOf(false) }
-
-
     val visualTransformation =
         if (isVisible) VisualTransformation.None else PasswordVisualTransformation()
 

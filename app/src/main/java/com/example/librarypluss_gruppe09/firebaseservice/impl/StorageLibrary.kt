@@ -29,17 +29,25 @@ constructor(
 
     override val GOALS_COLLECTION = "user/" + auth.currentUser?.uid + "/goals"
 
+    override val GOAL_MEDIA_COLLECTION= "user/" + auth.currentUser?.uid + "/mediagoal"
+
     override val mediacollection: Flow<List<Media>>
         get() = firestore.collection(MEDIA_COLLECTION).dataObjects()
     override val feedcollection: Flow<List<Feedmedia>>
         get() = firestore.collection(FEED_COLLECTION).dataObjects()
-
     override val UsersCollection: Flow<List<UserAccunt>>
         get() = firestore.collection(USER_COOLECTION).dataObjects()
 
 
     override suspend fun getMedia(mediaId: String): Media? =
         firestore.collection(MEDIA_COLLECTION).document(mediaId).get().await().toObject()
+
+    override suspend fun getFeedMedia(mediaId: String): Media? =
+        firestore.collection(FEED_COLLECTION).document(mediaId).get().await().toObject()
+
+    override suspend fun getGoalMedia(mediaId: String): Media? =
+        firestore.collection(GOAL_MEDIA_COLLECTION).document(mediaId).get().await().toObject()
+
 
 
 
