@@ -123,6 +123,7 @@ fun GoalCard(media: Media, viewModel: GoalsViewModel = hiltViewModel(), onMediaC
                 }
             }
         }
+        //deltet goal
         Button(
             onClick = { viewModel.alertDeleteCard.value = true },
             modifier = Modifier

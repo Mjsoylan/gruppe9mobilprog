@@ -52,8 +52,8 @@ constructor(private val firestore: FirebaseFirestore, private val auth: Firebase
     override suspend fun updategoal(goalId: SettDescriptionGoal, updateFild: String): Task<Void> =
         firestore.collection(SETT_GOALS).document(goalId.goalId).update(
             "description", updateFild
-        ).addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+        ).addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error update document", e) }
 
 
     override suspend fun sendMediaToHistory(mediaId: History): String =

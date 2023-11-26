@@ -85,7 +85,7 @@ fun BottomNavFromHome(navController: NavHostController) {
     NavigationBar {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination?.route
-
+//https://www.geeksforgeeks.org/bottom-navigation-bar-in-android-jetpack-compose/
         ConstantsNavigation.BottomNavItems.forEach { screen ->
             val title = screen.label
 

@@ -18,8 +18,6 @@ interface LibraryService {
 
     suspend fun getMedia(mediaId: String): Media?
 
-
-
     suspend fun deleteMedia(mediaId: Media): Task<Void>
 
     suspend fun addMediaToLibrary(mediaId: Media): String
